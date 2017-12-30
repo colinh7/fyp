@@ -6,6 +6,8 @@ import { MyApp } from './app.component';
 import { myAccountPage } from '../pages/myAccount/myAccount';
 import { myAccountInfoPage } from '../pages/myAccountInfo/myAccountInfo'
 import { SettingsPage } from '../pages/settings/settings';
+import { myNodesPage } from '../pages/myNodes/myNodes';
+import { myNodeInfoPage } from '../pages/myNodeInfo/myNodeInfo';
 import { MapPage } from '../pages/map/map';
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -19,6 +21,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     MapPage,
     myAccountPage,
     myAccountInfoPage,
+    myNodesPage,
+    myNodeInfoPage,
     TabsPage
    
   ],
@@ -33,6 +37,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     MapPage,
     myAccountPage,
     myAccountInfoPage,
+    myNodesPage,
+    myNodeInfoPage,
     TabsPage
     
   ],
