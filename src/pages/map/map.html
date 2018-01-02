@@ -1,9 +1,15 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Map</ion-title>
+    <ion-title>
+      Map
+    </ion-title>
   </ion-navbar>
-</ion-header>
+  <ion-buttons end>
+    <button ion-button (click)="addMarker()">Add Charging Point</button>
+    </ion-buttons>
+  </ion-header>
 
 <ion-content>
   <div #map id="map"></div>
+
 </ion-content>

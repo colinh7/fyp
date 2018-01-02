@@ -14,6 +14,7 @@ import { myNodesPage } from '../pages/myNodes/myNodes';
 import { myNodeInfoPage } from '../pages/myNodeInfo/myNodeInfo';
 import { MapPage } from '../pages/map/map';
 import { TabsPage } from '../pages/tabs/tabs';
+import { Geolocation} from '@ionic-native/geolocation';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -58,7 +59,8 @@ import { HttpModule } from '@angular/http'
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Auth
+    Auth,
+    Geolocation
   ]
 })
 export class AppModule {}
