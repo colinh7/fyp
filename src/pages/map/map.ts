@@ -1,8 +1,16 @@
+import { Http } from '@angular/http';
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { Geolocation} from '@ionic-native/geolocation';
+import { NavController, Alert, Platform, AlertController } from 'ionic-angular';
+import { Geolocation } from '@ionic-native/geolocation';
+import 'rxjs/add/operator/map';
+import { Network } from '@ionic-native/network';
+import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 
 declare var google;
+declare var map;
+declare var message;
+
+declare var Connection: any;
 
 @Component({
   selector: 'page-map',
@@ -10,14 +18,44 @@ declare var google;
 })
 export class MapPage {
 
+  thirdPartyNodes: any;
+
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   
-  constructor(public navCtrl: NavController, public geolocation: Geolocation) {
- }
+  constructor(public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network) {
+
+  }
+
+
 
   ionViewDidLoad(){
-      this.loadMap();
+     this.loadMap();
+     
+ 
+  }
+
+  ionViewDidEnter() {
+  this.checkNetworkConnection();
+
+  
+  }
+
+
+  checkNetworkConnection(){
+    var networkState = this.network.type;
+
+    if (networkState === 'none') {
+
+      this.toast.create({
+        message: `An Internet Connection is required`,
+        duration: 3000
+      }).present();
+      
+  } else {
+    
+  }
+
 
   }
 
@@ -50,13 +88,35 @@ export class MapPage {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
-    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    this.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
+    google.maps.event.addListenerOnce(map, 'idle', function(){
+      
+             //Load the markers
+            // loadThirdPartyMarkers();
+      
+           });
 
   }, (err) => {
     console.log(err);
   
+    //loadThirdPartyMarkers();
+
+    
   });
+
+ 
+
+  }
+
+  loadThirdPartyMarkers(){
+
+    this.http.get('https://www.reddit.com/r/gifs/new/.json?limit=10').map(res => res.json()).subscribe(data => {
+      this.thirdPartyNodes = data.data.children;
+      
+  });
+
+  
 
   }
 
@@ -70,14 +130,14 @@ export class MapPage {
     
      let content = "<h4>Information!</h4>";         
     
-     this.addInfoWindow(marker, content);
+     this.addInfoWindow(marker, message, content);
     
    }
 
-   addInfoWindow(marker, content){
+   addInfoWindow(marker, message, content){
     
      let infoWindow = new google.maps.InfoWindow({
-       content: content
+       content: message
      });
     
      google.maps.event.addListener(marker, 'click', () => {
@@ -85,6 +145,7 @@ export class MapPage {
      });
     
    }
+
 
 
 }

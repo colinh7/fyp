@@ -3,9 +3,9 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { Auth } from '../providers/auth/auth';
+import { AuthService } from '../providers/auth/auth';
 
-import { loginPage } from '../pages/login/login';
+import { LoginPage } from '../pages/login/login';
 import { myAccountPage } from '../pages/myAccount/myAccount';
 import { myAccountInfoPage } from '../pages/myAccountInfo/myAccountInfo'
 import { SettingsPage } from '../pages/settings/settings';
@@ -19,7 +19,7 @@ import { Geolocation} from '@ionic-native/geolocation';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule } from '@angular/http'
-
+import { Network } from '@ionic-native/network';
 
 
 @NgModule({
@@ -31,7 +31,7 @@ import { HttpModule } from '@angular/http'
     myAccountInfoPage,
     myNodesPage,
     myNodeInfoPage,
-    loginPage,
+    LoginPage,
     createAccountPage,
     myUsagePage,
     TabsPage
@@ -51,7 +51,7 @@ import { HttpModule } from '@angular/http'
     myAccountInfoPage,
     myNodesPage,
     myNodeInfoPage,
-    loginPage,
+    LoginPage,
     TabsPage
     
   ],
@@ -59,8 +59,9 @@ import { HttpModule } from '@angular/http'
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Auth,
-    Geolocation
+    AuthService,
+    Geolocation,
+    Network
   ]
 })
 export class AppModule {}
