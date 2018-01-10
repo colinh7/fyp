@@ -5,12 +5,14 @@ import { Geolocation } from '@ionic-native/geolocation';
 import 'rxjs/add/operator/map';
 import { Network } from '@ionic-native/network';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
-
+import { GoogleMaps } from '../../providers/google-maps';
 declare var google;
 declare var map;
 declare var message;
+declare var one;
+declare var two;
+declare var three;
 
-declare var Connection: any;
 
 @Component({
   selector: 'page-map',
@@ -20,44 +22,41 @@ export class MapPage {
 
   thirdPartyNodes: any;
 
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map') mapElement;
   map: any;
   
-  constructor(public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network) {
+  
+  constructor(public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network, public maps: GoogleMaps) {
+  
+  
+
+
 
   }
 
 
 
   ionViewDidLoad(){
-     this.loadMap();
-     
+
+  this.maps.initMap(this.mapElement.nativeElement);
+  console.log("hello");
+//  this.loadMap();
+ // this.loadMarkers();
  
   }
 
-  ionViewDidEnter() {
-  this.checkNetworkConnection();
+  ionViewWillEnter() {
+   // var two = 52.668018;
+    //var one = -8.630498;
+    //var three = 100;
+    //this.getThirdPartyMarkers();
+    
+    
 
   
   }
-
-
-  checkNetworkConnection(){
-    var networkState = this.network.type;
-
-    if (networkState === 'none') {
-
-      this.toast.create({
-        message: `An Internet Connection is required`,
-        duration: 3000
-      }).present();
-      
-  } else {
-    
-  }
-
-
-  }
+  
+/*
 
   loadMap(){
     
@@ -88,36 +87,57 @@ export class MapPage {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
-    this.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
-    google.maps.event.addListenerOnce(map, 'idle', function(){
-      
-             //Load the markers
-            // loadThirdPartyMarkers();
-      
-           });
+ 
 
-  }, (err) => {
-    console.log(err);
+  }, 
   
-    //loadThirdPartyMarkers();
 
-    
-  });
+  );
 
  
 
   }
 
-  loadThirdPartyMarkers(){
+  getMarkers(lng,lat,maxDistance){
+    
+    this.http.get('https://api.openchargemap.io/v2/poi/?output=json&longitude='+lng+'&latitude='+lat+'&distance='+maxDistance+'&countrycode=IRL&maxresults=1000')
+    .map(res => res.json())
+    .subscribe(data => {
+ 
+            
+            this.addThirdPartyMarkersToMap(data);
+ 
+        });
+}
 
-    this.http.get('https://www.reddit.com/r/gifs/new/.json?limit=10').map(res => res.json()).subscribe(data => {
-      this.thirdPartyNodes = data.data.children;
-      
-  });
 
-  
+  getThirdPartyMarkers(){
 
+    this.http.get('https://api.openchargemap.io/v2/poi/?output=json&countrycode=IRL&maxresults=1000')
+    .map(res => res.json())
+    .subscribe(data => {
+    
+      this.addThirdPartyMarkersToMap(data);
+   
+    });
+   
+
+  }
+
+  clear(){
+   // setMapOnAll(null);
+  }
+
+  addThirdPartyMarkersToMap(markers){
+    for(let marker of markers) {
+      var position = new google.maps.LatLng(marker.AddressInfo.Latitude, marker.AddressInfo.Longitude);
+      var dogwalkMarker = new google.maps.Marker({map: this.map, position: position}); //, Title: thirdPartyMarkers.Title});
+      dogwalkMarker.setMap(this.map);
+    }
+
+   
   }
 
   addMarker(){
@@ -130,14 +150,14 @@ export class MapPage {
     
      let content = "<h4>Information!</h4>";         
     
-     this.addInfoWindow(marker, message, content);
+     this.addInfoWindow(marker, content);
     
    }
 
-   addInfoWindow(marker, message, content){
+   addInfoWindow(marker,content){
     
      let infoWindow = new google.maps.InfoWindow({
-       content: message
+       content
      });
     
      google.maps.event.addListener(marker, 'click', () => {
@@ -146,6 +166,8 @@ export class MapPage {
     
    }
 
-
+*/
+   
 
 }
+

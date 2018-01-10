@@ -20,6 +20,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule } from '@angular/http'
 import { Network } from '@ionic-native/network';
+import { GoogleMaps } from '../providers/google-maps';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { Network } from '@ionic-native/network';
     LoginPage,
     TabsPage
     
+    
   ],
   providers: [
     StatusBar,
@@ -61,7 +63,8 @@ import { Network } from '@ionic-native/network';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
     Geolocation,
-    Network
+    Network,
+    GoogleMaps
   ]
 })
 export class AppModule {}

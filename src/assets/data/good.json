@@ -1,0 +1,1356 @@
+[
+  {
+    "ID": 72548,
+    "UUID": "BE7F1795-62B0-45D0-AE82-8B203DE02B90",
+    "ParentChargePointID": null,
+    "DataProviderID": 1,
+    "DataProvider": {
+      "WebsiteURL": "http://openchargemap.org",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 1,
+        "Title": "Manual Data Entry"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": true,
+      "IsApprovedImport": true,
+      "License": "Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "DateLastImported": null,
+      "ID": 1,
+      "Title": "Open Charge Map Contributors"
+    },
+    "DataProvidersReference": null,
+    "OperatorID": 22,
+    "OperatorInfo": {
+      "WebsiteURL": "http://www.esb.ie/electric-cars/index.jsp",
+      "Comments": null,
+      "PhonePrimaryContact": " 1890 372 387",
+      "PhoneSecondaryContact": null,
+      "IsPrivateIndividual": false,
+      "AddressInfo": null,
+      "BookingURL": null,
+      "ContactEmail": "ecars@esb.ie",
+      "FaultReportEmail": "ecars@esb.ie",
+      "IsRestrictedEdit": null,
+      "ID": 22,
+      "Title": "ESB Ecars"
+    },
+    "OperatorsReference": null,
+    "UsageTypeID": 4,
+    "UsageType": {
+      "IsPayAtLocation": false,
+      "IsMembershipRequired": true,
+      "IsAccessKeyRequired": true,
+      "ID": 4,
+      "Title": "Public - Membership Required"
+    },
+    "UsageCost": null,
+    "AddressInfo": {
+      "ID": 72894,
+      "Title": "Topaz Service Station",
+      "AddressLine1": "R527",
+      "AddressLine2": "Monaclinoe",
+      "Town": "Limerick",
+      "StateOrProvince": "County Limerick",
+      "Postcode": null,
+      "CountryID": 3,
+      "Country": {
+        "ISOCode": "IE",
+        "ContinentCode": "EU",
+        "ID": 3,
+        "Title": "Ireland"
+      },
+      "Latitude": 52.652717,
+      "Longitude": -8.593319,
+      "ContactTelephone1": null,
+      "ContactTelephone2": null,
+      "ContactEmail": null,
+      "AccessComments": null,
+      "RelatedURL": null,
+      "Distance": 0.57590300081932266,
+      "DistanceUnit": 2
+    },
+    "NumberOfPoints": 2,
+    "GeneralComments": null,
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 50,
+    "StatusType": {
+      "IsOperational": true,
+      "IsUserSelectable": true,
+      "ID": 50,
+      "Title": "Operational"
+    },
+    "DateLastStatusUpdate": "2016-10-22T07:46:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2016-10-22T07:46:00Z",
+    "SubmissionStatusTypeID": 200,
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 200,
+      "Title": "Submission Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "Connections": [
+      {
+        "ID": 103985,
+        "ConnectionTypeID": 2,
+        "ConnectionType": {
+          "FormalName": null,
+          "IsDiscontinued": null,
+          "IsObsolete": null,
+          "ID": 2,
+          "Title": "CHAdeMO"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 3,
+        "Level": {
+          "Comments": "40KW and Higher",
+          "IsFastChargeCapable": true,
+          "ID": 3,
+          "Title": "Level 3:  High (Over 40kW)"
+        },
+        "Amps": null,
+        "Voltage": null,
+        "PowerKW": 45.0,
+        "CurrentTypeID": 30,
+        "CurrentType": {
+          "Description": "Direct Current",
+          "ID": 30,
+          "Title": "DC"
+        },
+        "Quantity": 1,
+        "Comments": null
+      },
+      {
+        "ID": 103986,
+        "ConnectionTypeID": 33,
+        "ConnectionType": {
+          "FormalName": null,
+          "IsDiscontinued": false,
+          "IsObsolete": false,
+          "ID": 33,
+          "Title": "CCS (Type 2 Version of Combined Coupler)"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 3,
+        "Level": {
+          "Comments": "40KW and Higher",
+          "IsFastChargeCapable": true,
+          "ID": 3,
+          "Title": "Level 3:  High (Over 40kW)"
+        },
+        "Amps": null,
+        "Voltage": null,
+        "PowerKW": 45.0,
+        "CurrentTypeID": 30,
+        "CurrentType": {
+          "Description": "Direct Current",
+          "ID": 30,
+          "Title": "DC"
+        },
+        "Quantity": 1,
+        "Comments": null
+      }
+    ],
+    "MediaItems": null,
+    "MetadataValues": null,
+    "IsRecentlyVerified": false,
+    "DateLastVerified": null
+  },
+  {
+    "ID": 14993,
+    "UUID": "57273B55-8504-40A9-B417-73E58AD8AEA3",
+    "ParentChargePointID": null,
+    "DataProviderID": 23,
+    "DataProvider": {
+      "WebsiteURL": "http://www.esb.ie/electric-cars/",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 20,
+        "Title": "Automated Import"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": false,
+      "IsApprovedImport": false,
+      "License": null,
+      "DateLastImported": "2016-05-29T07:34:20.087Z",
+      "ID": 23,
+      "Title": "ESB eCars"
+    },
+    "DataProvidersReference": "8E0589AC2093EC60466058C006F778EB",
+    "OperatorID": null,
+    "OperatorInfo": null,
+    "OperatorsReference": null,
+    "UsageTypeID": null,
+    "UsageType": null,
+    "UsageCost": null,
+    "AddressInfo": {
+      "ID": 15339,
+      "Title": "Milk Market",
+      "AddressLine1": "Milk Market, Limerick City",
+      "AddressLine2": null,
+      "Town": "Limerick",
+      "StateOrProvince": null,
+      "Postcode": null,
+      "CountryID": 3,
+      "Country": {
+        "ISOCode": "IE",
+        "ContinentCode": "EU",
+        "ID": 3,
+        "Title": "Ireland"
+      },
+      "Latitude": 52.6638,
+      "Longitude": -8.6216,
+      "ContactTelephone1": null,
+      "ContactTelephone2": null,
+      "ContactEmail": null,
+      "AccessComments": null,
+      "RelatedURL": null,
+      "Distance": 0.94254331594750529,
+      "DistanceUnit": 2
+    },
+    "NumberOfPoints": null,
+    "GeneralComments": null,
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 100,
+    "StatusType": {
+      "IsOperational": false,
+      "IsUserSelectable": true,
+      "ID": 100,
+      "Title": "Not Operational"
+    },
+    "DateLastStatusUpdate": "2013-01-17T06:21:00Z",
+    "DataQualityLevel": 2,
+    "DateCreated": "2012-12-11T15:08:00Z",
+    "SubmissionStatusTypeID": 100,
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 100,
+      "Title": "Imported and Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "Connections": [],
+    "MediaItems": null,
+    "MetadataValues": null,
+    "IsRecentlyVerified": false,
+    "DateLastVerified": null
+  },
+  {
+    "ID": 44903,
+    "UUID": "BCD3F2E4-08F0-4C80-86A9-7010C0DC1063",
+    "ParentChargePointID": null,
+    "DataProviderID": 1,
+    "DataProvider": {
+      "WebsiteURL": "http://openchargemap.org",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 1,
+        "Title": "Manual Data Entry"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": true,
+      "IsApprovedImport": true,
+      "License": "Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "DateLastImported": null,
+      "ID": 1,
+      "Title": "Open Charge Map Contributors"
+    },
+    "DataProvidersReference": null,
+    "OperatorID": 22,
+    "OperatorInfo": {
+      "WebsiteURL": "http://www.esb.ie/electric-cars/index.jsp",
+      "Comments": null,
+      "PhonePrimaryContact": " 1890 372 387",
+      "PhoneSecondaryContact": null,
+      "IsPrivateIndividual": false,
+      "AddressInfo": null,
+      "BookingURL": null,
+      "ContactEmail": "ecars@esb.ie",
+      "FaultReportEmail": "ecars@esb.ie",
+      "IsRestrictedEdit": null,
+      "ID": 22,
+      "Title": "ESB Ecars"
+    },
+    "OperatorsReference": "C9MJB",
+    "UsageTypeID": null,
+    "UsageType": null,
+    "UsageCost": null,
+    "AddressInfo": {
+      "ID": 45249,
+      "Title": "Milk Market",
+      "AddressLine1": "Mungret Court",
+      "AddressLine2": "Limerick City",
+      "Town": "Limerick",
+      "StateOrProvince": "County Limerick",
+      "Postcode": null,
+      "CountryID": 3,
+      "Country": {
+        "ISOCode": "IE",
+        "ContinentCode": "EU",
+        "ID": 3,
+        "Title": "Ireland"
+      },
+      "Latitude": 52.6638,
+      "Longitude": -8.6216,
+      "ContactTelephone1": null,
+      "ContactTelephone2": null,
+      "ContactEmail": null,
+      "AccessComments": null,
+      "RelatedURL": null,
+      "Distance": 0.94254331594750529,
+      "DistanceUnit": 2
+    },
+    "NumberOfPoints": 2,
+    "GeneralComments": null,
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 50,
+    "StatusType": {
+      "IsOperational": true,
+      "IsUserSelectable": true,
+      "ID": 50,
+      "Title": "Operational"
+    },
+    "DateLastStatusUpdate": "2016-12-15T20:49:00Z",
+    "DataQualityLevel": 2,
+    "DateCreated": "2015-04-22T02:47:00Z",
+    "SubmissionStatusTypeID": 100,
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 100,
+      "Title": "Imported and Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "Connections": [
+      {
+        "ID": 55226,
+        "ConnectionTypeID": 25,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-2 Type 2",
+          "IsDiscontinued": false,
+          "IsObsolete": false,
+          "ID": 25,
+          "Title": "Mennekes (Type 2)"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 2,
+        "Level": {
+          "Comments": "Over 2 kW, usually non-domestic socket type",
+          "IsFastChargeCapable": false,
+          "ID": 2,
+          "Title": "Level 2 : Medium (Over 2kW)"
+        },
+        "Amps": 32,
+        "Voltage": 400,
+        "PowerKW": 22.0,
+        "CurrentTypeID": 20,
+        "CurrentType": {
+          "Description": "Alternating Current - Three Phase",
+          "ID": 20,
+          "Title": "AC (Three-Phase)"
+        },
+        "Quantity": 2,
+        "Comments": null
+      }
+    ],
+    "MediaItems": null,
+    "MetadataValues": null,
+    "IsRecentlyVerified": false,
+    "DateLastVerified": null
+  },
+  {
+    "ID": 14889,
+    "UUID": "DF412F38-031F-4BB0-8CEB-365597382FF3",
+    "ParentChargePointID": null,
+    "DataProviderID": 1,
+    "DataProvider": {
+      "WebsiteURL": "http://openchargemap.org",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 1,
+        "Title": "Manual Data Entry"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": true,
+      "IsApprovedImport": true,
+      "License": "Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "DateLastImported": null,
+      "ID": 1,
+      "Title": "Open Charge Map Contributors"
+    },
+    "DataProvidersReference": null,
+    "OperatorID": 7,
+    "OperatorInfo": {
+      "WebsiteURL": "http://www.nissan.co.uk",
+      "Comments": "Network of franchised Nissan Dealers",
+      "PhonePrimaryContact": null,
+      "PhoneSecondaryContact": null,
+      "IsPrivateIndividual": false,
+      "AddressInfo": null,
+      "BookingURL": null,
+      "ContactEmail": null,
+      "FaultReportEmail": null,
+      "IsRestrictedEdit": null,
+      "ID": 7,
+      "Title": "Nissan UK Dealer Network"
+    },
+    "OperatorsReference": null,
+    "UsageTypeID": 7,
+    "UsageType": {
+      "IsPayAtLocation": false,
+      "IsMembershipRequired": false,
+      "IsAccessKeyRequired": false,
+      "ID": 7,
+      "Title": "Public - Notice Required"
+    },
+    "UsageCost": null,
+    "AddressInfo": {
+      "ID": 15235,
+      "Title": "Limerick Nissan",
+      "AddressLine1": "Delta Retail Park",
+      "AddressLine2": "Ballysimon Road",
+      "Town": "Limerick",
+      "StateOrProvince": "Limerick City",
+      "Postcode": null,
+      "CountryID": 3,
+      "Country": {
+        "ISOCode": "IE",
+        "ContinentCode": "EU",
+        "ID": 3,
+        "Title": "Ireland"
+      },
+      "Latitude": 52.64861,
+      "Longitude": -8.58177,
+      "ContactTelephone1": null,
+      "ContactTelephone2": null,
+      "ContactEmail": null,
+      "AccessComments": "Business Hours Only",
+      "RelatedURL": null,
+      "Distance": 1.0969502548559065,
+      "DistanceUnit": 2
+    },
+    "NumberOfPoints": 1,
+    "GeneralComments": null,
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 50,
+    "StatusType": {
+      "IsOperational": true,
+      "IsUserSelectable": true,
+      "ID": 50,
+      "Title": "Operational"
+    },
+    "DateLastStatusUpdate": "2016-07-12T22:33:00Z",
+    "DataQualityLevel": 2,
+    "DateCreated": "2012-12-11T15:08:00Z",
+    "SubmissionStatusTypeID": 100,
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 100,
+      "Title": "Imported and Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "Connections": [
+      {
+        "ID": 13296,
+        "ConnectionTypeID": 2,
+        "ConnectionType": {
+          "FormalName": null,
+          "IsDiscontinued": null,
+          "IsObsolete": null,
+          "ID": 2,
+          "Title": "CHAdeMO"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 3,
+        "Level": {
+          "Comments": "40KW and Higher",
+          "IsFastChargeCapable": true,
+          "ID": 3,
+          "Title": "Level 3:  High (Over 40kW)"
+        },
+        "Amps": 100,
+        "Voltage": 480,
+        "PowerKW": 50.0,
+        "CurrentTypeID": 30,
+        "CurrentType": {
+          "Description": "Direct Current",
+          "ID": 30,
+          "Title": "DC"
+        },
+        "Quantity": 1,
+        "Comments": null
+      }
+    ],
+    "MediaItems": null,
+    "MetadataValues": null,
+    "IsRecentlyVerified": false,
+    "DateLastVerified": null
+  },
+  {
+    "ID": 19106,
+    "UUID": "1841A6FA-D051-4A82-BE4B-E5D2378FD75F",
+    "ParentChargePointID": null,
+    "DataProviderID": 1,
+    "DataProvider": {
+      "WebsiteURL": "http://openchargemap.org",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 1,
+        "Title": "Manual Data Entry"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": true,
+      "IsApprovedImport": true,
+      "License": "Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "DateLastImported": null,
+      "ID": 1,
+      "Title": "Open Charge Map Contributors"
+    },
+    "DataProvidersReference": null,
+    "OperatorID": 7,
+    "OperatorInfo": {
+      "WebsiteURL": "http://www.nissan.co.uk",
+      "Comments": "Network of franchised Nissan Dealers",
+      "PhonePrimaryContact": null,
+      "PhoneSecondaryContact": null,
+      "IsPrivateIndividual": false,
+      "AddressInfo": null,
+      "BookingURL": null,
+      "ContactEmail": null,
+      "FaultReportEmail": null,
+      "IsRestrictedEdit": null,
+      "ID": 7,
+      "Title": "Nissan UK Dealer Network"
+    },
+    "OperatorsReference": null,
+    "UsageTypeID": 1,
+    "UsageType": {
+      "IsPayAtLocation": null,
+      "IsMembershipRequired": null,
+      "IsAccessKeyRequired": null,
+      "ID": 1,
+      "Title": "Public"
+    },
+    "UsageCost": "Free",
+    "AddressInfo": {
+      "ID": 19451,
+      "Title": " Limerick Nissan (Pat Tiernan Motors)",
+      "AddressLine1": "Delta Retail Park",
+      "AddressLine2": "Ballysimon Road",
+      "Town": "Limerick",
+      "StateOrProvince": "",
+      "Postcode": "",
+      "CountryID": 3,
+      "Country": {
+        "ISOCode": "IE",
+        "ContinentCode": "EU",
+        "ID": 3,
+        "Title": "Ireland"
+      },
+      "Latitude": 52.6473078,
+      "Longitude": -8.5833946999999853,
+      "ContactTelephone1": "(061) 402000",
+      "ContactTelephone2": "",
+      "ContactEmail": "info@limericknissan.ie",
+      "AccessComments": "",
+      "RelatedURL": "http://www.limericknissan.ie/",
+      "Distance": 1.1196438511274829,
+      "DistanceUnit": 2
+    },
+    "NumberOfPoints": 1,
+    "GeneralComments": "",
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 50,
+    "StatusType": {
+      "IsOperational": true,
+      "IsUserSelectable": true,
+      "ID": 50,
+      "Title": "Operational"
+    },
+    "DateLastStatusUpdate": "2013-09-11T20:42:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2013-09-11T10:44:00Z",
+    "SubmissionStatusTypeID": 200,
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 200,
+      "Title": "Submission Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "Connections": [
+      {
+        "ID": 19347,
+        "ConnectionTypeID": 2,
+        "ConnectionType": {
+          "FormalName": null,
+          "IsDiscontinued": null,
+          "IsObsolete": null,
+          "ID": 2,
+          "Title": "CHAdeMO"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 3,
+        "Level": {
+          "Comments": "40KW and Higher",
+          "IsFastChargeCapable": true,
+          "ID": 3,
+          "Title": "Level 3:  High (Over 40kW)"
+        },
+        "Amps": 100,
+        "Voltage": 230,
+        "PowerKW": 50.0,
+        "CurrentTypeID": 30,
+        "CurrentType": {
+          "Description": "Direct Current",
+          "ID": 30,
+          "Title": "DC"
+        },
+        "Quantity": 1,
+        "Comments": null
+      }
+    ],
+    "MediaItems": null,
+    "MetadataValues": null,
+    "IsRecentlyVerified": false,
+    "DateLastVerified": null
+  },
+  {
+    "ID": 66693,
+    "UUID": "BF02D95B-46D1-40FA-B605-F3C406EFEC40",
+    "ParentChargePointID": null,
+    "DataProviderID": 1,
+    "DataProvider": {
+      "WebsiteURL": "http://openchargemap.org",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 1,
+        "Title": "Manual Data Entry"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": true,
+      "IsApprovedImport": true,
+      "License": "Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "DateLastImported": null,
+      "ID": 1,
+      "Title": "Open Charge Map Contributors"
+    },
+    "DataProvidersReference": null,
+    "OperatorID": 22,
+    "OperatorInfo": {
+      "WebsiteURL": "http://www.esb.ie/electric-cars/index.jsp",
+      "Comments": null,
+      "PhonePrimaryContact": " 1890 372 387",
+      "PhoneSecondaryContact": null,
+      "IsPrivateIndividual": false,
+      "AddressInfo": null,
+      "BookingURL": null,
+      "ContactEmail": "ecars@esb.ie",
+      "FaultReportEmail": "ecars@esb.ie",
+      "IsRestrictedEdit": null,
+      "ID": 22,
+      "Title": "ESB Ecars"
+    },
+    "OperatorsReference": "C2QDS-A/B",
+    "UsageTypeID": 4,
+    "UsageType": {
+      "IsPayAtLocation": false,
+      "IsMembershipRequired": true,
+      "IsAccessKeyRequired": true,
+      "ID": 4,
+      "Title": "Public - Membership Required"
+    },
+    "UsageCost": null,
+    "AddressInfo": {
+      "ID": 67039,
+      "Title": "Merchant's Quay",
+      "AddressLine1": "Merchant's Quay",
+      "AddressLine2": null,
+      "Town": "Limerick",
+      "StateOrProvince": null,
+      "Postcode": null,
+      "CountryID": 3,
+      "Country": {
+        "ISOCode": "IE",
+        "ContinentCode": "EU",
+        "ID": 3,
+        "Title": "Ireland"
+      },
+      "Latitude": 52.667322,
+      "Longitude": -8.623874,
+      "ContactTelephone1": null,
+      "ContactTelephone2": null,
+      "ContactEmail": null,
+      "AccessComments": null,
+      "RelatedURL": null,
+      "Distance": 1.1211388534192341,
+      "DistanceUnit": 2
+    },
+    "NumberOfPoints": 2,
+    "GeneralComments": null,
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 75,
+    "StatusType": {
+      "IsOperational": true,
+      "IsUserSelectable": true,
+      "ID": 75,
+      "Title": "Partly Operational (Mixed)"
+    },
+    "DateLastStatusUpdate": "2017-06-07T07:26:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2016-05-26T11:37:00Z",
+    "SubmissionStatusTypeID": 200,
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 200,
+      "Title": "Submission Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "Connections": [
+      {
+        "ID": 92145,
+        "ConnectionTypeID": 25,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-2 Type 2",
+          "IsDiscontinued": false,
+          "IsObsolete": false,
+          "ID": 25,
+          "Title": "Mennekes (Type 2)"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 2,
+        "Level": {
+          "Comments": "Over 2 kW, usually non-domestic socket type",
+          "IsFastChargeCapable": false,
+          "ID": 2,
+          "Title": "Level 2 : Medium (Over 2kW)"
+        },
+        "Amps": 32,
+        "Voltage": 400,
+        "PowerKW": 22.0,
+        "CurrentTypeID": 20,
+        "CurrentType": {
+          "Description": "Alternating Current - Three Phase",
+          "ID": 20,
+          "Title": "AC (Three-Phase)"
+        },
+        "Quantity": 2,
+        "Comments": null
+      }
+    ],
+    "MediaItems": null,
+    "MetadataValues": null,
+    "IsRecentlyVerified": false,
+    "DateLastVerified": null
+  },
+  {
+    "ID": 14995,
+    "UUID": "80166191-7696-4B74-BF2E-29ED15217DDB",
+    "ParentChargePointID": null,
+    "DataProviderID": 1,
+    "DataProvider": {
+      "WebsiteURL": "http://openchargemap.org",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 1,
+        "Title": "Manual Data Entry"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": true,
+      "IsApprovedImport": true,
+      "License": "Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "DateLastImported": null,
+      "ID": 1,
+      "Title": "Open Charge Map Contributors"
+    },
+    "DataProvidersReference": null,
+    "OperatorID": 22,
+    "OperatorInfo": {
+      "WebsiteURL": "http://www.esb.ie/electric-cars/index.jsp",
+      "Comments": null,
+      "PhonePrimaryContact": " 1890 372 387",
+      "PhoneSecondaryContact": null,
+      "IsPrivateIndividual": false,
+      "AddressInfo": null,
+      "BookingURL": null,
+      "ContactEmail": "ecars@esb.ie",
+      "FaultReportEmail": "ecars@esb.ie",
+      "IsRestrictedEdit": null,
+      "ID": 22,
+      "Title": "ESB Ecars"
+    },
+    "OperatorsReference": "C6RFN",
+    "UsageTypeID": 4,
+    "UsageType": {
+      "IsPayAtLocation": false,
+      "IsMembershipRequired": true,
+      "IsAccessKeyRequired": true,
+      "ID": 4,
+      "Title": "Public - Membership Required"
+    },
+    "UsageCost": null,
+    "AddressInfo": {
+      "ID": 15341,
+      "Title": "Perry Street",
+      "AddressLine1": "Perry Street, Limerick City",
+      "AddressLine2": null,
+      "Town": "Limerick",
+      "StateOrProvince": null,
+      "Postcode": null,
+      "CountryID": 3,
+      "Country": {
+        "ISOCode": "IE",
+        "ContinentCode": "EU",
+        "ID": 3,
+        "Title": "Ireland"
+      },
+      "Latitude": 52.6597,
+      "Longitude": -8.6276,
+      "ContactTelephone1": null,
+      "ContactTelephone2": null,
+      "ContactEmail": null,
+      "AccessComments": null,
+      "RelatedURL": null,
+      "Distance": 1.1569249472376752,
+      "DistanceUnit": 2
+    },
+    "NumberOfPoints": 2,
+    "GeneralComments": null,
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 50,
+    "StatusType": {
+      "IsOperational": true,
+      "IsUserSelectable": true,
+      "ID": 50,
+      "Title": "Operational"
+    },
+    "DateLastStatusUpdate": "2016-11-03T06:16:00Z",
+    "DataQualityLevel": 2,
+    "DateCreated": "2012-12-11T15:08:00Z",
+    "SubmissionStatusTypeID": 100,
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 100,
+      "Title": "Imported and Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "Connections": [
+      {
+        "ID": 91399,
+        "ConnectionTypeID": 25,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-2 Type 2",
+          "IsDiscontinued": false,
+          "IsObsolete": false,
+          "ID": 25,
+          "Title": "Mennekes (Type 2)"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 2,
+        "Level": {
+          "Comments": "Over 2 kW, usually non-domestic socket type",
+          "IsFastChargeCapable": false,
+          "ID": 2,
+          "Title": "Level 2 : Medium (Over 2kW)"
+        },
+        "Amps": 32,
+        "Voltage": 400,
+        "PowerKW": 22.0,
+        "CurrentTypeID": 20,
+        "CurrentType": {
+          "Description": "Alternating Current - Three Phase",
+          "ID": 20,
+          "Title": "AC (Three-Phase)"
+        },
+        "Quantity": 2,
+        "Comments": null
+      }
+    ],
+    "MediaItems": null,
+    "MetadataValues": null,
+    "IsRecentlyVerified": false,
+    "DateLastVerified": null
+  },
+  {
+    "ID": 66464,
+    "UUID": "05DF3C90-9517-4716-AE0F-47D56D0B0709",
+    "ParentChargePointID": null,
+    "DataProviderID": 1,
+    "DataProvider": {
+      "WebsiteURL": "http://openchargemap.org",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 1,
+        "Title": "Manual Data Entry"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": true,
+      "IsApprovedImport": true,
+      "License": "Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "DateLastImported": null,
+      "ID": 1,
+      "Title": "Open Charge Map Contributors"
+    },
+    "DataProvidersReference": null,
+    "OperatorID": 22,
+    "OperatorInfo": {
+      "WebsiteURL": "http://www.esb.ie/electric-cars/index.jsp",
+      "Comments": null,
+      "PhonePrimaryContact": " 1890 372 387",
+      "PhoneSecondaryContact": null,
+      "IsPrivateIndividual": false,
+      "AddressInfo": null,
+      "BookingURL": null,
+      "ContactEmail": "ecars@esb.ie",
+      "FaultReportEmail": "ecars@esb.ie",
+      "IsRestrictedEdit": null,
+      "ID": 22,
+      "Title": "ESB Ecars"
+    },
+    "OperatorsReference": "C6RN7",
+    "UsageTypeID": 4,
+    "UsageType": {
+      "IsPayAtLocation": false,
+      "IsMembershipRequired": true,
+      "IsAccessKeyRequired": true,
+      "ID": 4,
+      "Title": "Public - Membership Required"
+    },
+    "UsageCost": null,
+    "AddressInfo": {
+      "ID": 66810,
+      "Title": "Pery Square",
+      "AddressLine1": "Pery Square",
+      "AddressLine2": null,
+      "Town": "Limerick",
+      "StateOrProvince": "County Limerick",
+      "Postcode": null,
+      "CountryID": 3,
+      "Country": {
+        "ISOCode": "IE",
+        "ContinentCode": "EU",
+        "ID": 3,
+        "Title": "Ireland"
+      },
+      "Latitude": 52.6582,
+      "Longitude": -8.6294,
+      "ContactTelephone1": null,
+      "ContactTelephone2": null,
+      "ContactEmail": null,
+      "AccessComments": null,
+      "RelatedURL": null,
+      "Distance": 1.2384610785372836,
+      "DistanceUnit": 2
+    },
+    "NumberOfPoints": 2,
+    "GeneralComments": null,
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 50,
+    "StatusType": {
+      "IsOperational": true,
+      "IsUserSelectable": true,
+      "ID": 50,
+      "Title": "Operational"
+    },
+    "DateLastStatusUpdate": "2017-06-01T05:56:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2016-05-20T14:01:00Z",
+    "SubmissionStatusTypeID": 200,
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 200,
+      "Title": "Submission Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "Connections": [
+      {
+        "ID": 91844,
+        "ConnectionTypeID": 25,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-2 Type 2",
+          "IsDiscontinued": false,
+          "IsObsolete": false,
+          "ID": 25,
+          "Title": "Mennekes (Type 2)"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 2,
+        "Level": {
+          "Comments": "Over 2 kW, usually non-domestic socket type",
+          "IsFastChargeCapable": false,
+          "ID": 2,
+          "Title": "Level 2 : Medium (Over 2kW)"
+        },
+        "Amps": 32,
+        "Voltage": 400,
+        "PowerKW": 22.0,
+        "CurrentTypeID": 20,
+        "CurrentType": {
+          "Description": "Alternating Current - Three Phase",
+          "ID": 20,
+          "Title": "AC (Three-Phase)"
+        },
+        "Quantity": 2,
+        "Comments": null
+      }
+    ],
+    "MediaItems": null,
+    "MetadataValues": null,
+    "IsRecentlyVerified": false,
+    "DateLastVerified": null
+  },
+  {
+    "ID": 66331,
+    "UUID": "F60C3FC1-2A57-4056-951A-BCE85925AF7A",
+    "ParentChargePointID": null,
+    "DataProviderID": 1,
+    "DataProvider": {
+      "WebsiteURL": "http://openchargemap.org",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 1,
+        "Title": "Manual Data Entry"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": true,
+      "IsApprovedImport": true,
+      "License": "Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "DateLastImported": null,
+      "ID": 1,
+      "Title": "Open Charge Map Contributors"
+    },
+    "DataProvidersReference": null,
+    "OperatorID": 22,
+    "OperatorInfo": {
+      "WebsiteURL": "http://www.esb.ie/electric-cars/index.jsp",
+      "Comments": null,
+      "PhonePrimaryContact": " 1890 372 387",
+      "PhoneSecondaryContact": null,
+      "IsPrivateIndividual": false,
+      "AddressInfo": null,
+      "BookingURL": null,
+      "ContactEmail": "ecars@esb.ie",
+      "FaultReportEmail": "ecars@esb.ie",
+      "IsRestrictedEdit": null,
+      "ID": 22,
+      "Title": "ESB Ecars"
+    },
+    "OperatorsReference": "C3BMR-A/B",
+    "UsageTypeID": 4,
+    "UsageType": {
+      "IsPayAtLocation": false,
+      "IsMembershipRequired": true,
+      "IsAccessKeyRequired": true,
+      "ID": 4,
+      "Title": "Public - Membership Required"
+    },
+    "UsageCost": null,
+    "AddressInfo": {
+      "ID": 66677,
+      "Title": "Bedford Row",
+      "AddressLine1": "Bedford Row",
+      "AddressLine2": null,
+      "Town": "Limerick",
+      "StateOrProvince": "County Limerick",
+      "Postcode": null,
+      "CountryID": 3,
+      "Country": {
+        "ISOCode": "IE",
+        "ContinentCode": "EU",
+        "ID": 3,
+        "Title": "Ireland"
+      },
+      "Latitude": 52.663928,
+      "Longitude": -8.629209,
+      "ContactTelephone1": null,
+      "ContactTelephone2": null,
+      "ContactEmail": null,
+      "AccessComments": null,
+      "RelatedURL": null,
+      "Distance": 1.2538431828232064,
+      "DistanceUnit": 2
+    },
+    "NumberOfPoints": 2,
+    "GeneralComments": null,
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 50,
+    "StatusType": {
+      "IsOperational": true,
+      "IsUserSelectable": true,
+      "ID": 50,
+      "Title": "Operational"
+    },
+    "DateLastStatusUpdate": "2017-06-01T05:56:00Z",
+    "DataQualityLevel": 1,
+    "DateCreated": "2016-05-18T10:56:00Z",
+    "SubmissionStatusTypeID": 100,
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 100,
+      "Title": "Imported and Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "Connections": [
+      {
+        "ID": 91700,
+        "ConnectionTypeID": 25,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-2 Type 2",
+          "IsDiscontinued": false,
+          "IsObsolete": false,
+          "ID": 25,
+          "Title": "Mennekes (Type 2)"
+        },
+        "Reference": null,
+        "StatusTypeID": 100,
+        "StatusType": {
+          "IsOperational": false,
+          "IsUserSelectable": true,
+          "ID": 100,
+          "Title": "Not Operational"
+        },
+        "LevelID": 2,
+        "Level": {
+          "Comments": "Over 2 kW, usually non-domestic socket type",
+          "IsFastChargeCapable": false,
+          "ID": 2,
+          "Title": "Level 2 : Medium (Over 2kW)"
+        },
+        "Amps": 32,
+        "Voltage": 400,
+        "PowerKW": 22.0,
+        "CurrentTypeID": 20,
+        "CurrentType": {
+          "Description": "Alternating Current - Three Phase",
+          "ID": 20,
+          "Title": "AC (Three-Phase)"
+        },
+        "Quantity": 2,
+        "Comments": null
+      }
+    ],
+    "MediaItems": null,
+    "MetadataValues": null,
+    "IsRecentlyVerified": false,
+    "DateLastVerified": null
+  },
+  {
+    "ID": 44902,
+    "UUID": "0F511CD2-B400-4286-89A9-156F31D419F0",
+    "ParentChargePointID": null,
+    "DataProviderID": 1,
+    "DataProvider": {
+      "WebsiteURL": "http://openchargemap.org",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 1,
+        "Title": "Manual Data Entry"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": true,
+      "IsApprovedImport": true,
+      "License": "Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)",
+      "DateLastImported": null,
+      "ID": 1,
+      "Title": "Open Charge Map Contributors"
+    },
+    "DataProvidersReference": null,
+    "OperatorID": 22,
+    "OperatorInfo": {
+      "WebsiteURL": "http://www.esb.ie/electric-cars/index.jsp",
+      "Comments": null,
+      "PhonePrimaryContact": " 1890 372 387",
+      "PhoneSecondaryContact": null,
+      "IsPrivateIndividual": false,
+      "AddressInfo": null,
+      "BookingURL": null,
+      "ContactEmail": "ecars@esb.ie",
+      "FaultReportEmail": "ecars@esb.ie",
+      "IsRestrictedEdit": null,
+      "ID": 22,
+      "Title": "ESB Ecars"
+    },
+    "OperatorsReference": "C4WM5",
+    "UsageTypeID": 4,
+    "UsageType": {
+      "IsPayAtLocation": false,
+      "IsMembershipRequired": true,
+      "IsAccessKeyRequired": true,
+      "ID": 4,
+      "Title": "Public - Membership Required"
+    },
+    "UsageCost": null,
+    "AddressInfo": {
+      "ID": 45248,
+      "Title": "The Bishop's Quay",
+      "AddressLine1": "Limerick City",
+      "AddressLine2": null,
+      "Town": "Limerick",
+      "StateOrProvince": "Co. Limerick",
+      "Postcode": null,
+      "CountryID": 3,
+      "Country": {
+        "ISOCode": "IE",
+        "ContinentCode": "EU",
+        "ID": 3,
+        "Title": "Ireland"
+      },
+      "Latitude": 52.661893,
+      "Longitude": -8.632049,
+      "ContactTelephone1": null,
+      "ContactTelephone2": null,
+      "ContactEmail": null,
+      "AccessComments": null,
+      "RelatedURL": null,
+      "Distance": 1.3495207679713721,
+      "DistanceUnit": 2
+    },
+    "NumberOfPoints": 2,
+    "GeneralComments": null,
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 50,
+    "StatusType": {
+      "IsOperational": true,
+      "IsUserSelectable": true,
+      "ID": 50,
+      "Title": "Operational"
+    },
+    "DateLastStatusUpdate": "2017-06-01T05:58:00Z",
+    "DataQualityLevel": 2,
+    "DateCreated": "2015-04-22T02:47:00Z",
+    "SubmissionStatusTypeID": 100,
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 100,
+      "Title": "Imported and Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "Connections": [
+      {
+        "ID": 55225,
+        "ConnectionTypeID": 25,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-2 Type 2",
+          "IsDiscontinued": false,
+          "IsObsolete": false,
+          "ID": 25,
+          "Title": "Mennekes (Type 2)"
+        },
+        "Reference": null,
+        "StatusTypeID": 75,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 75,
+          "Title": "Partly Operational (Mixed)"
+        },
+        "LevelID": 2,
+        "Level": {
+          "Comments": "Over 2 kW, usually non-domestic socket type",
+          "IsFastChargeCapable": false,
+          "ID": 2,
+          "Title": "Level 2 : Medium (Over 2kW)"
+        },
+        "Amps": 32,
+        "Voltage": 400,
+        "PowerKW": 22.0,
+        "CurrentTypeID": 20,
+        "CurrentType": {
+          "Description": "Alternating Current - Three Phase",
+          "ID": 20,
+          "Title": "AC (Three-Phase)"
+        },
+        "Quantity": 2,
+        "Comments": null
+      }
+    ],
+    "MediaItems": null,
+    "MetadataValues": null,
+    "IsRecentlyVerified": false,
+    "DateLastVerified": null
+  }
+]
