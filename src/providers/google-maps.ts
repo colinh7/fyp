@@ -15,6 +15,7 @@ export class GoogleMaps {
  
     map: any;
     existingThirdPartyMarkers: any = [];
+    existingAppMarkers: any = [];
     maxDistance: any;
  
     constructor(public http: Http, public geolocation: Geolocation) {
@@ -54,16 +55,17 @@ export class GoogleMaps {
     };
 
     this.map = new google.maps.Map(mapElement, mapOptions);
+   
     
       google.maps.event.addListenerOnce(this.map, 'idle', () => {
     
           this.loadMarkers();
-        //  this.removeMarker();
-        
+      
     
            google.maps.event.addListener(this.map, 'dragend', () => {
                this.loadMarkers();
-              // this.removeMarker();
+               this.removeMarkers();
+       
             
            });
     
@@ -119,7 +121,7 @@ export class GoogleMaps {
  
     getMarkers(lng,lat,maxDistance){
         
-        this.http.get('https://api.openchargemap.io/v2/poi/?output=json&longitude='+lng+'&latitude='+lat+'&distance='+maxDistance+'&countrycode=IRL&maxresults=200')
+        this.http.get('https://api.openchargemap.io/v2/poi/?output=json&longitude='+lng+'&latitude='+lat+'&distance='+maxDistance+'&countrycode=IRL&maxresults=10')
         .map(res => res.json())
         .subscribe(markers => {
      
@@ -129,11 +131,9 @@ export class GoogleMaps {
             });
     }
 
-    clear(){
-        this.map.setMapOnAll(null);
-    }
 /*
-    removeMarker(){
+
+    removeMarkers(){
 
         let center = this.map.getCenter(),
         bounds = this.map.getBounds(),
@@ -145,17 +145,22 @@ export class GoogleMaps {
         lngCenter: center.lng()
     };
         
-  if (this.existingThirdPartyMarkers.length > 10){
- 
-    for( var i = 0; i<10; i++){
-    this.existingThirdPartyMarkers[i].setMap(null)
-    this.existingThirdPartyMarkers.shift()
-    
-  }
-}
-}
-*/
 
+
+    if (this.existingThirdPartyMarkers.length > 100){
+
+    for( let i = 0; i < 50; i++){
+        this.existingThirdPartyMarkers[i].marker.setMap(null)
+        this.existingThirdPartyMarkers.shift(1);
+}
+
+}
+}
+
+
+
+
+*/
     addThirdPartyMarkers(markers){
 
         let marker;
@@ -254,11 +259,13 @@ export class GoogleMaps {
        position: this.map.getCenter()
      });
     
-     let content = "<h4>Information!</h4>";         
+     let content = "<h4>Information!</h4>";      
     
      this.addInfoWindow(marker, content);
+     this.existingAppMarkers.push(marker);
     
    }
+
 
    addInfoWindow(marker,content){
     
@@ -272,5 +279,67 @@ export class GoogleMaps {
     
    }
    
+   
+   
+   adddThirdPartyMarkers(markers){
     
+            let marker;
+            let markerLatLng;
+            let lat;
+            let lng;
+    
+             for(let marker of markers) {
+                      
+               lat = marker.AddressInfo.Latitude;
+               lng = marker.AddressInfo.Longitude;
+         
+              markerLatLng = new google.maps.LatLng(lat, lng);
+         
+                if(!this.markerExists(lat, lng)){
+         
+                    marker = new google.maps.Marker({
+                        map: this.map,
+                        animation: google.maps.Animation.DROP,
+                        position: markerLatLng
+                    });
+           
+                    let markerData = {
+                        lat: lat,
+                        lng: lng,
+                        marker: marker
+                    };
+         
+                  this.existingAppMarkers.push(markerData);
+              
+               }
+            
+                   
+            }
+        }
+
+        removeMarkers(){
+            
+                    let center = this.map.getCenter(),
+                    bounds = this.map.getBounds(),
+                    zoom = this.map.getZoom();
+             
+                // Convert to readable format
+                let centerNorm = {
+                    latCenter: center.lat(),
+                    lngCenter: center.lng()
+                };
+                    
+            
+            
+                if (this.existingThirdPartyMarkers.length > 200){
+            
+                for( let i = 0; i < 100; i++){
+                    this.existingThirdPartyMarkers[i].marker.setMap(null)
+                    this.existingThirdPartyMarkers.shift(1);
+            }
+            
+            }
+            }
+
+
 }

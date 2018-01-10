@@ -40,8 +40,10 @@ export class MapPage {
 
   this.maps.initMap(this.mapElement.nativeElement);
   console.log("hello");
-//  this.loadMap();
- // this.loadMarkers();
+
+    
+
+
  
   }
 
