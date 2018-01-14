@@ -1,3 +1,4 @@
+import { AngularFireAuth } from 'angularfire2/auth';
 import { Http } from '@angular/http';
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, Alert, Platform, AlertController } from 'ionic-angular';
@@ -6,6 +7,7 @@ import 'rxjs/add/operator/map';
 import { Network } from '@ionic-native/network';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 import { GoogleMaps } from '../../providers/google-maps';
+
 declare var google;
 declare var map;
 declare var message;
@@ -26,7 +28,7 @@ export class MapPage {
   map: any;
   
   
-  constructor(public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network, public maps: GoogleMaps) {
+  constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network, public maps: GoogleMaps) {
   
   
 
@@ -37,6 +39,7 @@ export class MapPage {
 
 
   ionViewDidLoad(){
+    this.afAuth.authState.subscribe(data => console.log(data))
 
   this.maps.initMap(this.mapElement.nativeElement);
   console.log("hello");

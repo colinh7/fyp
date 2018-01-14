@@ -1,22 +1,24 @@
+import { AngularFireAuth } from 'angularfire2/auth';
 import { LoginPage } from '../pages/login/login';
 import { Component } from '@angular/core';
 import { LoadingController, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { AuthService } from '../providers/auth/auth';
 import { TabsPage } from '../pages/tabs/tabs';
+import { User } from '../models/user';
 
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any =TabsPage;
+  rootPage: any = LoginPage;
   loader :any;
+  user = {} as User;
 
   
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,public auth: AuthService, public loadingCtrl: LoadingController) {
+  constructor(private afAuth: AngularFireAuth, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public loadingCtrl: LoadingController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -24,11 +26,11 @@ export class MyApp {
       splashScreen.hide();
     });
 
-    this.presentLoading();
-
-    this.auth.loginCheck().then((isLoggedIn) => {
+   // this.presentLoading();
+/*
+    this.afAuth.authState.subscribe(data => {
       
-          if(isLoggedIn){
+          if(data.email &&data.uid){
             this.rootPage = TabsPage;
           } else {
             this.rootPage = LoginPage;
@@ -40,16 +42,19 @@ export class MyApp {
           
         }
 
-  presentLoading() {
+ // presentLoading() {
 
-    this.loader = this.loadingCtrl.create({
-      content: "Authenticating"
-    });
+   // this.loader = this.loadingCtrl.create({
+     // content: "Authenticating"
+    //});
 
-    this.loader.present();
+   // this.loader.present();
+  //}
+  
+  
+}
+*/
   }
-  
-  
 }
 
 
