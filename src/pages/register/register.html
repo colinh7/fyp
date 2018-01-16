@@ -21,12 +21,41 @@
 
     </ion-item>
 
+    <ion-item>
+      <ion-label floating> First Name</ion-label>
+      <ion-input type="text" [(ngModel)]="user.firstName"></ion-input>
 
+  </ion-item>
+  <ion-item>
+    <ion-label floating> Last Name</ion-label>
+    <ion-input type="text" [(ngModel)]="user.lastName"></ion-input>
+
+</ion-item>
+
+<ion-item>
+  <ion-label floating>Phone Number</ion-label>
+  <ion-input type="text" [(ngModel)]="user.phoneNumber"></ion-input>
+
+</ion-item>
+
+<ion-item>
+  <ion-label floating>Country</ion-label>
+  <ion-input type="text" [(ngModel)]="user.country"></ion-input>
+
+</ion-item>
+
+<ion-item>
+  <ion-label floating>Postal Code</ion-label>
+  <ion-input type="text" [(ngModel)]="user.postalCode"></ion-input>
+
+</ion-item>
   <ion-item>
       <ion-label floating> Password</ion-label>
       <ion-input type="text" [(ngModel)]="user.password"></ion-input>
 
   </ion-item>
+
+  
   
   <button ion-button (click)="register(user)">Register</button>
 
