@@ -12,7 +12,7 @@ import { User } from '../models/user';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = LoginPage;
+  rootPage: any = TabsPage;
   loader :any;
   user = {} as User;
 

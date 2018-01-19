@@ -1,29 +1,50 @@
+import { CreateNodePage } from './../pages/create-node/create-node';
+import { Node } from './../models/node';
+import { InfoWindowObservable } from './../models/infoWindowObservable';
+import { NavController, AlertController, IonicPage, Platform, Events } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
+import { Router } from '@angular/router';
+  
+
 
 declare var google;
 declare var map;
-declare var message;
+declare var message; 
+
 
  
 @Injectable()
 export class GoogleMaps {
 
-    
- 
+    infoWindowObservable = {} as InfoWindowObservable;
+    node = {} as Node;
     map: any;
     existingThirdPartyMarkers: any = [];
     existingAppMarkers: any = [];
     maxDistance: any;
+    geocoder: any;
+    markerApp: any;
+    lngApp: any;
+    latApp: any;
+    latLngApp: any;
+    infoWindow: any = new google.maps.InfoWindow({
+        size: new google.maps.Size(150, 300)
+    })
+    markerButton: any;
+    
+  
+  
  
-    constructor(public http: Http, public geolocation: Geolocation) {
+    constructor(public events: Events, public http: Http, public geolocation: Geolocation, public alert: AlertController) {
  
     }
 
 
-
+    
  
     initMap(mapElement){
         
@@ -57,6 +78,14 @@ export class GoogleMaps {
     this.map = new google.maps.Map(mapElement, mapOptions);
    
     
+    //google.maps.event.addListener(this.markerApp, 'dragend', () => {
+      //  var positionApp = this.markerApp.getPosition();
+        //this.latLngToAddress(positionApp);
+       // console.log(positionApp);
+      
+    //  });
+    
+    
       google.maps.event.addListenerOnce(this.map, 'idle', () => {
     
           this.loadMarkers();
@@ -68,10 +97,15 @@ export class GoogleMaps {
        
             
            });
+
+        
+        
+
     
        });
 
- 
+
+    
 
   }, 
   
@@ -253,7 +287,33 @@ export class GoogleMaps {
 
   addMarker(){
     
-     let marker = new google.maps.Marker({
+    let alert = this.alert.create({
+        title: 'Create A Charging Point',
+        subTitle: "Please enter the address oof the node you wish to create",
+        inputs: [
+            {
+            name: 'address',
+            placeholder: 'Node Address' 
+        }
+        ],
+        buttons: [
+            {
+            text:'OK',
+            role: 'OK'
+    },
+            {
+            text: 'Cancel',
+            role:  'Cancel'}
+    ]
+    
+      });
+
+     if (alert){
+          console.log("hello");}
+
+
+
+    /*  let marker = new google.maps.Marker({
        map: this.map,
        animation: google.maps.Animation.DROP,
        position: this.map.getCenter()
@@ -263,14 +323,15 @@ export class GoogleMaps {
     
      this.addInfoWindow(marker, content);
      this.existingAppMarkers.push(marker);
-    
+    */
    }
 
 
    addInfoWindow(marker,content){
     
      let infoWindow = new google.maps.InfoWindow({
-       content
+       content,
+       closeBoxURL: ""
      });
     
      google.maps.event.addListener(marker, 'click', () => {
@@ -341,5 +402,127 @@ export class GoogleMaps {
             }
             }
 
+
+
+geocodeAddress(address){
+
+    this.markerButton = '<div class="infowindow"><p id="tap">Add Node</p></div>';
+    this.geocoder = new google.maps.Geocoder();
+    var iconBase = "assets/imgs/green_markerN.png";
+    this.geocoder.geocode({'address': address}, (results, status) => {
+
+        if (status === 'OK') {
+            
+            this.map.setCenter(results[0].geometry.location);
+            this.markerApp = new google.maps.Marker({
+              map: this.map,
+              position: results[0].geometry.location,
+              draggable: true,
+              icon: iconBase
+
+            });
+            this.latLngToAddress();
+            console.log("hello");
+            this.node.address = results[0].geometry.location
+            console.log(this.node.address);
+            console.log("icon");
+            this.addMarkerButton();
+
+            google.maps.event.addListener(this.markerApp, 'dragend', () => {
+                this.loadMarkers();
+                this.removeMarkers();
+                this.latLngToAddress();
+                this.addMarkerButton();
+               
+
+                
+                
+            });
+        
+          } else {
+            let alert = this.alert.create({
+                title: 'ERROR',
+                subTitle: 'Node creation was unsuccesful for the following reason:' + status,
+                buttons: ['OK'],
+               
+              });
+              
+              alert.present();
+              alert.onDidDismiss(() => {
+
+                
+                
+               
+                
+                
+                })
+            
+        }
+       
+
+     
+        
+      });
+    
+}
+
+latLngToAddress(){
+
+    var latApp = this.markerApp.position;
+    var latLngApp = this.markerApp.position;
+                       
+                     
+    this.geocoder = new google.maps.Geocoder();
+   
+    this.geocoder.geocode({'latLng': latLngApp}, (results, status) => {
+
+        if (status === 'OK') {
+            
+            console.log(results[0].formatted_address);
+            this.node.address = results[0].formatted_address;
+            this.addMarkerButton();
+
+            
+          } else {
+            let alert = this.alert.create({
+                title: 'ERROR',
+                subTitle: 'Node creation was unsuccesful for the following reason:' + status,
+                buttons: ['OK'],
+               
+              });
+              
+              alert.present();
+            
+        }
+
+       
+        
+      });
+    
+}
+
+addMarkerButton(){
+this.infoWindow.setContent( this.markerButton + this.node.address);
+this.infoWindow.open(this.map,this.markerApp);
+
+google.maps.event.addListener(this.infoWindow, 'domready', () => {
+    document.getElementById('tap').addEventListener('click', () => {
+      //alert('Clicked');
+      console.log("touch");
+      this.infoWindowObservable.true = 1;
+      this.changePage();
+    
+    });
+  });
+
+}
+
+changePage(){
+
+    if (this.infoWindowObservable.true === 1){
+        this.events.publish('markerAdded', this.infoWindowObservable.true, Date.now());
+        
+    }
+}
 
 }

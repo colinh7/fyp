@@ -1,3 +1,4 @@
+import { TabsPage } from './../pages/tabs/tabs';
 import { ProfilePage } from './../pages/profile/profile';
 import { LoginPage } from './../pages/login/login';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -14,7 +15,6 @@ import { myUsagePage } from '../pages/myUsage/myUsage';
 import { myNodesPage } from '../pages/myNodes/myNodes';
 import { myNodeInfoPage } from '../pages/myNodeInfo/myNodeInfo';
 import { MapPage } from '../pages/map/map';
-
 import { Geolocation} from '@ionic-native/geolocation';
 import { AngularFireModule } from "angularfire2"
 
@@ -37,7 +37,8 @@ import { AngularFireAuthModule, AngularFireAuth } from "angularfire2/auth";
     myNodeInfoPage,
     myUsagePage,
     ProfilePage,
-    LoginPage
+    LoginPage,
+    TabsPage
   
  
    
@@ -58,7 +59,8 @@ import { AngularFireAuthModule, AngularFireAuth } from "angularfire2/auth";
     myNodesPage,
     myNodeInfoPage,
     LoginPage,
-    ProfilePage
+    ProfilePage,
+    TabsPage
 
     
     
