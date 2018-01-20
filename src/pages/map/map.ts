@@ -1,3 +1,4 @@
+import { InfoWindowObservable } from './../../models/infoWindowObservable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Http } from '@angular/http';
 import { Component, ViewChild, ElementRef } from '@angular/core';
@@ -8,7 +9,7 @@ import { Network } from '@ionic-native/network';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 //import { GoogleMaps } from '../../providers/google-maps';
 import { Node } from '../../models/node'
-import { InfoWindowObservable } from '../../models/infoWindowObservable';
+
 
 
 
@@ -41,6 +42,12 @@ export class MapPage {
       size: new google.maps.Size(150, 300)
   })
   markerButton: any;
+  deleteMarkerButton: any;
+  counter = 0;
+  appMarkers = [];
+  disabled: boolean;
+  infoWindowChecker: number;
+  addNodeClicked: boolean;
   
   
   constructor(public events: Events, private afAuth: AngularFireAuth, public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network) {
@@ -57,7 +64,7 @@ export class MapPage {
 
     this.initMap(this.mapElement.nativeElement);
     console.log("hello");
-
+    console.log('ionViewDidLoad hello');
   }
 
   ionViewWillEnter() {
@@ -65,6 +72,30 @@ export class MapPage {
 
 
 addNode(){
+
+  if (this.addNodeClicked === true){
+    let alert = this.alertCtrl.create({
+      title: 'Node Already Placed!',
+      subTitle: 'Only One node can be created at a time! Please delete the current node to create another.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        
+      
+
+        
+        
+      ]
+    });
+    
+    this.map.setCenter(this.markerApp.position);
+  }
+  else{
 
   let alert = this.alertCtrl.create({
       title: 'Create A Node!',
@@ -104,7 +135,7 @@ addNode(){
   
       })
   
-
+    }
 
   
   
@@ -126,6 +157,8 @@ mapTypeControl:false,
 mapTypeId: google.maps.MapTypeId.ROADMAP
 };
 
+
+console.log(this.disabled);
 
 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
@@ -162,14 +195,22 @@ google.maps.event.addListenerOnce(this.map, 'idle', () => {
     
    });
 
-
-
-
-
 });
 
-
-
+google.maps.event.addListener(this.infoWindow, 'domready', () => {
+  document.getElementById('tap').addEventListener('click', () => {
+  //alert('Clicked');
+  console.log("touch");
+  
+  
+  this.infoWindowObservable.true =this.infoWindowObservable.true + 2;
+ 
+  this.changePage();
+  
+  
+  });
+  });
+  
 
 }, 
 
@@ -404,7 +445,7 @@ infoWindow.open(this.map, marker);
 
 }
 
-
+/*
 
 adddThirdPartyMarkers(markers){
 
@@ -441,6 +482,7 @@ adddThirdPartyMarkers(markers){
            
     }
 }
+*/
 
 removeMarkers(){
     
@@ -471,20 +513,32 @@ removeMarkers(){
 geocodeAddress(address){
 
 this.markerButton = '<div class="infowindow"><p id="tap">Add Node</p></div>';
+this.deleteMarkerButton = '<button id="deleteButton">Delete</button>';
 this.geocoder = new google.maps.Geocoder();
 var iconBase = "assets/imgs/green_markerN.png";
 this.geocoder.geocode({'address': address}, (results, status) => {
 
 if (status === 'OK') {
-    
+
     this.map.setCenter(results[0].geometry.location);
     this.markerApp = new google.maps.Marker({
       map: this.map,
       position: results[0].geometry.location,
       draggable: true,
-      icon: iconBase
+      icon: iconBase,
+      id: this.counter
 
     });
+
+ this.addNodeClicked = true;
+  
+   
+ 
+    
+
+
+
+    console.log(this.markerApp);
     this.latLngToAddress();
     console.log("hello");
     this.node.address = results[0].geometry.location
@@ -497,11 +551,37 @@ if (status === 'OK') {
         this.removeMarkers();
         this.latLngToAddress();
         this.addMarkerButton();
-       
-
-        
+        this.disabled = false;
         
     });
+
+    google.maps.event.addListener(this.markerApp, 'click', () => {
+      
+  
+      if (this.isInfoWindowOpen(this.infoWindow)){
+      
+    } else {
+      this.infoWindow.open(this.map,this.markerApp);
+    }
+      
+      
+  });
+
+    
+  google.maps.event.addListener(this.infoWindow, 'closeclick', () => {
+      
+    
+    if (this.isInfoWindowOpen(this.infoWindow)){
+      console.log("open")
+   } else {
+     this.infoWindow.open(this.map,this.markerApp);
+   }
+    
+});
+
+ 
+
+   
 
   } else {
     let alert = this.alertCtrl.create({
@@ -520,6 +600,10 @@ if (status === 'OK') {
         
         
         })
+
+    
+        
+
     
 }
 
@@ -542,10 +626,12 @@ this.geocoder.geocode({'latLng': latLngApp}, (results, status) => {
 
 if (status === 'OK') {
     
-    console.log(results[0].formatted_address);
+   // console.log(results[0].formatted_address);
+   console.log(results[0]);
     this.node.address = results[0].formatted_address;
     this.addMarkerButton();
-
+    
+      
     
   } else {
     let alert = this.alertCtrl.create({
@@ -562,13 +648,22 @@ if (status === 'OK') {
 
 
 });
+   
+
 
 }
 
 addMarkerButton(){
-this.infoWindow.setContent( this.markerButton + this.node.address);
-this.infoWindow.open(this.map,this.markerApp);
+this.infoWindow.setContent( this.markerButton + this.deleteMarkerButton + this.node.address);
+  
+if (this.isInfoWindowOpen(this.infoWindow)){
+       
+} else {
+  this.infoWindow.open(this.map,this.markerApp);
+}
+  
 
+/*
 google.maps.event.addListener(this.infoWindow, 'domready', () => {
 document.getElementById('tap').addEventListener('click', () => {
 //alert('Clicked');
@@ -581,15 +676,47 @@ this.changePage();
 
 });
 });
+*/
+
+google.maps.event.addListener(this.infoWindow, 'domready', () => {
+  document.getElementById('deleteButton').addEventListener('click', () => {
+    var button = document.getElementById('deleteButton');
+    this.markerApp.setMap(null);
+    
+
+      this.disabled = false;
+      console.log(this.disabled)
+      this.addNodeClicked = false;
+  
+
+
+    console.log("wadddduppppp");
+  
+  });
+  });
+
+ 
+
+
 
 }
 
+isInfoWindowOpen(infoWindow){
+  var map = this.infoWindow.getMap();
+  return (map !== null && typeof map !== "undefined");
+
+}      
+
 changePage(){
-
-if (this.infoWindowObservable.true %2 === 0){
- this.navCtrl.push("CreateNodePage");
+  console.log()
+console.log(this.infoWindowObservable)
+if (this.infoWindowObservable.true  === 2){
+ this.navCtrl.push("CreateNodePage", { 
+   param1: this.node.address
+ });
  console.log(this.infoWindowObservable.true);
-
+ this.infoWindowObservable.true = 0;
+ console.log(this.infoWindowObservable)
 }
 }
 

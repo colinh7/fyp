@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>createNode</ion-title>
+    <ion-title>Node Details</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -17,28 +17,38 @@
 
     <ion-item>
         <ion-label floating>Address</ion-label>
-        <ion-input type="text" [(ngModel)]="node.address"></ion-input>
+        <ion-input type="text" [(ngModel)]="node.address" [readonly] = true></ion-input>
     </ion-item>
     
     <ion-item>
         <ion-label>Charger Type</ion-label>
         <ion-select [(ngModel)]="node" multiple="false">
-          <ion-option value="node.type">CHadeMO</ion-option>
-          <ion-option value="node.type">EV</ion-option>
+          <ion-option value="node.chargerType.chademo">CHadeMO</ion-option>
+          <ion-option value="node.chargerType.ev
+          ">EV</ion-option>
         </ion-select>
     </ion-item>
     
     
     <ion-item>
         <ion-label>Available days of week</ion-label>
-        <ion-datetime [(ngModel)]="node" multiple="true">
+        <ion-select [(ngModel)]="node" multiple="true">
+            <ion-option value="node.availibilityDays.monday">Monday</ion-option>
+            <ion-option value="node.availibilityDays.tuesday">Tuesday</ion-option>
+            <ion-option value="node.availibilityDays.wednesday">Wednesday</ion-option>
+            <ion-option value="node.availibilityDays.thursday">Thursday</ion-option>
+            <ion-option value="node.availibilityDays.friday">Friday</ion-option>
+            <ion-option value="node.availibilityDays.saturday">Saturday</ion-option>
+            <ion-option value="node.availibilityDays.sunday">Sunday</ion-option>
+
+          </ion-select>
         
-        </ion-datetime>
+    
     </ion-item>
    
     <ion-item>
         <ion-label>Available Start Time</ion-label>
-        <ion-datetime displayFormat="HH" [(ngModel)]="node.availabilityTimeStart">
+        <ion-datetime displayFormat="HH:mm" [(ngModel)]="node.availabilityTimeStart" minuteValues="0, 10, 20, 30 ,40 ,50">
 
         </ion-datetime>    
          
@@ -46,7 +56,7 @@
 
     <ion-item>
         <ion-label>Available Start Time</ion-label>
-        <ion-datetime displayFormat="HH" [(ngModel)]="node.availabilityTimeStart">
+        <ion-datetime displayFormat="HH:mm" [(ngModel)]="node.availabilityTimeFinish" minuteValues="0, 10, 20, 30 ,40 ,50">
 
         </ion-datetime>        
          

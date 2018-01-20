@@ -21,17 +21,23 @@ export class CreateNodePage {
 
   user = {} as User;
   node = {} as Node;
+  
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+
+
+    this.node.address = navParams.get('param1');
+
   }
 
+  
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CreateNodePage');
   }
 
 createNode(){
-
+console.log(this.node.address)
 }
 
 
