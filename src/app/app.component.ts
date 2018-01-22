@@ -27,7 +27,7 @@ export class MyApp {
     });
 
    // this.presentLoading();
-/*
+
     this.afAuth.authState.subscribe(data => {
       
           if(data.email &&data.uid){
@@ -42,19 +42,16 @@ export class MyApp {
           
         }
 
- // presentLoading() {
+  presentLoading() {
 
-   // this.loader = this.loadingCtrl.create({
-     // content: "Authenticating"
-    //});
+    this.loader = this.loadingCtrl.create({
+      content: "Authenticating"
+    });
 
-   // this.loader.present();
-  //}
-  
-  
-}
-*/
+    this.loader.present();
   }
+  
+  
 }
 
-
+  

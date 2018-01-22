@@ -16,7 +16,7 @@ export class LoginPage {
  
   constructor(private afAuth:AngularFireAuth, private nav: NavController, private alertCtrl: AlertController, private loadingCtrl: LoadingController, public alert: AlertController) { }
  
- async login(){
+ async login(user){
    if(this.afAuth.auth.currentUser.emailVerified){
 try{
 const result = await this.afAuth.auth.signInWithEmailAndPassword(this.user.email,this.user.password)
