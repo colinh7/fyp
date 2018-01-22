@@ -5,7 +5,7 @@ import { MapPage } from '../map/map';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { NavController, AlertController, LoadingController, Loading, IonicPage } from 'ionic-angular';
 
-@IonicPage()
+
 @Component({
   templateUrl: 'tabs.html'
 })

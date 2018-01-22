@@ -336,7 +336,7 @@ let Connections;
    lng = marker.AddressInfo.Longitude;
    Title = marker.AddressInfo.Title;
    AddressLine1 = marker.AddressInfo.AddressLine1;
-   AddressLine2 = marker.AddressInfo.AddressLine2;
+  
    Town = marker.AddressInfo.Town;
    Country = marker.AddressInfo.Country.Title;
    GeneralComments = marker.GeneralComments;
@@ -345,7 +345,7 @@ let Connections;
    Membership = marker.UsageType.IsMembershipRequired;
    Connections = marker.Connections.ConnectionType.Title;
    NumberOfPoints = marker.NumberOfPoints;
-   //GeneralComments = marker.GeneralComments;
+   
  
    }catch(e){
 

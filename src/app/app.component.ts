@@ -1,5 +1,6 @@
+import { LoginPage } from './../pages/login/login';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { LoginPage } from '../pages/login/login';
+
 import { Component } from '@angular/core';
 import { LoadingController, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -27,7 +28,7 @@ export class MyApp {
     });
 
    // this.presentLoading();
-
+/*
     this.afAuth.authState.subscribe(data => {
       
           if(data.email &&data.uid){
@@ -42,16 +43,17 @@ export class MyApp {
           
         }
 
-  presentLoading() {
+ // presentLoading() {
 
-    this.loader = this.loadingCtrl.create({
-      content: "Authenticating"
-    });
+   // this.loader = this.loadingCtrl.create({
+     // content: "Authenticating"
+    //});
 
-    this.loader.present();
-  }
+   // this.loader.present();
+  //}
   
   
 }
-
-  
+*/
+  }
+}

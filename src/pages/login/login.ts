@@ -16,24 +16,28 @@ export class LoginPage {
  
   constructor(private afAuth:AngularFireAuth, private nav: NavController, private alertCtrl: AlertController, private loadingCtrl: LoadingController, public alert: AlertController) { }
  
- async login(user){
-   if(this.afAuth.auth.currentUser.emailVerified){
+ async login(){
+ //  if(this.afAuth.auth.currentUser.emailVerified){
 try{
 const result = await this.afAuth.auth.signInWithEmailAndPassword(this.user.email,this.user.password)
 console.log(result);
 if (result){
+  if(this.afAuth.auth.currentUser.emailVerified){
   this.nav.setRoot("TabsPage");
-}
-else{
+  console.log(this.afAuth.auth.currentUser);
+  }
+else if (!this.afAuth.auth.currentUser.emailVerified){
+  this.afAuth.auth.signOut();
   let alert2 = this.alert.create({
     title: 'Error',
     subTitle: "Your Email address has either not been verified or has not been registered, please enter a valid email",
     buttons: ['OK']
   });
-  
- 
+  alert2.present();
 }
 
+
+}
 }
 catch (error) {
  
@@ -46,7 +50,7 @@ catch (error) {
   alert.present();
 
 }
-}
+//}
 
  }
 
@@ -64,18 +68,3 @@ resetpwd(){
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
