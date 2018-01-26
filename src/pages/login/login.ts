@@ -1,3 +1,4 @@
+import { TabsPage } from './../tabs/tabs';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController, Loading, IonicPage } from 'ionic-angular';
@@ -23,7 +24,7 @@ const result = await this.afAuth.auth.signInWithEmailAndPassword(this.user.email
 console.log(result);
 if (result){
   if(this.afAuth.auth.currentUser.emailVerified){
-  this.nav.setRoot("TabsPage");
+  this.nav.setRoot(TabsPage);
   console.log(this.afAuth.auth.currentUser);
   }
 else if (!this.afAuth.auth.currentUser.emailVerified){

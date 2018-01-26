@@ -1,11 +1,14 @@
+import { NodeBookingPage } from './../pages/node-booking/node-booking';
 import { TabsPage } from './../pages/tabs/tabs';
 import { ProfilePage } from './../pages/profile/profile';
 import { LoginPage } from './../pages/login/login';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler, IonicPage } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { AuthService } from '../providers/auth/auth';
+import { Calendar } from '@ionic-native/calendar';
+import { NgCalendarModule  } from 'ionic2-calendar';
 
 
 
@@ -39,8 +42,10 @@ import { AngularFireAuthModule, AngularFireAuth } from "angularfire2/auth";
     myUsagePage,
     ProfilePage,
     LoginPage,
-    TabsPage
-
+    TabsPage,
+    NodeBookingPage,
+   
+    
   
  
    
@@ -50,7 +55,10 @@ import { AngularFireAuthModule, AngularFireAuth } from "angularfire2/auth";
     IonicModule.forRoot(MyApp),
     HttpModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    NgCalendarModule,
+  
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -62,7 +70,8 @@ import { AngularFireAuthModule, AngularFireAuth } from "angularfire2/auth";
     myNodeInfoPage,
     LoginPage,
     ProfilePage,
-    TabsPage
+    TabsPage,
+    NodeBookingPage
 
     
     
@@ -74,7 +83,10 @@ import { AngularFireAuthModule, AngularFireAuth } from "angularfire2/auth";
     AuthService,
     Geolocation,
     Network,
-    GoogleMaps
-  ]
+    GoogleMaps,
+
+    
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

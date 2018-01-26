@@ -1,3 +1,4 @@
+import { NodeBookingPage } from './../node-booking/node-booking';
 import { LoginPage } from './../login/login';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Component } from '@angular/core';
@@ -16,27 +17,40 @@ import { User } from '../../models/user';
 
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController, private afAuth: AngularFireAuth ) {
+  constructor(public navCtrl: NavController, private afAuth: AngularFireAuth) {
 
   }
 
-  viewAccountInfo(){
+  viewAccountInfo() {
     this.navCtrl.push(myAccountInfoPage)
-  
+
   }
-  viewMyNodes(){
+  viewMyNodes() {
     this.navCtrl.push(myNodesPage)
-  
+
   }
 
-  logout(){
+  logout() {
     this.afAuth.auth.signOut().then(() => {
       this.navCtrl.setRoot(LoginPage);
-    
 
-  
+
+
     });
 
-  
-}
+
+  }
+
+  nodeBooking() {
+    this.afAuth.auth.signOut().then(() => {
+      this.navCtrl.push(NodeBookingPage);
+
+
+
+    });
+
+
+  }
+
+
 }
