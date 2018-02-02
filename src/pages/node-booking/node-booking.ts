@@ -7,6 +7,8 @@ import { MonthViewComponent } from 'ionic2-calendar/monthview';
 import { WeekViewComponent } from 'ionic2-calendar/weekview';
 import { DayViewComponent } from 'ionic2-calendar/dayview';
 
+
+
 @Component({
   selector: 'page-node-booking',
   templateUrl: 'node-booking.html'
@@ -26,7 +28,7 @@ export class NodeBookingPage {
   constructor(public navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) { }
  
   addEvent() {
-    let modal = this.modalCtrl.create('UserEventsPage', {selectedDay: this.selectedDay});
+    let modal = this.modalCtrl.create('UserEventsPage', {selectedDay: this.selectedDay, eventTimes: this.eventSource});
     modal.present();
     modal.onDidDismiss(data => {
       if (data) {
@@ -40,6 +42,7 @@ export class NodeBookingPage {
         this.eventSource = [];
         setTimeout(() => {
           this.eventSource = events;
+          console.log(this.eventSource);
         });
       }
     });

@@ -60,6 +60,18 @@ export class MapPage {
 
   }
 
+  ionViewDidLoad() {
+    this.afAuth.authState.subscribe(data => console.log(data))
+
+    this.initMap(this.mapElement.nativeElement);
+    console.log("hello");
+    console.log('ionViewDidLoad hello');
+  }
+
+  ionViewWillEnter() {
+  }
+
+
 
   initMap(mapElement) {
     this.infoWindowObservable.true = 0;
@@ -106,14 +118,23 @@ export class MapPage {
       google.maps.event.addListenerOnce(this.map, 'idle', () => {
 
         this.loadThirdPartyMarkers();
+        this.loadAppMarkers();
 
 
         google.maps.event.addListener(this.map, 'dragend', () => {
           this.loadThirdPartyMarkers();
           this.removeMarkers();
+          this.loadAppMarkers();
 
 
         });
+
+      });
+
+      google.maps.event.addListenerOnce(this.map, 'dragend', () => {
+
+
+
 
       });
 
@@ -147,18 +168,107 @@ export class MapPage {
 
   }
 
+  loadAppMarkers() {
 
 
-  ionViewDidLoad() {
-    this.afAuth.authState.subscribe(data => console.log(data))
+    this.http.get('http://localhost:80/data_marker/appMarkerData.php')
+      .map(res => res.json())
+      .subscribe(appMarkers => {
 
-    this.initMap(this.mapElement.nativeElement);
-    console.log("hello");
-    console.log('ionViewDidLoad hello');
+        this.appMarkers = appMarkers;
+        console.log(this.appMarkers);
+        console.log("yo")
+
+        if (appMarkers == null) {
+          console.log("problem");
+        }
+        this.addAppMarkers(appMarkers);
+
+      });
   }
 
-  ionViewWillEnter() {
+  addAppMarkers(markers) {
+console.log("loadingAppMarkers")
+    let thirdPartyMarker;
+    let markerLatLng;
+    let lat;
+    let lng;
+    let address;
+    let Title;
+    let AddressLine1;
+    let AddressLine2;
+    let Town;
+    let StateOrProvince;
+    let Country;
+    let Membership;
+    let NumberOfPoints;
+    let GeneralComments;
+    let Connections;
+
+    for (let marker of markers) {
+
+      lat = marker.lat;
+      lng = marker.lng;
+      Title = marker.name;
+      AddressLine1 = marker.address
+/*
+      Town = marker.AddressInfo.Town;
+      //Country = marker.AddressInfo.Country.Title;
+      //GeneralComments = marker.GeneralComments;
+
+      try {
+        Membership = marker.UsageType.IsMembershipRequired;
+        Connections = marker.Connections.ConnectionType.Title;
+        NumberOfPoints = marker.NumberOfPoints;
+
+
+      } catch (e) {
+
+      }
+*/
+      address = Title.toString() + ", " + AddressLine1.toString(); //+ ", " + Town.toString() + ", " + Country + ". Membership Required: " + Membership + " Connections: " + Connections + " Number of Points: " + NumberOfPoints + " General Comments: " + GeneralComments;
+
+
+      markerLatLng = new google.maps.LatLng(lat, lng);
+
+      if (!this.markerExists(lat, lng)) {
+
+
+        marker = new google.maps.Marker({
+          map: this.map,
+          animation: google.maps.Animation.DROP,
+          position: markerLatLng,
+          clickable: true,
+          icon: "assets/imgs/green_markerN.png"
+
+        });
+
+
+        google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
+          return function () {
+            infowindow.setContent(content);
+            infowindow.open(map, marker);
+          };
+        })(marker, address, this.thirdPartyMarkerInfoWindow));
+
+
+
+        let markerData = {
+          lat: lat,
+          lng: lng,
+          marker: marker
+        };
+
+
+       // this.existingThirdPartyMarkers.push(markerData);
+      }
+
+
+
+
+    }
   }
+
 
 
   addNode() {
