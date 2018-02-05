@@ -10,6 +10,9 @@ import { ToastController } from 'ionic-angular/components/toast/toast-controller
 //import { GoogleMaps } from '../../providers/google-maps';
 import { Node } from '../../models/node'
 import { Content } from 'ionic-angular/components/content/content';
+import { CreateNodePage } from '../create-node/create-node';
+import { NodeBookingPage } from '../node-booking/node-booking';
+import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 
 
 
@@ -17,7 +20,6 @@ import { Content } from 'ionic-angular/components/content/content';
 declare var google;
 declare var map;
 declare var message;
-
 
 
 @Component({
@@ -38,8 +40,8 @@ export class MapPage {
   geocoder: any;
   markerApp: any;
   lngApp: any;
-  latApp: any;
-  latLngApp: any;
+  //latApp: any;
+  //latLngApp: any;
   infoWindow: any = new google.maps.InfoWindow({
     size: new google.maps.Size(150, 300)
   })
@@ -48,10 +50,15 @@ export class MapPage {
   counter = 0;
   appMarkers = [];
   disabled: boolean;
-  infoWindowChecker: number;
+  //infoWindowChecker: number;
   addNodeClicked: boolean;
   thirdPartyMarkerInfoWindow: any = new google.maps.InfoWindow();
-
+  dbMarker: any;
+  appInfoWindow: any = new google.maps.InfoWindow({
+    size: new google.maps.Size(150, 300)
+  })
+  eventPageButton: any;
+  appMarker: any;
 
   constructor(public events: Events, private afAuth: AngularFireAuth, public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network) {
 
@@ -101,18 +108,15 @@ export class MapPage {
         fullscreenControl: false,
         rotateControl: false,
         mapTypeControl: false,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        clickableIcons: false,
       };
 
       this.map = new google.maps.Map(mapElement, mapOptions);
 
 
-      //google.maps.event.addListener(this.markerApp, 'dragend', () => {
-      //  var positionApp = this.markerApp.getPosition();
-      //this.latLngToAddress(positionApp);
-      // console.log(positionApp);
 
-      //  });
+
 
 
       google.maps.event.addListenerOnce(this.map, 'idle', () => {
@@ -123,7 +127,7 @@ export class MapPage {
 
         google.maps.event.addListener(this.map, 'dragend', () => {
           this.loadThirdPartyMarkers();
-          this.removeMarkers();
+          // this.removeMarkers();
           this.loadAppMarkers();
 
 
@@ -141,6 +145,7 @@ export class MapPage {
       google.maps.event.addListener(this.map, 'click', () => {
         this.thirdPartyMarkerInfoWindow.close();
         console.log("close");
+        this.appInfoWindow.close();
       });
 
       google.maps.event.addListener(this.infoWindow, 'domready', () => {
@@ -151,11 +156,33 @@ export class MapPage {
 
           this.infoWindowObservable.true = this.infoWindowObservable.true + 2;
 
-          this.changePage();
+          this.loadCreateNodePage();
+
 
 
         });
+
+
       });
+
+      google.maps.event.addListener(this.appInfoWindow, 'domready', () => {
+        document.getElementById('book').addEventListener('click', () => {
+
+          this.navCtrl.push(NodeBookingPage);
+
+
+        });
+
+
+      });
+
+
+
+
+
+
+
+
 
 
     },
@@ -187,8 +214,9 @@ export class MapPage {
       });
   }
 
+
   addAppMarkers(markers) {
-console.log("loadingAppMarkers")
+    console.log("loadingAppMarkers")
     let thirdPartyMarker;
     let markerLatLng;
     let lat;
@@ -204,31 +232,39 @@ console.log("loadingAppMarkers")
     let NumberOfPoints;
     let GeneralComments;
     let Connections;
+    var bookButton;
+    let chargertype;
 
     for (let marker of markers) {
 
-      lat = marker.lat;
-      lng = marker.lng;
-      Title = marker.name;
-      AddressLine1 = marker.address
-/*
-      Town = marker.AddressInfo.Town;
-      //Country = marker.AddressInfo.Country.Title;
-      //GeneralComments = marker.GeneralComments;
-
       try {
-        Membership = marker.UsageType.IsMembershipRequired;
-        Connections = marker.Connections.ConnectionType.Title;
-        NumberOfPoints = marker.NumberOfPoints;
 
-
-      } catch (e) {
+        lat = marker.lat;
+        lng = marker.lng;
+        Title = marker.name;
+        AddressLine1 = marker.address
+        chargertype = marker.chargerType
+        /*
+              Town = marker.AddressInfo.Town;
+              //Country = marker.AddressInfo.Country.Title;
+              //GeneralComments = marker.GeneralComments;
+        
+              try {
+                Membership = marker.UsageType.IsMembershipRequired;
+                Connections = marker.Connections.ConnectionType.Title;
+                NumberOfPoints = marker.NumberOfPoints;
+        
+        
+              } catch (e) {
+        
+              }
+        */
+        address = Title.toString() + ", " + AddressLine1.toString(); //+ ", " + Town.toString() + ", " + Country + ". Membership Required: " + Membership + " Connections: " + Connections + " Number of Points: " + NumberOfPoints + " General Comments: " + GeneralComments;
 
       }
-*/
-      address = Title.toString() + ", " + AddressLine1.toString(); //+ ", " + Town.toString() + ", " + Country + ". Membership Required: " + Membership + " Connections: " + Connections + " Number of Points: " + NumberOfPoints + " General Comments: " + GeneralComments;
+      catch (error) {
 
-
+      }
       markerLatLng = new google.maps.LatLng(lat, lng);
 
       if (!this.markerExists(lat, lng)) {
@@ -244,12 +280,20 @@ console.log("loadingAppMarkers")
         });
 
 
-        google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
+        bookButton = '<button id="book">Book</button>';
+
+
+        google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow) {
           return function () {
-            infowindow.setContent(content);
-            infowindow.open(map, marker);
+            appInfoWindow.setContent(bookButton + " " + "Address: " + AddressLine1 + " Connection Type: " + chargertype);
+            appInfoWindow.open(map, marker);
+
+
+
+
           };
-        })(marker, address, this.thirdPartyMarkerInfoWindow));
+        })(marker, address, this.appInfoWindow));
+
 
 
 
@@ -260,7 +304,7 @@ console.log("loadingAppMarkers")
         };
 
 
-       // this.existingThirdPartyMarkers.push(markerData);
+        this.existingThirdPartyMarkers.push(markerData);
       }
 
 
@@ -328,10 +372,7 @@ console.log("loadingAppMarkers")
       alert.onDidDismiss(() => {
 
         this.geocodeAddress(this.node.address);
-        //if (this.infoWindowObservable.true === 1){
-        //this.navCtrl.push("CreatNodePage");
 
-        //}
 
       })
 
@@ -391,36 +432,6 @@ console.log("loadingAppMarkers")
       });
   }
 
-  /*
-  
-  removeMarkers(){
-  
-  let center = this.map.getCenter(),
-  bounds = this.map.getBounds(),
-  zoom = this.map.getZoom();
-  
-  // Convert to readable format
-  let centerNorm = {
-  latCenter: center.lat(),
-  lngCenter: center.lng()
-  };
-  
-  
-  
-  if (this.existingThirdPartyMarkers.length > 100){
-  
-  for( let i = 0; i < 50; i++){
-  this.existingThirdPartyMarkers[i].marker.setMap(null)
-  this.existingThirdPartyMarkers.shift(1);
-  }
-  
-  }
-  }
-  
-  
-  
-  
-  */
 
   addThirdPartyMarkers(markers) {
 
@@ -457,12 +468,12 @@ console.log("loadingAppMarkers")
         NumberOfPoints = marker.NumberOfPoints;
 
 
+
+        address = Title.toString() + ", " + AddressLine1.toString() + ", " + Town.toString() + ", " + Country + ". Membership Required: " + Membership + " Connections: " + Connections + " Number of Points: " + NumberOfPoints + " General Comments: " + GeneralComments;
+
       } catch (e) {
 
       }
-
-      address = Title.toString() + ", " + AddressLine1.toString() + ", " + Town.toString() + ", " + Country + ". Membership Required: " + Membership + " Connections: " + Connections + " Number of Points: " + NumberOfPoints + " General Comments: " + GeneralComments;
-
 
       markerLatLng = new google.maps.LatLng(lat, lng);
 
@@ -478,12 +489,17 @@ console.log("loadingAppMarkers")
         });
 
 
-        google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
+        google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow, openWindow) {
           return function () {
             infowindow.setContent(content);
             infowindow.open(map, marker);
+            var close = function () {
+              this.isInfoWindowOpen()
+            }
+
+
           };
-        })(marker, address, this.thirdPartyMarkerInfoWindow));
+        })(marker, address, this.thirdPartyMarkerInfoWindow, this.appInfoWindow));
 
 
 
@@ -504,22 +520,13 @@ console.log("loadingAppMarkers")
   }
 
 
-  /*
-  addThirdPartyMarkerInfoWindow(marker){
-  
-  var thirdPartyMarker.info;
-  for(var i = this.existingThirdPartyMarkers; i<this.existingThirdPartyMarkers.length;i++)
-  thirdPartyMarkerInfoWindow = new google.maps.InfoWindow({
-    content: 'knots'
-  });
-  
-  google.maps.event.addListener(marker, 'click', () => {
-    thirdPartyMarkerInfoWindow.open(this.map, marker);
-    console.log("heyy");
-  });
-  
+  closeAppInfoWIndow() {
+    if (this.isInfoWindowOpen(this.appInfoWindow)) {
+
+      this.appInfoWindow.close();
+    }
+
   }
-  */
 
   markerExists(lat, lng) {
 
@@ -613,74 +620,37 @@ console.log("loadingAppMarkers")
   }
 
 
+
   /*
+    removeMarkers() {
   
-  adddThirdPartyMarkers(markers){
+      let center = this.map.getCenter(),
+        bounds = this.map.getBounds(),
+        zoom = this.map.getZoom();
   
-      let marker;
-      let markerLatLng;
-      let lat;
-      let lng;
+      // Convert to readable format
+      let centerNorm = {
+        latCenter: center.lat(),
+        lngCenter: center.lng()
+      };
   
-       for(let marker of markers) {
-                
-         lat = marker.AddressInfo.Latitude;
-         lng = marker.AddressInfo.Longitude;
-   
-        markerLatLng = new google.maps.LatLng(lat, lng);
-   
-          if(!this.markerExists(lat, lng)){
-   
-              marker = new google.maps.Marker({
-                  map: this.map,
-                  animation: google.maps.Animation.DROP,
-                  position: markerLatLng
-              });
-     
-              let markerData = {
-                  lat: lat,
-                  lng: lng,
-                  marker: marker
-              };
-   
-            this.existingAppMarkers.push(markerData);
-        
-         }
-      
-             
+  
+  
+      if (this.existingThirdPartyMarkers.length > 100) {
+  
+        for (let i = 0; i < 20; i++) {
+          this.existingThirdPartyMarkers[i].marker.setMap(null)
+          this.existingThirdPartyMarkers.shift(1);
+        }
+  
       }
-  }
-  */
-
-  removeMarkers() {
-
-    let center = this.map.getCenter(),
-      bounds = this.map.getBounds(),
-      zoom = this.map.getZoom();
-
-    // Convert to readable format
-    let centerNorm = {
-      latCenter: center.lat(),
-      lngCenter: center.lng()
-    };
-
-
-
-    if (this.existingThirdPartyMarkers.length > 200) {
-
-      for (let i = 0; i < 100; i++) {
-        this.existingThirdPartyMarkers[i].marker.setMap(null)
-        this.existingThirdPartyMarkers.shift(1);
-      }
-
     }
-  }
-
+  */
 
 
   geocodeAddress(address) {
 
-    this.markerButton = '<div class="infowindow"><p id="tap">Add Node</p></div>';
+    this.markerButton = '<button id="tap">Add Node</button>';
     this.deleteMarkerButton = '<button id="deleteButton">Delete</button>';
     this.geocoder = new google.maps.Geocoder();
     var iconBase = "assets/imgs/green_markerN.png";
@@ -699,24 +669,13 @@ console.log("loadingAppMarkers")
         });
 
         this.addNodeClicked = true;
-
-
-
-
-
-
-
-        console.log(this.markerApp);
         this.latLngToAddress();
-        console.log("hello");
         this.node.address = results[0].geometry.location
-        console.log(this.node.address);
-        console.log("icon");
         this.addMarkerButton();
 
         google.maps.event.addListener(this.markerApp, 'dragend', () => {
           this.loadThirdPartyMarkers();
-          this.removeMarkers();
+          //   this.removeMarkers();
           this.latLngToAddress();
           this.addMarkerButton();
           this.disabled = false;
@@ -786,6 +745,7 @@ console.log("loadingAppMarkers")
 
     var latApp = this.markerApp.position;
     var latLngApp = this.markerApp.position;
+    console.log(latLngApp)
 
 
     this.geocoder = new google.maps.Geocoder();
@@ -796,8 +756,12 @@ console.log("loadingAppMarkers")
 
         // console.log(results[0].formatted_address);
         console.log(results[0]);
+        console.log(results[0].geometry.viewport.b.b);
         this.node.address = results[0].formatted_address;
+        this.node.lng = results[0].geometry.viewport.b.b
+        this.node.lat = results[0].geometry.viewport.f.b
         this.addMarkerButton();
+
 
 
 
@@ -831,20 +795,7 @@ console.log("loadingAppMarkers")
     }
 
 
-    /*
-    google.maps.event.addListener(this.infoWindow, 'domready', () => {
-    document.getElementById('tap').addEventListener('click', () => {
-    //alert('Clicked');
-    console.log("touch");
-    
-    console.log(this.infoWindowObservable.true);
-    this.infoWindowObservable.true =this.infoWindowObservable.true + 1;
-    console.log(this.infoWindowObservable.true);
-    this.changePage();
-    
-    });
-    });
-    */
+
 
     google.maps.event.addListener(this.infoWindow, 'domready', () => {
       document.getElementById('deleteButton').addEventListener('click', () => {
@@ -874,167 +825,22 @@ console.log("loadingAppMarkers")
 
   }
 
-  changePage() {
+  loadCreateNodePage() {
     console.log()
     console.log(this.infoWindowObservable)
     if (this.infoWindowObservable.true === 2) {
       this.navCtrl.push("CreateNodePage", {
-        param1: this.node.address
+        param1: this.node.address,
+        param2: this.node.lat,
+        param3: this.node.lng
+
       });
-      console.log(this.infoWindowObservable.true);
+      console.log("observe" + this.infoWindowObservable.true);
       this.infoWindowObservable.true = 0;
       console.log(this.infoWindowObservable)
+      console.log("heheyey " + this.node.lat)
     }
   }
 
 
-  //this.navCtrl.push("CreateNodePage");
-  /*
-    let alert = this.alertCtrl.create({
-    title: 'Create A Charging Point',
-    subTitle: "Please enter the address of the node you wish to create",
-    inputs: [
-        {
-        name: 'address',
-        placeholder: 'Node Address' 
-    },
-        {
-        type:'radio',
-        name: 'number of nodes',
-        placeholder: 'Number of nodes' 
-    }
-    ],
-    buttons: [
-        {
-        text:'Next',
-        role: 'OK',
-        handler: data => {
-          this.alertCtrl.create
-        }
-},
-        {
-        text: 'Cancel',
-        role:  'Cancel'}
-]
-
-  });
-
-  alert.present();
-
-
-
-  
-  }
-  
-/*
-
-  loadMap(){
-    
-    this.geolocation.getCurrentPosition().then((position) => {
-
-    let defaultLatLng = new google.maps.LatLng(40.4040 , 60.4040);
-
-    let defaultMapOptions = {
-      center: defaultLatLng,
-      zoom: 7,
-      streetViewControl: false,
-      fullscreenControl: false,
-      rotateControl: false,
-      mapTypeControl:false,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-
-    let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    
-    let mapOptions = {
-      center: latLng,
-      zoom: 14,
-      streetViewControl: false,
-      fullscreenControl: false,
-      rotateControl: false,
-      mapTypeControl:false,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-
- 
-
-  }, 
-  
-
-  );
-
- 
-
-  }
-
-  getMarkers(lng,lat,maxDistance){
-    
-    this.http.get('https://api.openchargemap.io/v2/poi/?output=json&longitude='+lng+'&latitude='+lat+'&distance='+maxDistance+'&countrycode=IRL&maxresults=1000')
-    .map(res => res.json())
-    .subscribe(data => {
- 
-            
-            this.addThirdPartyMarkersToMap(data);
- 
-        });
-}
-
-
-  getThirdPartyMarkers(){
-
-    this.http.get('https://api.openchargemap.io/v2/poi/?output=json&countrycode=IRL&maxresults=1000')
-    .map(res => res.json())
-    .subscribe(data => {
-    
-      this.addThirdPartyMarkersToMap(data);
-   
-    });
-   
-
-  }
-
-  clear(){
-   // setMapOnAll(null);
-  }
-
-  addThirdPartyMarkersToMap(markers){
-    for(let marker of markers) {
-      var position = new google.maps.LatLng(marker.AddressInfo.Latitude, marker.AddressInfo.Longitude);
-      var dogwalkMarker = new google.maps.Marker({map: this.map, position: position}); //, Title: thirdPartyMarkers.Title});
-      dogwalkMarker.setMap(this.map);
-    }
-
-   
-  }
-
-  addMarker(){
-    
-     let marker = new google.maps.Marker({
-       map: this.map,
-       animation: google.maps.Animation.DROP,
-       position: this.map.getCenter()
-     });
-    
-     let content = "<h4>Information!</h4>";         
-    
-     this.addInfoWindow(marker, content);
-    
-   }
-
-   addInfoWindow(marker,content){
-    
-     let infoWindow = new google.maps.InfoWindow({
-       content
-     });
-    
-     google.maps.event.addListener(marker, 'click', () => {
-       infoWindow.open(this.map, marker);
-     });
-    
-   }
-
-*/
 }

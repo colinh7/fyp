@@ -9,5 +9,6 @@ export interface User {
     postalCode: any;
     password: string;
     displayName: string;
+    uuid: any;
 
 }

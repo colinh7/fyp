@@ -22,10 +22,7 @@ export interface Node {
     availabilityTimeStart: any;
     availabilityTimeFinish: any;
     contactNumber: number;
-    chargerType: {
-        chademo: string;
-        ev: string;
-    }
+    chargerType: any;
 
 }
 
