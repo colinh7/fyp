@@ -1,3 +1,4 @@
+import { User } from './../../providers/auth/auth';
 import { InfoWindowObservable } from './../../models/infoWindowObservable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Http } from '@angular/http';
@@ -59,19 +60,21 @@ export class MapPage {
   })
   eventPageButton: any;
   appMarker: any;
-
+  authState: any = null;
   constructor(public events: Events, private afAuth: AngularFireAuth, public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network) {
 
-
+    this.afAuth.authState.subscribe((auth) => {
+      this.authState = auth
+    });
 
 
   }
 
   ionViewDidLoad() {
-    this.afAuth.authState.subscribe(data => console.log(data))
-
+   
+   
     this.initMap(this.mapElement.nativeElement);
-    console.log("hello");
+    
     console.log('ionViewDidLoad hello');
   }
 
@@ -216,7 +219,7 @@ export class MapPage {
 
 
   addAppMarkers(markers) {
-    console.log("loadingAppMarkers")
+
     let thirdPartyMarker;
     let markerLatLng;
     let lat;
@@ -234,6 +237,8 @@ export class MapPage {
     let Connections;
     var bookButton;
     let chargertype;
+    let start;
+    let finish;
 
     for (let marker of markers) {
 
@@ -244,6 +249,12 @@ export class MapPage {
         Title = marker.name;
         AddressLine1 = marker.address
         chargertype = marker.chargerType
+        start = marker.startTime;
+        var startSplit = start.split(":");
+        var startFormat = startSplit[0] + ":" + startSplit[1];
+        finish = marker.finishTime;
+        var finishSplit = finish.split(":");
+        var finishFormat = finishSplit[0] + ":" + finishSplit[1];
         /*
               Town = marker.AddressInfo.Town;
               //Country = marker.AddressInfo.Country.Title;
@@ -259,7 +270,7 @@ export class MapPage {
         
               }
         */
-        address = Title.toString() + ", " + AddressLine1.toString(); //+ ", " + Town.toString() + ", " + Country + ". Membership Required: " + Membership + " Connections: " + Connections + " Number of Points: " + NumberOfPoints + " General Comments: " + GeneralComments;
+        address = Title + ", " + AddressLine1 + "Available from: " + startFormat + "- " + finishFormat;
 
       }
       catch (error) {
@@ -285,7 +296,7 @@ export class MapPage {
 
         google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow) {
           return function () {
-            appInfoWindow.setContent(bookButton + " " + "Address: " + AddressLine1 + " Connection Type: " + chargertype);
+            appInfoWindow.setContent(bookButton + " " + address);
             appInfoWindow.open(map, marker);
 
 
@@ -457,7 +468,6 @@ export class MapPage {
       lng = marker.AddressInfo.Longitude;
       Title = marker.AddressInfo.Title;
       AddressLine1 = marker.AddressInfo.AddressLine1;
-
       Town = marker.AddressInfo.Town;
       Country = marker.AddressInfo.Country.Title;
       GeneralComments = marker.GeneralComments;
@@ -466,14 +476,14 @@ export class MapPage {
         Membership = marker.UsageType.IsMembershipRequired;
         Connections = marker.Connections.ConnectionType.Title;
         NumberOfPoints = marker.NumberOfPoints;
-
-
-
-        address = Title.toString() + ", " + AddressLine1.toString() + ", " + Town.toString() + ", " + Country + ". Membership Required: " + Membership + " Connections: " + Connections + " Number of Points: " + NumberOfPoints + " General Comments: " + GeneralComments;
-
       } catch (e) {
 
       }
+
+
+
+        address = Title + ", " + AddressLine1 + ", " + Town + ", " + Country + ". Membership Required: " + Membership +" Connections: " + Connections + " Number of Points: " + NumberOfPoints + " General Comments: " + GeneralComments;
+
 
       markerLatLng = new google.maps.LatLng(lat, lng);
 
@@ -487,7 +497,7 @@ export class MapPage {
           clickable: true,
 
         });
-
+console.log()
 
         google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow, openWindow) {
           return function () {

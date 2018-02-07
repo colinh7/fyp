@@ -1,9 +1,9 @@
+import { User } from './../../models/user';
 import { Http } from '@angular/http';
 import { LoginPage } from './../login/login';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { User } from '../../models/user';
 import { AngularFireAuth } from "angularfire2/auth"
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 import firebase from 'firebase';
@@ -22,6 +22,8 @@ import firebase from 'firebase';
 })
 export class RegisterPage {
 
+authState: any = null;
+
   ionViewDidLoad() {
 
   }
@@ -31,6 +33,11 @@ export class RegisterPage {
 
   constructor(private afAuth: AngularFireAuth, public http: Http,
     public navCtrl: NavController, public navParams: NavParams, public alert: AlertController) {
+
+      this.afAuth.authState.subscribe((auth) => {
+        this.authState = auth
+      });
+
   }
 
 
@@ -66,7 +73,7 @@ export class RegisterPage {
 
               this.navCtrl.setRoot(LoginPage);
               
-              
+              console.log(this.afAuth.auth.currentUser.email)
 
 
             })
