@@ -1,13 +1,17 @@
+
+
+
+
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>
       {{ viewTitle }}
     </ion-title>
     <ion-buttons end>
-        <button ion-button [disabled]="isToday" (click)="today()">Today</button>
-        <button ion-button (click)="changeMode('month')">M</button>
-        <button ion-button (click)="changeMode('week')">W</button>
-        <button ion-button (click)="changeMode('day')">D</button>
+        <button ion-button [disabled]="isToday" (click)="today(); click()">Today</button>
+        <button ion-button (click)="changeMode('month'); click()">M</button>
+        <button ion-button (click)="changeMode('week'); click()">W</button>
+        <button ion-button (click)="changeMode('day'); click()">D</button>
       <button ion-button icon-only (click)="addEvent()">
         <ion-icon name="add"></ion-icon>
       </button>
@@ -24,10 +28,10 @@
         (onEventSelected)="onEventSelected($event)"
         (onTitleChanged)="onViewTitleChanged($event)"
         (onTimeSelected)="onTimeSelected($event)"
-        step="30"
-        class="calendar"
-        formatHourColumn= HH>
-        
+        step= "10"
+        formatHourColumn= HH:MM
+        formatWeekTitle = MMMM yyyy
+       >
 
       </calendar>
 </ion-content>

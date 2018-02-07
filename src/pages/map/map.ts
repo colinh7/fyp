@@ -172,6 +172,11 @@ export class MapPage {
         document.getElementById('book').addEventListener('click', () => {
 
           this.navCtrl.push(NodeBookingPage);
+          
+
+          
+
+
 
 
         });
@@ -197,6 +202,7 @@ export class MapPage {
 
 
   }
+  
 
   loadAppMarkers() {
 
