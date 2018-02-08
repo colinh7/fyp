@@ -36,7 +36,9 @@
 
 <ion-item>
   <p *ngIf="this.overlap === true "> Your Booking Time overlaps with another. Please choose A free time slot </p>
-  <p *ngIf="this.sameDate === false "> Your Booking is on 2 day. Please ensure your booking is on one day only </p>
+  <p *ngIf="this.sameDate === false "> Your Booking crosses 2 days. Please ensure your booking is on one day only </p>
+  <p *ngIf="this.greaterThan == true "> Your booking start time cannot be greater than the end time. </p>
+  <p *ngIf="this.equal == true "> Your booking start time cannot be the same as the end time. </p>
 
 </ion-item>
 

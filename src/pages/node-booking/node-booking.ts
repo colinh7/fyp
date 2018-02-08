@@ -26,19 +26,24 @@ export class NodeBookingPage {
 
   calendar = {
     mode: 'month',
-    currentDate: new Date()
+    currentDate: new Date(),
+    startHour: 10,
+    endHour: 20,
+    step: 30,
 
   };
 
   constructor(navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) {
 
-    this.startHour = "10";
-    this.endHour = "20";
+    this.startHour = 10;
+    this.endHour = 15;
 
   }
   ionViewDidLoad() {
 
-    //console.log(this.calendar.startHour
+    console.log(this.startHour)
+    console.log(this.calendar.startHour)
+
 
   }
 

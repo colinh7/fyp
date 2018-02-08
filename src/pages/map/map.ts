@@ -130,7 +130,7 @@ export class MapPage {
 
         google.maps.event.addListener(this.map, 'dragend', () => {
           this.loadThirdPartyMarkers();
-          // this.removeMarkers();
+          this.removeMarkers();
           this.loadAppMarkers();
 
 
@@ -276,7 +276,7 @@ export class MapPage {
         
               }
         */
-        address = Title + ", " + AddressLine1 + "Available from: " + startFormat + "- " + finishFormat;
+        address = AddressLine1 + "Available from: " + startFormat + "- " + finishFormat;
 
       }
       catch (error) {
@@ -439,7 +439,7 @@ export class MapPage {
 
   getThirdPartyMarkers(lng, lat, maxDistance) {
 
-    this.http.get('https://api.openchargemap.io/v2/poi/?output=json&longitude=' + lng + '&latitude=' + lat + '&distance=' + maxDistance + '&countrycode=IRL&maxresults=10')
+    this.http.get('https://api.openchargemap.io/v2/poi/?output=json&longitude=' + lng + '&latitude=' + lat + '&distance=' + maxDistance + '&countrycode=IRL&maxresults=30')
       .map(res => res.json())
       .subscribe(thirdPartyMarkers => {
 
@@ -637,7 +637,7 @@ console.log()
 
 
 
-  /*
+  
     removeMarkers() {
   
       let center = this.map.getCenter(),
@@ -652,16 +652,17 @@ console.log()
   
   
   
-      if (this.existingThirdPartyMarkers.length > 100) {
+      if (this.existingThirdPartyMarkers.length > 200) {
   
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 30; i++) {
           this.existingThirdPartyMarkers[i].marker.setMap(null)
           this.existingThirdPartyMarkers.shift(1);
+          console.log("removed")
         }
   
       }
     }
-  */
+  
 
 
   geocodeAddress(address) {
@@ -691,7 +692,7 @@ console.log()
 
         google.maps.event.addListener(this.markerApp, 'dragend', () => {
           this.loadThirdPartyMarkers();
-          //   this.removeMarkers();
+             this.removeMarkers();
           this.latLngToAddress();
           this.addMarkerButton();
           this.disabled = false;

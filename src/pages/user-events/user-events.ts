@@ -16,6 +16,8 @@ export class UserEventsPage {
   eventOptions = [];
   overlap: boolean = false;
   sameDate: boolean = true;
+  greaterThan: boolean = false;
+  equal: boolean = false;
 
   constructor(public navCtrl: NavController, private navParams: NavParams, public viewCtrl: ViewController, public alert: AlertController) {
     let preselectedDate = moment(this.navParams.get('selectedDay')).format();
@@ -25,7 +27,7 @@ export class UserEventsPage {
   }
 
   ionViewDidLoad() {
-    ;
+
   }
   cancel() {
     this.viewCtrl.dismiss();
@@ -45,40 +47,52 @@ export class UserEventsPage {
 
     try {
 
-      if (startFormat != endFormat) {
-        console.log("it works");
-        this.sameDate = false;
+      if (this.event.startTime > this.event.endTime) {
+        this.greaterThan = true;
+        console.log("greater");
       }
-      else if (this.eventOptions.length === 0) {
-        this.viewCtrl.dismiss(this.event);
-
+      else 
+      if (this.event.startTime == this.event.endTime) {
+        this.equal = true;
+        console.log("greater");
       }
-      else if (this.eventOptions.length != 0) {
-        console.log("not null");
-        console.log(this.eventOptions);
-        for (var i = 0; i < this.eventOptions.length; i++) {
-          if (this.event.startTime < this.eventOptions[i].endTime.toISOString() && this.event.startTime > this.eventOptions[i].endTime.toISOString()) {
-            console.log("not allowed");
-            this.overlap = true;
+      else
+        if (startFormat != endFormat) {
+          console.log("it works");
+          this.sameDate = false;
+        }
+        else if (this.eventOptions.length === 0) {
+          this.viewCtrl.dismiss(this.event);
 
-
-            //this.viewCtrl.dismiss();
-
-
-          } 
-          else if (this.event.endTime > this.eventOptions[i].startTime && this.event.endTime < this.eventOptions[i].endTime){
-            console.log("not allowed");
-            this.overlap = true;
-
-
-          }
-          else {
-            this.viewCtrl.dismiss(this.event);
-          }
         }
 
+        else if (this.eventOptions.length != 0) {
+          console.log("not null");
+          console.log(this.eventOptions);
+          for (var i = 0; i < this.eventOptions.length; i++) {
 
-      }
+            if (this.event.startTime < this.eventOptions[i].endTime.toISOString() && this.event.startTime > this.eventOptions[i].endTime.toISOString()) {
+              console.log("not allowed");
+              this.overlap = true;
+
+
+              //this.viewCtrl.dismiss();
+
+
+            }
+            else if (this.event.endTime > this.eventOptions[i].startTime && this.event.endTime < this.eventOptions[i].endTime) {
+              console.log("not allowed");
+              this.overlap = true;
+
+
+            }
+            else {
+              this.viewCtrl.dismiss(this.event);
+            }
+          }
+
+
+        }
 
     }
     catch (error) {
