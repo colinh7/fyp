@@ -1,3 +1,4 @@
+
 import { User } from './../../providers/auth/auth';
 import { InfoWindowObservable } from './../../models/infoWindowObservable';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -8,7 +9,6 @@ import { Geolocation } from '@ionic-native/geolocation';
 import 'rxjs/add/operator/map';
 import { Network } from '@ionic-native/network';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
-//import { GoogleMaps } from '../../providers/google-maps';
 import { Node } from '../../models/node'
 import { Content } from 'ionic-angular/components/content/content';
 import { CreateNodePage } from '../create-node/create-node';
@@ -21,6 +21,7 @@ import { IonicPage } from 'ionic-angular/navigation/ionic-page';
 declare var google;
 declare var map;
 declare var message;
+declare var bookable: any;
 
 
 @Component({
@@ -28,11 +29,13 @@ declare var message;
   templateUrl: 'map.html'
 })
 export class MapPage {
-
-  thirdPartyNodes: any;
+  self: any = this;
+  bookableNode: any = []
+  bookableNodeId: any;
   node = {} as Node;
   infoWindowObservable = {} as InfoWindowObservable;
-
+  chargerType: any
+  nodeOwnerId: any;
   @ViewChild('map') mapElement;
   map: any;
   existingThirdPartyMarkers: any = [];
@@ -71,17 +74,22 @@ export class MapPage {
   }
 
   ionViewDidLoad() {
-   
-   
+
+
     this.initMap(this.mapElement.nativeElement);
-    
-    console.log('ionViewDidLoad hello');
+
+
   }
 
   ionViewWillEnter() {
   }
 
+currentUser(){
 
+  console.log(this.afAuth.auth.currentUser.email);
+
+
+}
 
   initMap(mapElement) {
     this.infoWindowObservable.true = 0;
@@ -100,7 +108,7 @@ export class MapPage {
       };
 
 
-      console.log(this.disabled);
+
 
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
@@ -146,15 +154,15 @@ export class MapPage {
       });
 
       google.maps.event.addListener(this.map, 'click', () => {
+        
         this.thirdPartyMarkerInfoWindow.close();
-        console.log("close");
         this.appInfoWindow.close();
+
       });
 
       google.maps.event.addListener(this.infoWindow, 'domready', () => {
         document.getElementById('tap').addEventListener('click', () => {
-          //alert('Clicked');
-          console.log("touch");
+         
 
 
           this.infoWindowObservable.true = this.infoWindowObservable.true + 2;
@@ -171,11 +179,16 @@ export class MapPage {
       google.maps.event.addListener(this.appInfoWindow, 'domready', () => {
         document.getElementById('book').addEventListener('click', () => {
 
-          this.navCtrl.push(NodeBookingPage);
-          
+          this.navCtrl.push(NodeBookingPage, {
 
-          
+            param1: this.bookableNode,
+            param2: this.bookableNodeId,
+            param3: this.chargerType,
+            param4: this.nodeOwnerId
 
+          });
+          console.log("heyasdfuhg" + this.bookableNode)
+          console.log("IDDD " + this.nodeOwnerId);
 
 
 
@@ -202,7 +215,7 @@ export class MapPage {
 
 
   }
-  
+
 
   loadAppMarkers() {
 
@@ -226,7 +239,7 @@ export class MapPage {
 
   addAppMarkers(markers) {
 
-    let thirdPartyMarker;
+ 
     let markerLatLng;
     let lat;
     let lng;
@@ -242,46 +255,37 @@ export class MapPage {
     let GeneralComments;
     let Connections;
     var bookButton;
-    let chargertype;
+    let chargerType;
     let start;
     let finish;
+    var nodeOwnerId;
+    var id;
 
     for (let marker of markers) {
 
       try {
-
+        nodeOwnerId = marker.uuid;
+        id = marker.id;
         lat = marker.lat;
         lng = marker.lng;
         Title = marker.name;
         AddressLine1 = marker.address
-        chargertype = marker.chargerType
+        chargerType = marker.chargerType
         start = marker.startTime;
         var startSplit = start.split(":");
         var startFormat = startSplit[0] + ":" + startSplit[1];
         finish = marker.finishTime;
         var finishSplit = finish.split(":");
         var finishFormat = finishSplit[0] + ":" + finishSplit[1];
-        /*
-              Town = marker.AddressInfo.Town;
-              //Country = marker.AddressInfo.Country.Title;
-              //GeneralComments = marker.GeneralComments;
-        
-              try {
-                Membership = marker.UsageType.IsMembershipRequired;
-                Connections = marker.Connections.ConnectionType.Title;
-                NumberOfPoints = marker.NumberOfPoints;
-        
-        
-              } catch (e) {
-        
-              }
-        */
-        address = AddressLine1 + "Available from: " + startFormat + "- " + finishFormat;
+
+        address = AddressLine1 + ", Available from: " + startFormat + "- " + finishFormat;
 
       }
       catch (error) {
 
       }
+
+
       markerLatLng = new google.maps.LatLng(lat, lng);
 
       if (!this.markerExists(lat, lng)) {
@@ -292,24 +296,44 @@ export class MapPage {
           animation: google.maps.Animation.DROP,
           position: markerLatLng,
           clickable: true,
-          icon: "assets/imgs/green_markerN.png"
+          icon: "assets/imgs/green_markerN.png",
+          
 
         });
 
 
         bookButton = '<button id="book">Book</button>';
 
+        var self = this;
 
-        google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow) {
+
+        google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow, address, id, chargerType, nodeOwnerId ) {
           return function () {
-            appInfoWindow.setContent(bookButton + " " + address);
+            appInfoWindow.setContent(bookButton + " " + content);
             appInfoWindow.open(map, marker);
+
+            self.updateBookingNodeAddress(address, id, chargerType, nodeOwnerId);
+            console.log(bookButton + " " + "booke");
 
 
 
 
           };
-        })(marker, address, this.appInfoWindow));
+
+
+
+        })(marker, address, this.appInfoWindow, AddressLine1, id, chargerType, nodeOwnerId));
+
+
+
+        google.maps.event.addListener(marker, 'click', () => {
+
+
+
+
+        })
+
+
 
 
 
@@ -330,7 +354,13 @@ export class MapPage {
     }
   }
 
-
+  updateBookingNodeAddress(address, id, chargerType, nodeOwnerId) {
+    console.log(address);
+    this.bookableNode = address
+    this.bookableNodeId = id;
+    this.chargerType = chargerType;
+    this.nodeOwnerId = nodeOwnerId;
+  }
 
   addNode() {
 
@@ -343,7 +373,6 @@ export class MapPage {
             text: 'Cancel',
             role: 'cancel',
             handler: data => {
-              console.log('Cancel clicked');
             }
           },
 
@@ -488,7 +517,7 @@ export class MapPage {
 
 
 
-        address = Title + ", " + AddressLine1 + ", " + Town + ", " + Country + ". Membership Required: " + Membership +" Connections: " + Connections + " Number of Points: " + NumberOfPoints + " General Comments: " + GeneralComments;
+      address = Title + ", " + AddressLine1 + ", " + Town + ", " + Country + ". Membership Required: " + Membership + " Connections: " + Connections + " Number of Points: " + NumberOfPoints + " General Comments: " + GeneralComments;
 
 
       markerLatLng = new google.maps.LatLng(lat, lng);
@@ -503,7 +532,7 @@ export class MapPage {
           clickable: true,
 
         });
-console.log()
+
 
         google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow, openWindow) {
           return function () {
@@ -620,7 +649,7 @@ console.log()
     });
 
     if (alert) {
-      console.log("hello");
+
     }
 
 
@@ -637,32 +666,32 @@ console.log()
 
 
 
-  
-    removeMarkers() {
-  
-      let center = this.map.getCenter(),
-        bounds = this.map.getBounds(),
-        zoom = this.map.getZoom();
-  
-      // Convert to readable format
-      let centerNorm = {
-        latCenter: center.lat(),
-        lngCenter: center.lng()
-      };
-  
-  
-  
-      if (this.existingThirdPartyMarkers.length > 200) {
-  
-        for (let i = 0; i < 30; i++) {
-          this.existingThirdPartyMarkers[i].marker.setMap(null)
-          this.existingThirdPartyMarkers.shift(1);
-          console.log("removed")
-        }
-  
+
+  removeMarkers() {
+
+    let center = this.map.getCenter(),
+      bounds = this.map.getBounds(),
+      zoom = this.map.getZoom();
+
+    // Convert to readable format
+    let centerNorm = {
+      latCenter: center.lat(),
+      lngCenter: center.lng()
+    };
+
+
+
+    if (this.existingThirdPartyMarkers.length > 200) {
+
+      for (let i = 0; i < 30; i++) {
+        this.existingThirdPartyMarkers[i].marker.setMap(null)
+        this.existingThirdPartyMarkers.shift(1);
+
       }
+
     }
-  
+  }
+
 
 
   geocodeAddress(address) {
@@ -692,7 +721,7 @@ console.log()
 
         google.maps.event.addListener(this.markerApp, 'dragend', () => {
           this.loadThirdPartyMarkers();
-             this.removeMarkers();
+          this.removeMarkers();
           this.latLngToAddress();
           this.addMarkerButton();
           this.disabled = false;
@@ -716,7 +745,7 @@ console.log()
 
 
           if (this.isInfoWindowOpen(this.infoWindow)) {
-            console.log("open")
+
           } else {
             this.infoWindow.open(this.map, this.markerApp);
           }
@@ -762,7 +791,7 @@ console.log()
 
     var latApp = this.markerApp.position;
     var latLngApp = this.markerApp.position;
-    console.log(latLngApp)
+
 
 
     this.geocoder = new google.maps.Geocoder();
@@ -772,8 +801,7 @@ console.log()
       if (status === 'OK') {
 
         // console.log(results[0].formatted_address);
-        console.log(results[0]);
-        console.log(results[0].geometry.viewport.b.b);
+
         this.node.address = results[0].formatted_address;
         this.node.lng = results[0].geometry.viewport.b.b
         this.node.lat = results[0].geometry.viewport.f.b
@@ -821,7 +849,7 @@ console.log()
 
 
         this.disabled = false;
-        console.log(this.disabled)
+
         this.addNodeClicked = false;
 
 
@@ -843,8 +871,8 @@ console.log()
   }
 
   loadCreateNodePage() {
-    console.log()
-    console.log(this.infoWindowObservable)
+
+
     if (this.infoWindowObservable.true === 2) {
       this.navCtrl.push("CreateNodePage", {
         param1: this.node.address,
@@ -852,10 +880,9 @@ console.log()
         param3: this.node.lng
 
       });
-      console.log("observe" + this.infoWindowObservable.true);
+
       this.infoWindowObservable.true = 0;
-      console.log(this.infoWindowObservable)
-      console.log("heheyey " + this.node.lat)
+
     }
   }
 

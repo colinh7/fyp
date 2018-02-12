@@ -12,7 +12,7 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-input type="text" placeholder="Title" [(ngModel)]="event.title"></ion-input>
+      <ion-input type="text"  [(ngModel)]="this.nodeAddress" [readonly] = true ></ion-input>
     </ion-item>
 
     <ion-item>
@@ -35,10 +35,10 @@
   </button>
 
 <ion-item>
-  <p *ngIf="this.overlap === true "> Your Booking Time overlaps with another. Please choose A free time slot </p>
+  <p *ngIf="this.overlap === true "> Your Booking overlaps with another. Please choose A free time slot </p>
   <p *ngIf="this.sameDate === false "> Your Booking crosses 2 days. Please ensure your booking is on one day only </p>
-  <p *ngIf="this.greaterThan == true "> Your booking start time cannot be greater than the end time. </p>
-  <p *ngIf="this.equal == true "> Your booking start time cannot be the same as the end time. </p>
+  <p *ngIf="this.greaterThan == true ">Start time cannot be greater than the end time. </p>
+  <p *ngIf="this.equal == true ">Start time cannot be the same as end time. </p>
 
 </ion-item>
 

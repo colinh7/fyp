@@ -31,9 +31,9 @@
         (onTimeSelected)="onTimeSelected($event)"
         formatHourColumn= HH:mm
         formatWeekTitle = MMMM yyyy
-        [startHour]= "calendar.startHour"
-        [endHour]="calendar.endHour"
-      
+        [startHour]= "this.startHour"
+        [endHour]="this.endHour"
+        step = 15;
        >
 
       </calendar>

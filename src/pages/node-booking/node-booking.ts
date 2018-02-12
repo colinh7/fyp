@@ -1,4 +1,4 @@
-
+import { Http } from '@angular/http';
 import { Component } from '@angular/core';
 import { NavController, ModalController, AlertController } from 'ionic-angular';
 import * as moment from 'moment';
@@ -6,6 +6,8 @@ import { CalendarComponent } from 'ionic2-calendar/calendar';
 import { MonthViewComponent } from 'ionic2-calendar/monthview';
 import { WeekViewComponent } from 'ionic2-calendar/weekview';
 import { DayViewComponent } from 'ionic2-calendar/dayview';
+import { NavParams } from 'ionic-angular/navigation/nav-params';
+
 
 
 
@@ -23,26 +25,66 @@ export class NodeBookingPage {
   isToday: boolean;
   startHour: any;
   endHour: any;
-
+  nodeAddress: any;
+  nodeId: any;
+  chargerType: any;
+  nodeOwnerId;
   calendar = {
     mode: 'month',
     currentDate: new Date(),
-    startHour: 10,
-    endHour: 20,
+    startHour: 1,
+    endHour: 24,
     step: 30,
 
   };
 
-  constructor(navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) {
+  constructor(public http: Http, public navParams: NavParams, navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) {
 
-    this.startHour = 10;
+    var options = "TAKINITBACK";
+    var done = 'http://localhost/data_marker/nodeData.php?number=' + options;
+    
+    this.http.get('http://localhost/data_marker/nodeData.php?number=' 
+                    + options)
+    .map(res => res.json())
+    .subscribe(result => {
+
+
+    
+
+    });
+    
+    console.log(done);
+    
+    //.map(res => res.json())
+    //.subscribe(appMarkers => {
+
+      //this.appMarkers = appMarkers;
+      //console.log(this.appMarkers);
+      //console.log("yo")
+
+      //if (appMarkers == null) {
+       // console.log("problem");
+     // }
+      //this.addAppMarkers(appMarkers);
+
+   // });
+    //});
+
+    this.startHour = 0;
     this.endHour = 15;
+    this.nodeAddress = navParams.get('param1');
+    this.nodeId = navParams.get('param2');
+    this.chargerType = navParams.get('param3');
+    this.nodeOwnerId = navParams.get('param4');
+    
+
 
   }
   ionViewDidLoad() {
 
     console.log(this.startHour)
     console.log(this.calendar.startHour)
+    console.log(this.nodeAddress);
 
 
   }
@@ -55,10 +97,11 @@ export class NodeBookingPage {
 
 
   addEvent() {
-    let modal = this.modalCtrl.create('UserEventsPage', { selectedDay: this.selectedDay, eventTimes: this.eventSource });
+    let modal = this.modalCtrl.create('UserEventsPage', { selectedDay: this.selectedDay, eventTimes: this.eventSource, nodeAddress: this.nodeAddress, chargerType: this.chargerType, nodeOwnerId: this.nodeOwnerId });
+    console.log(this.nodeAddress)
     modal.present();
     modal.onDidDismiss(data => {
-      
+    
       if (data) {
         let eventData = data;
 

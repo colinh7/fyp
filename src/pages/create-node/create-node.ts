@@ -25,6 +25,7 @@ export class CreateNodePage {
   user = {} as User;
   node = {} as Node;
   authState: any = null;
+  start: any;
 
 
   constructor(private afAuth: AngularFireAuth, public alert: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
@@ -49,18 +50,36 @@ export class CreateNodePage {
   }
 
   createNode(): void {
-    if (this.node.chargerType != null && this.node.availabilityTimeStart != null) {
+
+
+   console.log(this.node.availabilityTimeFinish)
+
+  
+   if (this.node.chargerType != null && this.node.availabilityTimeStart != null) {
+
+  
+  
+  
+      
+      console.log(this.node.availabilityTimeStart);
+      console.log(this.node.availabilityTimeFinish);
+      console.log("hello");
+
+
       if (this.node.availabilityTimeStart < this.node.availabilityTimeFinish) {
 
-        let options: any = { "key": "create", "chargerType": this.node.chargerType, "lat": this.node.lat, "lng": this.node.lng, "address": this.node.address, "uuid": this.authState.uid, "startTime": this.node.availabilityTimeStart, "finishTime": this.node.availabilityTimeFinish },
+        console.log(this.node.availabilityTimeStart)
+
+        let options: any = { 'chargerType': this.node.chargerType, 'lat': this.node.lat, 'lng': this.node.lng, 'address': this.node.address, 'uuid': this.authState.uid, 'startTime': this.node.availabilityTimeStart, 'finishTime': this.node.availabilityTimeFinish },
           url: any = 'http://localhost:80/data_marker/createNode.php';
+          console.log(options);
 
         this.http.post(url, JSON.stringify(options))
           .subscribe((data: any) => {
 
             console.log("success");
             console.log("jump " + this.authState.uid);
-            this.navCtrl.setRoot(TabsPage);
+           // this.navCtrl.setRoot(TabsPage);
           },
           (error: any) => {
             console.log("problem");
@@ -79,7 +98,7 @@ export class CreateNodePage {
 
         let alert = this.alert.create({
           title: 'Error!',
-          subTitle: 'Start Time cannot be the same or later than finish time',
+          subTitle: 'Start Time cannot be later than finish time',
           buttons: ['OK']
         });
 

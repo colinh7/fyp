@@ -3,7 +3,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController, Loading, IonicPage } from 'ionic-angular';
 import { User } from '../../models/user';
-
+import firebase from 'firebase';
 
 
 
