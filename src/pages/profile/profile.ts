@@ -15,7 +15,17 @@ import { User } from '../../models/user';
 
 })
 
+
+
 export class ProfilePage {
+
+
+  bookableNode
+  bookableNodeId
+  chargerType
+  nodeOwnerId
+  startTime = 0
+  finishTime = 24
 
   constructor(public navCtrl: NavController, private afAuth: AngularFireAuth) {
 
@@ -42,15 +52,24 @@ export class ProfilePage {
   }
 
   nodeBooking() {
-    this.afAuth.auth.signOut().then(() => {
-      this.navCtrl.push(NodeBookingPage);
 
+    this.navCtrl.push(NodeBookingPage, {
 
+      param1: this.bookableNode,
+      param2: this.bookableNodeId,
+      param3: this.chargerType,
+      param4: this.nodeOwnerId,
+      param5: this.startTime,
+      param6: this.finishTime,
+      param7: 'ProfilePage'
 
     });
 
 
+  
+
   }
+
 
 
 }

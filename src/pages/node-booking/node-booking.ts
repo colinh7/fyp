@@ -37,23 +37,14 @@ export class NodeBookingPage {
     step: 30,
 
   };
+    lastPage:any;
+    show:boolean;
 
   constructor(public http: Http, public navParams: NavParams, navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) {
 
-    var options = "TAKINITBACK";
-    var done = 'http://localhost/data_marker/nodeData.php?number=' + options;
-    
-    this.http.get('http://localhost/data_marker/nodeData.php?number=' 
-                    + options)
-    .map(res => res.json())
-    .subscribe(result => {
 
+ 
 
-    
-
-    });
-    
-    console.log(done);
     
     //.map(res => res.json())
     //.subscribe(appMarkers => {
@@ -70,12 +61,24 @@ export class NodeBookingPage {
    // });
     //});
 
-    this.startHour = 0;
-    this.endHour = 15;
+    
+
     this.nodeAddress = navParams.get('param1');
     this.nodeId = navParams.get('param2');
     this.chargerType = navParams.get('param3');
     this.nodeOwnerId = navParams.get('param4');
+    this.startHour = navParams.get('param5');
+    this.endHour = navParams.get('param6');
+    
+console.log(this.lastPage)
+    if (this.lastPage == 'ProfilePage'){
+      this.show == false;
+    }
+    else if (this.lastPage == 'MapPage'){
+      this.show == true;
+    }
+    
+
     
 
 

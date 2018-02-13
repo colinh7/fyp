@@ -44,8 +44,6 @@ export class MapPage {
   geocoder: any;
   markerApp: any;
   lngApp: any;
-  //latApp: any;
-  //latLngApp: any;
   infoWindow: any = new google.maps.InfoWindow({
     size: new google.maps.Size(150, 300)
   })
@@ -54,7 +52,6 @@ export class MapPage {
   counter = 0;
   appMarkers = [];
   disabled: boolean;
-  //infoWindowChecker: number;
   addNodeClicked: boolean;
   thirdPartyMarkerInfoWindow: any = new google.maps.InfoWindow();
   dbMarker: any;
@@ -64,6 +61,9 @@ export class MapPage {
   eventPageButton: any;
   appMarker: any;
   authState: any = null;
+  startTime: any;
+  finishTime: any;
+
   constructor(public events: Events, private afAuth: AngularFireAuth, public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network) {
 
     this.afAuth.authState.subscribe((auth) => {
@@ -184,7 +184,10 @@ currentUser(){
             param1: this.bookableNode,
             param2: this.bookableNodeId,
             param3: this.chargerType,
-            param4: this.nodeOwnerId
+            param4: this.nodeOwnerId,
+            param5: this.startTime,
+            param6: this.finishTime,
+            param7: 'MapPage'
 
           });
           console.log("heyasdfuhg" + this.bookableNode)
@@ -260,7 +263,7 @@ currentUser(){
     let finish;
     var nodeOwnerId;
     var id;
-
+    
     for (let marker of markers) {
 
       try {
@@ -272,11 +275,14 @@ currentUser(){
         AddressLine1 = marker.address
         chargerType = marker.chargerType
         start = marker.startTime;
-        var startSplit = start.split(":");
-        var startFormat = startSplit[0] + ":" + startSplit[1];
+        var startFormat = start + ":00";
         finish = marker.finishTime;
-        var finishSplit = finish.split(":");
-        var finishFormat = finishSplit[0] + ":" + finishSplit[1];
+        var finishFormat = finish + ":00";
+        
+        if ( start == 0){
+          startFormat == "00:00";
+        }
+
 
         address = AddressLine1 + ", Available from: " + startFormat + "- " + finishFormat;
 
@@ -307,12 +313,12 @@ currentUser(){
         var self = this;
 
 
-        google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow, address, id, chargerType, nodeOwnerId ) {
+        google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow, address, id, chargerType, nodeOwnerId, start, finish ) {
           return function () {
             appInfoWindow.setContent(bookButton + " " + content);
             appInfoWindow.open(map, marker);
 
-            self.updateBookingNodeAddress(address, id, chargerType, nodeOwnerId);
+            self.updateBookingNodeAddress(address, id, chargerType, nodeOwnerId, start, finish);
             console.log(bookButton + " " + "booke");
 
 
@@ -322,7 +328,7 @@ currentUser(){
 
 
 
-        })(marker, address, this.appInfoWindow, AddressLine1, id, chargerType, nodeOwnerId));
+        })(marker, address, this.appInfoWindow, AddressLine1, id, chargerType, nodeOwnerId, start, finish));
 
 
 
@@ -354,12 +360,14 @@ currentUser(){
     }
   }
 
-  updateBookingNodeAddress(address, id, chargerType, nodeOwnerId) {
+  updateBookingNodeAddress(address, id, chargerType, nodeOwnerId, start, finish) {
     console.log(address);
     this.bookableNode = address
     this.bookableNodeId = id;
     this.chargerType = chargerType;
     this.nodeOwnerId = nodeOwnerId;
+    this.startTime = start;
+    this.finishTime = finish;
   }
 
   addNode() {

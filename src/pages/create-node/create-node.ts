@@ -79,7 +79,7 @@ export class CreateNodePage {
 
             console.log("success");
             console.log("jump " + this.authState.uid);
-           // this.navCtrl.setRoot(TabsPage);
+            this.navCtrl.setRoot(TabsPage);
           },
           (error: any) => {
             console.log("problem");
