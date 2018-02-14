@@ -37,8 +37,7 @@ export class NodeBookingPage {
     step: 30,
 
   };
-    lastPage:any;
-    show:boolean;
+  userId: any;
 
   constructor(public http: Http, public navParams: NavParams, navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) {
 
@@ -69,15 +68,9 @@ export class NodeBookingPage {
     this.nodeOwnerId = navParams.get('param4');
     this.startHour = navParams.get('param5');
     this.endHour = navParams.get('param6');
+    this.userId = navParams.get('param7');
     
-console.log(this.lastPage)
-    if (this.lastPage == 'ProfilePage'){
-      this.show == false;
-    }
-    else if (this.lastPage == 'MapPage'){
-      this.show == true;
-    }
-    
+
 
     
 
@@ -88,6 +81,7 @@ console.log(this.lastPage)
     console.log(this.startHour)
     console.log(this.calendar.startHour)
     console.log(this.nodeAddress);
+    console.log("OWNER " + this.nodeOwnerId);
 
 
   }
@@ -100,7 +94,8 @@ console.log(this.lastPage)
 
 
   addEvent() {
-    let modal = this.modalCtrl.create('UserEventsPage', { selectedDay: this.selectedDay, eventTimes: this.eventSource, nodeAddress: this.nodeAddress, chargerType: this.chargerType, nodeOwnerId: this.nodeOwnerId });
+  
+    let modal = this.modalCtrl.create('UserEventsPage', { selectedDay: this.selectedDay, eventTimes: this.eventSource, nodeAddress: this.nodeAddress, chargerType: this.chargerType, nodeOwnerId: this.nodeOwnerId, nodeId: this.nodeId, userId: this.userId });
     console.log(this.nodeAddress)
     modal.present();
     modal.onDidDismiss(data => {

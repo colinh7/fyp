@@ -187,7 +187,7 @@ currentUser(){
             param4: this.nodeOwnerId,
             param5: this.startTime,
             param6: this.finishTime,
-            param7: 'MapPage'
+            param7: this.afAuth.auth.currentUser.uid
 
           });
           console.log("heyasdfuhg" + this.bookableNode)
@@ -267,18 +267,18 @@ currentUser(){
     for (let marker of markers) {
 
       try {
-        nodeOwnerId = marker.uuid;
+        nodeOwnerId = marker.nodeOwnerId;
         id = marker.id;
         lat = marker.lat;
         lng = marker.lng;
         Title = marker.name;
-        AddressLine1 = marker.address
+        AddressLine1 = marker.nodeAddress
         chargerType = marker.chargerType
         start = marker.startTime;
         var startFormat = start + ":00";
         finish = marker.finishTime;
         var finishFormat = finish + ":00";
-        
+        console.log("OWNER: " + nodeOwnerId);
         if ( start == 0){
           startFormat == "00:00";
         }
@@ -313,12 +313,13 @@ currentUser(){
         var self = this;
 
 
-        google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow, address, id, chargerType, nodeOwnerId, start, finish ) {
+        google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow, nodeAddress, id, chargerType, nodeOwnerId, start, finish ) {
           return function () {
             appInfoWindow.setContent(bookButton + " " + content);
             appInfoWindow.open(map, marker);
+            console.log("OWNERCLICK: " + nodeOwnerId);
 
-            self.updateBookingNodeAddress(address, id, chargerType, nodeOwnerId, start, finish);
+            self.updateBookingNodeAddress(nodeAddress, id, chargerType, nodeOwnerId, start, finish);
             console.log(bookButton + " " + "booke");
 
 
