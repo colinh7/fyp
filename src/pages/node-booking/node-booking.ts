@@ -43,23 +43,7 @@ export class NodeBookingPage {
 
 
  
-
     
-    //.map(res => res.json())
-    //.subscribe(appMarkers => {
-
-      //this.appMarkers = appMarkers;
-      //console.log(this.appMarkers);
-      //console.log("yo")
-
-      //if (appMarkers == null) {
-       // console.log("problem");
-     // }
-      //this.addAppMarkers(appMarkers);
-
-   // });
-    //});
-
     
 
     this.nodeAddress = navParams.get('param1');
@@ -72,6 +56,50 @@ export class NodeBookingPage {
     
 
 
+    this.http.get('http://localhost:80/data_marker/getNodeBookings.php?nodeOwnerId=' + this.nodeOwnerId )
+      .map(res => res.json())
+      .subscribe(nodeBookings => {
+
+        
+        if (nodeBookings) {
+          let eventData = nodeBookings;
+  
+          for (let eventData of nodeBookings) {
+
+            
+
+            var mysqlDateTimeStart = eventData.startTime.split(/[- :]/);
+
+            // Apply each element to the Date function
+            var javascriptDateTimeStart = new Date(mysqlDateTimeStart[0], mysqlDateTimeStart[1]-1, mysqlDateTimeStart[2], mysqlDateTimeStart[3], mysqlDateTimeStart[4], mysqlDateTimeStart[5]);
+
+
+            var mysqlDateTimefinish = eventData.startTime.split(/[- :]/);
+
+            // Apply each element to the Date function
+            var javascriptDateTimefinish = new Date(mysqlDateTimefinish[0], mysqlDateTimefinish[1]-1, mysqlDateTimefinish[2], mysqlDateTimefinish[3], mysqlDateTimefinish[4], mysqlDateTimefinish[5]);
+            
+            console.log(javascriptDateTimefinish);
+
+
+          eventData.startTime = new Date(javascriptDateTimeStart);
+          eventData.endTime = new Date(javascriptDateTimefinish);
+  
+          let events = this.eventSource;
+          events.push(eventData);
+          this.eventSource = [];
+          setTimeout(() => {
+            this.eventSource = events;
+            console.log(this.eventSource);
+          });
+        }
+      }
+        if (nodeBookings == null) {
+          console.log("problem");
+        }
+     
+
+      });
     
 
 
@@ -83,6 +111,55 @@ export class NodeBookingPage {
     console.log(this.nodeAddress);
     console.log("OWNER " + this.nodeOwnerId);
 
+
+  }
+  
+  ionViewDidEnter(){
+   
+    this.http.get('http://localhost:80/data_marker/getNodeBookings.php?nodeOwnerId=' + this.nodeOwnerId )
+    .map(res => res.json())
+    .subscribe(nodeBookings => {
+
+      
+      if (nodeBookings) {
+        let eventData = nodeBookings;
+
+        for (let eventData of nodeBookings) {
+
+          
+
+          var mysqlDateTimeStart = eventData.startTime.split(/[- :]/);
+
+          // Apply each element to the Date function
+          var javascriptDateTimeStart = new Date(mysqlDateTimeStart[0], mysqlDateTimeStart[1]-1, mysqlDateTimeStart[2], mysqlDateTimeStart[3], mysqlDateTimeStart[4], mysqlDateTimeStart[5]);
+
+
+          var mysqlDateTimefinish = eventData.startTime.split(/[- :]/);
+
+          // Apply each element to the Date function
+          var javascriptDateTimefinish = new Date(mysqlDateTimefinish[0], mysqlDateTimefinish[1]-1, mysqlDateTimefinish[2], mysqlDateTimefinish[3], mysqlDateTimefinish[4], mysqlDateTimefinish[5]);
+          
+          console.log(javascriptDateTimefinish);
+
+
+        eventData.startTime = new Date(javascriptDateTimeStart);
+        eventData.endTime = new Date(javascriptDateTimefinish);
+
+        let events = this.eventSource;
+        events.push(eventData);
+        this.eventSource = [];
+        setTimeout(() => {
+          this.eventSource = events;
+          console.log(this.eventSource);
+        });
+      }
+    }
+      if (nodeBookings == null) {
+        console.log("problem");
+      }
+   
+
+    });
 
   }
 

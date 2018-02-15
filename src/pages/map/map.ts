@@ -56,7 +56,8 @@ export class MapPage {
   thirdPartyMarkerInfoWindow: any = new google.maps.InfoWindow();
   dbMarker: any;
   appInfoWindow: any = new google.maps.InfoWindow({
-    size: new google.maps.Size(150, 300)
+    maxWidth: 100,
+    size: new google.maps.Size(100, 500)
   })
   eventPageButton: any;
   appMarker: any;
@@ -228,8 +229,8 @@ currentUser(){
       .subscribe(appMarkers => {
 
         this.appMarkers = appMarkers;
-        console.log(this.appMarkers);
-        console.log("yo")
+   
+        console.log("hello" + appMarkers)
 
         if (appMarkers == null) {
           console.log("problem");
