@@ -1,0 +1,64 @@
+<ion-header>
+    <ion-navbar color="primary">
+      <ion-buttons start>
+        <button ion-button icon-only (click)="cancel()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-title>Event Details</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <ion-input type="text"  [(ngModel)]="this.nodeAddress" [readonly] = true ></ion-input>
+      </ion-item>
+
+
+
+      <ion-item>
+        <ion-label>Cost Per 15 Minutes : €</ion-label>
+        <ion-input type = "any"
+        [(ngModel)]="this.costPer15Mins" [readonly] = true ></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Start:</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY HH:mm" [hourValues] = "this.hoursAvailable"  minuteValues="0,15,30,45" pickerFormat="MMM D:HH:mm"
+          [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>End:</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY HH:mm" [hourValues] = "this.hoursAvailable" minuteValues="0,15,30,45," pickerFormat="MMM D:HH:mm" 
+          [(ngModel)]="event.endTime"   [min]="minDate"></ion-datetime>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-label>Cost : €</ion-label>
+        <ion-input type = "number"
+        [(ngModel)]="this.totalCost" [readonly] = true ></ion-input>
+      </ion-item>
+      
+    </ion-list>
+
+
+    <button ion-button full icon-left (click)="checkCost(); processOutsideOfAngularZone()" item-end color="secondary">
+      <ion-icon name="questionmark"></ion-icon> Check Cost
+    </button>
+  
+    <button ion-button full icon-left (click)="save()">
+      <ion-icon name="checkmark"></ion-icon> Add Event
+    </button>
+  
+  <ion-item>
+    <p *ngIf="this.overlap === true "> Your Booking overlaps with another. Please choose A free time slot </p>
+    <p *ngIf="this.sameDate === false "> Your Booking crosses 2 days. Please ensure your booking is on one day only </p>
+    <p *ngIf="this.greaterThan == true ">Start time cannot be greater than the end time. </p>
+    <p *ngIf="this.equal == true ">Start time cannot be the same as end time. </p>
+  
+  </ion-item>
+  
+  </ion-content>

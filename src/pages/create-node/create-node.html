@@ -1,0 +1,129 @@
+<!--
+  Generated template for the CreateNodePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Node Details</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <ion-item>
+        <ion-label floating>Address</ion-label>
+        <ion-input type="text" [(ngModel)]="node.address" [readonly] = true></ion-input>
+    </ion-item>
+    
+    <ion-item>
+        <ion-label>Charger Type</ion-label>
+        <ion-select [(ngModel)]="node.chargerType" multiple="false">
+          <ion-option value="CHadeMO">CHadeMO</ion-option>
+          <ion-option value="EV">EV</ion-option>
+        </ion-select>
+    </ion-item>
+    
+    
+    <ion-item>
+        <ion-label>Available days of week</ion-label>
+        <ion-select [(ngModel)]="node" multiple="true">
+            <ion-option value="node.availibilityDays.monday">Monday</ion-option>
+            <ion-option value="node.availibilityDays.tuesday">Tuesday</ion-option>
+            <ion-option value="node.availibilityDays.wednesday">Wednesday</ion-option>
+            <ion-option value="node.availibilityDays.thursday">Thursday</ion-option>
+            <ion-option value="node.availibilityDays.friday">Friday</ion-option>
+            <ion-option value="node.availibilityDays.saturday">Saturday</ion-option>
+            <ion-option value="node.availibilityDays.sunday">Sunday</ion-option>
+
+          </ion-select>
+        
+    
+    </ion-item>
+
+<ion-item>
+
+    <ion-input type="number" step="0.10" min="0" [(ngModel)]="node.costPer15Mins" ng-init="node.costPer15Mins ='0.00'" placeholder="Cost per 15 minutes (€)"></ion-input>
+   
+  </ion-item>
+
+    <ion-item>
+        <ion-label>StartTime</ion-label>
+        <ion-select [(ngModel)]= node.availabilityTimeStart >
+          <ion-option value="0">00:00</ion-option>
+          <ion-option value="1">1:00</ion-option>
+          <ion-option value="2">2:00</ion-option>
+          <ion-option value="3">3:00</ion-option>
+          <ion-option value="4">4:00</ion-option>
+          <ion-option value="5">5:00</ion-option>
+          <ion-option value="6">6:00</ion-option>
+          <ion-option value="7">7:00</ion-option>
+          <ion-option value="8">8:00</ion-option>
+          <ion-option value="9">9:00</ion-option>
+          <ion-option value="10">10:00</ion-option>
+          <ion-option value="11">11:00</ion-option>
+          <ion-option value="12">12:00</ion-option>
+          <ion-option value="13">13:00</ion-option>
+          <ion-option value="14">14:00</ion-option>
+          <ion-option value="15">15:00</ion-option>
+          <ion-option value="16">16:00</ion-option>
+          <ion-option value="17">17:00</ion-option>
+          <ion-option value="18">18:00</ion-option>
+          <ion-option value="19">19:00</ion-option>
+          <ion-option value="20">20:00</ion-option>
+          <ion-option value="21">21:00</ion-option>
+          <ion-option value="22">22:00</ion-option>
+          <ion-option value="23">23:00</ion-option>
+          <ion-option value="24">24:00</ion-option>
+         
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Finish Time</ion-label>
+        <ion-select [(ngModel)]= node.availabilityTimeFinish >
+          <ion-option value= 0>00:00</ion-option>
+          <ion-option value="1">1:00</ion-option>
+          <ion-option value="2">2:00</ion-option>
+          <ion-option value="3">3:00</ion-option>
+          <ion-option value="4">4:00</ion-option>
+          <ion-option value="5">5:00</ion-option>
+          <ion-option value="6">6:00</ion-option>
+          <ion-option value="7">7:00</ion-option>
+          <ion-option value="8">8:00</ion-option>
+          <ion-option value="9">9:00</ion-option>
+          <ion-option value="10">10:00</ion-option>
+          <ion-option value="11">11:00</ion-option>
+          <ion-option value="12">12:00</ion-option>
+          <ion-option value="13">13:00</ion-option>
+          <ion-option value="14">14:00</ion-option>
+          <ion-option value="15">15:00</ion-option>
+          <ion-option value="16">16:00</ion-option>
+          <ion-option value="17">17:00</ion-option>
+          <ion-option value="18">18:00</ion-option>
+          <ion-option value="19">19:00</ion-option>
+          <ion-option value="20">20:00</ion-option>
+          <ion-option value="21">21:00</ion-option>
+          <ion-option value="22">22:00</ion-option>
+          <ion-option value="23">23:00</ion-option>
+          <ion-option value="24">24:00</ion-option>
+         
+        </ion-select>
+      </ion-item>
+
+
+
+
+ 
+ 
+    <button ion-button (click)="createNode()">Register</button>
+
+          
+        
+   
+
+
+</ion-content>
