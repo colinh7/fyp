@@ -53,24 +53,7 @@ export class NodeBookingPage {
   constructor(public loadingCtrl: LoadingController, public http: Http, public navParams: NavParams, navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) {
 
     
-      let loading = this.loadingCtrl.create({
-        content: 'Loading Node Data...'
-      });
-    
-      loading.present();
-    
-      setTimeout(() => {
-        this.calendar.mode = 'week';
-        
-        
-        
-        loading.dismiss();
-
-      }, 100);
-    
-    
- 
-
+    this.eventSource = [];
     this.nodeAddress = navParams.get('param1');
     this.nodeId = navParams.get('param2');
     this.chargerType = navParams.get('param3');
@@ -83,76 +66,101 @@ export class NodeBookingPage {
     console.log(this.userId);
 
 
+
+
+      let loading = this.loadingCtrl.create({
+        content: 'Loading Node Data...'
+      });
     
+      loading.present();
     
-    let events = this.eventSource;
-    this.http.get('http://localhost:80/data_marker/getNodeBookings.php?nodeId=' + this.nodeId )
-    .map(res => res.json())
-    .subscribe(nodeBookings => {
+      setTimeout(() => {
+        this.calendar.mode = 'week';
+       
+        this.loadCalendar()
+        
+        loading.dismiss();
 
       
-      if (nodeBookings) {
-       
 
-        for (let eventData of nodeBookings) {
-
-       
-  
-
-
-
-          var mysqlDateTimeStart = eventData.startTime.split(/[- :]/);
-
-          // Apply each element to the Date function
-          var javascriptDateTimeStart = new Date(mysqlDateTimeStart[0], mysqlDateTimeStart[1]-1, mysqlDateTimeStart[2], mysqlDateTimeStart[3], mysqlDateTimeStart[4], mysqlDateTimeStart[5]);
-
-
-          var mysqlDateTimefinish = eventData.finishTime.split(/[- :]/);
-
-          // Apply each element to the Date function
-          var javascriptDateTimefinish = new Date(mysqlDateTimefinish[0], mysqlDateTimefinish[1]-1, mysqlDateTimefinish[2], mysqlDateTimefinish[3], mysqlDateTimefinish[4], mysqlDateTimefinish[5]);
-          
-          console.log(javascriptDateTimefinish);
-
-
-        eventData.startTime = new Date(javascriptDateTimeStart);
-        eventData.endTime = new Date(javascriptDateTimefinish);
-
-        eventData.title = "User: " +eventData.userFirstName + " " + eventData.userLastName +  ". " + "Charger Type: " +this.chargerType + ". " ;
-        console.log(eventData.title);
-
-          if(eventData)
-        this.eventSource.push(eventData);
-        this.eventsStart.push(eventData.startTime);
-        this.eventsFinish.push(eventData.endTime);
-       
-     
-     
-     
-      }
-    }
-    else 
-    return 0;
-      if (nodeBookings == null) {
-        console.log("problem");
-      }
-   
-
-    });
+      }, 100);
     
+    
+ 
 
-
+    
 
     
 
 
+  }
+
+  ionViewDidEnter(){
+   console.log("HHHHHHHHHEEEEEEEEEEEEEEYYYYOOOOOOOO")
   }
   ionViewDidLoad() {
 
  
   }
   
+ loadCalendar(){
+    
+    
+  let events = this.eventSource;
+  this.http.get('http://localhost:80/data_marker/getNodeBookings.php?nodeId=' + this.nodeId )
+  .map(res => res.json())
+  .subscribe(nodeBookings => {
+
+    
+    if (nodeBookings) {
+     
+
+      for (let eventData of nodeBookings) {
+
+     
+
+
+
+
+        var mysqlDateTimeStart = eventData.startTime.split(/[- :]/);
+
+        // Apply each element to the Date function
+        var javascriptDateTimeStart = new Date(mysqlDateTimeStart[0], mysqlDateTimeStart[1]-1, mysqlDateTimeStart[2], mysqlDateTimeStart[3], mysqlDateTimeStart[4], mysqlDateTimeStart[5]);
+
+
+        var mysqlDateTimefinish = eventData.finishTime.split(/[- :]/);
+
+        // Apply each element to the Date function
+        var javascriptDateTimefinish = new Date(mysqlDateTimefinish[0], mysqlDateTimefinish[1]-1, mysqlDateTimefinish[2], mysqlDateTimefinish[3], mysqlDateTimefinish[4], mysqlDateTimefinish[5]);
+        
+        console.log(javascriptDateTimefinish);
+
+
+      eventData.startTime = new Date(javascriptDateTimeStart);
+      eventData.endTime = new Date(javascriptDateTimefinish);
+
+      eventData.title = "Booking ID: "+ eventData.bookingId + ". User: " +eventData.userFirstName + " " + eventData.userLastName +  ". " + "Charger Type: " +this.chargerType + ". " ;
+      console.log(eventData.title);
+
+        
+      this.eventSource.push(eventData);
+      this.eventsStart.push(eventData.startTime);
+      this.eventsFinish.push(eventData.endTime);
+     
+   
+   
+   
+    }
+  }
+  else 
+  return 0;
+    if (nodeBookings == null) {
+      console.log("problem");
+    }
  
+
+  });
+ }
   
 
 addEvent() {
@@ -161,6 +169,16 @@ addEvent() {
 
     modal.present();
     modal.onDidDismiss(data => {
+
+      if(data){
+      let alert = this.alertCtrl.create({
+        title: 'Error!',
+        subTitle: 'Your Booking Was Successful',
+        buttons: ['OK']
+      });
+
+      alert.present();
+    }
     
       if (data) {
         let eventData = data;

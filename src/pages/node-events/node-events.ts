@@ -65,7 +65,7 @@ export class NodeEventsPage {
    
 
     var end = this.endHour ++;
-    console.log(end);    
+   
 
 
     while(this.startHour < end+1){
@@ -77,7 +77,7 @@ export class NodeEventsPage {
 
     for( i = 0 ; i<this.hoursAvailable.length; i++){
           
-    console.log(this.hoursAvailable[i]);
+
          
 
   }
@@ -109,7 +109,7 @@ export class NodeEventsPage {
   }
 
   ionViewDidLoad() {
-    console.log(this.nodeAddress);
+
   }
   cancel() {
     this.viewCtrl.dismiss();
@@ -121,25 +121,7 @@ export class NodeEventsPage {
 
 // Loop inside the Angular zone
   // so the UI DOES refresh after each setTimeout cycle
-  processWithinAngularZone() {
-   
-    var a = 0;
-    this.checkCost(a);
-  }
-
-  // Loop outside of the Angular zone
-  // so the UI DOES NOT refresh after each setTimeout cycle
-  processOutsideOfAngularZone() {
   
-    
-    this.ngZone.runOutsideAngular(() => {
-      this.checkCost(() => {
-        // reenter the Angular zone and display done
-        this.ngZone.run(() => { console.log('Outside Done!'); });
-      });
-    });
-  }
-
 
 
   checkCost(a) {
@@ -151,7 +133,7 @@ export class NodeEventsPage {
     var differenceMs = d2 - d1;
     var diffSeconds = Math.floor(differenceMs / 1000) ; // seconds=
     this.totalCost = Math.floor(diffSeconds /60)
-    console.log(this.totalCost);
+   
     
   
 
@@ -185,7 +167,7 @@ export class NodeEventsPage {
             // Apply each element to the Date function
             var javascriptDateTimefinish = new Date(mysqlDateTimefinish[0], mysqlDateTimefinish[1] - 1, mysqlDateTimefinish[2], mysqlDateTimefinish[3], mysqlDateTimefinish[4], mysqlDateTimefinish[5]);
 
-            console.log(javascriptDateTimefinish);
+          
 
 
             eventData.startTime = new Date(javascriptDateTimeStart);
@@ -201,11 +183,7 @@ export class NodeEventsPage {
 
           }
         }
-        if (nodeBookings == null) {
-          console.log("problem");
-        }
-
-
+       
       });
 
     var start = this.event.startTime.split("T");
@@ -263,39 +241,61 @@ export class NodeEventsPage {
       console.log("empty");
       this.book();
 
-      this.viewCtrl.dismiss(this.event);
+      this.viewCtrl.dismiss();
 
 
     }
     else {
+      var found: boolean = false;
 
       for (var i = 0; i < this.eventsFinish.length; i++) {
 
-        if (this.event.startTime <= this.eventsFinish[i].toISOString() && this.event.endTime >= this.eventsFinish[i].toISOString()) {
+        console.log("EVENT:" + i + this.eventsFinish[i]);
+        console.log("Eventnew: " + this.event.endTime)
+        console.log("length" + this.eventsFinish.length);;
+
+        if (new Date(this.event.startTime).toISOString() <= this.eventsStart[i].toISOString() && new Date(this.event.endTime).toISOString() >= this.eventsFinish[i].toISOString()) {
           console.log("yo");
           this.overlap = true;
-          break;
-
-
-
-
+          found = true;
+          break
         }
-        else if (this.event.startTime >= this.eventsFinish[i].toISOString() && this.event.endTime <= this.eventsFinish[i].toISOString()) {
+        else if (new Date(this.event.startTime).toISOString() >= this.eventsStart[i].toISOString() && new Date(this.event.endTime).toISOString()<= this.eventsFinish[i].toISOString()) {
           console.log("bop");
           this.overlap = true;
+          found = true;
           break;
+       
+        
         }
-        else {
+        else if (new Date(this.event.startTime).toISOString() <= this.eventsStart[i].toISOString() && new Date(this.event.endTime).toISOString()<= this.eventsFinish[i].toISOString()) {
+          console.log("bo");
+          this.overlap = true;
+          found = true;
+          break;
+         
+        }
+        else if (new Date(this.event.startTime).toISOString() == this.eventsStart[i].toISOString() && new Date(this.event.endTime).toISOString() == this.eventsFinish[i].toISOString()) {
+          console.log("yp");
+          this.overlap = true;
+          found = true;
+          break;
+          
+         
+        }
+
+        
+
+
+        }
+          if (!found){
           console.log("NOPROBLEM")
           this.book();
-          this.title = "Node Address: " + this.nodeAddress + ". User: " + this.userId + ". Charger Type: " + this.chargerType + ". From" + new Date(this.event.endTime).toISOString() + " to " + new Date(this.event.startTime).toISOString()
-          this.viewCtrl.dismiss(this.event);
+          this.title =  "Node Address: " + this.nodeAddress + ". User: " + this.userId + ". Charger Type: " + this.chargerType + ". From" + new Date(this.event.endTime).toISOString() + " to " + new Date(this.event.startTime).toISOString()
+          this.viewCtrl.dismiss();
           console.log("NOPROBLEM")
-
-          break;
-
-
-        }
+          
+        
       }
     }
 

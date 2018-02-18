@@ -1,3 +1,8 @@
+import { MyCalendarPage } from './../pages/my-calendar/my-calendar';
+import { MyNodeDetailsPage } from './../pages/my-node-details/my-node-details';
+import { MyBookingsPage } from './../pages/my-bookings/my-bookings';
+import { MyProfilePage } from './../pages/my-profile/my-profile';
+import { MyNodesPage } from './../pages/my-nodes/my-nodes';
 import { NodeEventsPage } from './../pages/node-events/node-events';
 import { LoginPage } from './../pages/login/login';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -10,7 +15,6 @@ import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { MapPage } from '../pages/map/map';
 import { TabsPage } from '../pages/tabs/tabs';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -21,6 +25,8 @@ import { HttpModule } from '@angular/http'
 import { Network } from '@ionic-native/network';
 import { NgCalendarModule  } from 'ionic2-calendar';
 import { NodeBookingPage } from './../pages/node-booking/node-booking';
+import { ProfilePage } from './../pages/profile/profile'; 
+
 
 @NgModule({
   declarations: [
@@ -31,7 +37,13 @@ import { NodeBookingPage } from './../pages/node-booking/node-booking';
     TabsPage,
     NodeBookingPage,
     LoginPage,
-    NodeEventsPage
+    NodeEventsPage,
+    ProfilePage,
+    MyBookingsPage,
+    MyProfilePage,
+    MyNodeDetailsPage,
+    MyNodesPage,
+    MyCalendarPage
   ],
   imports: [
     BrowserModule,
@@ -50,7 +62,13 @@ import { NodeBookingPage } from './../pages/node-booking/node-booking';
     TabsPage,
     NodeBookingPage,
     LoginPage,
-    NodeEventsPage
+    NodeEventsPage,
+    ProfilePage,
+    MyBookingsPage,
+    MyProfilePage,
+    MyNodeDetailsPage,
+    MyNodesPage,
+    MyCalendarPage
   ],
   providers: [
     StatusBar,
