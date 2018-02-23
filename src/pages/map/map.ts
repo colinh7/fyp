@@ -66,6 +66,11 @@ export class MapPage {
   startTime: any;
   finishTime: any;
   costPer15Mins: any;
+  myLat: any;
+  myLng: any;
+  appLat: any;
+  appLng: any;
+  
 
   constructor(public events: Events, private afAuth: AngularFireAuth, public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network) {
 
@@ -116,7 +121,8 @@ currentUser(){
       };
 
 
-
+      this.myLat = position.coords.latitude;
+      this.myLng = position.coords.longitude
 
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
@@ -200,6 +206,18 @@ currentUser(){
 
 
         });
+
+
+        document.getElementById('open').addEventListener('click', () => {
+
+          window.location.href =  "https://www.google.com/maps/dir/?api=1&origin=" + this.myLat+","+this.myLng +"&destination="+this.appLat+","+this.appLng
+
+         
+
+
+        });
+
+
 
 
       });
@@ -316,17 +334,18 @@ currentUser(){
 
 
         bookButton = '<button id="book">Book</button>';
+        var open = '<button id="open">Open In Google Maps</button>';
 
         var self = this;
 
 
-        google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow, nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins ) {
+        google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow, nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng ) {
           return function () {
-            appInfoWindow.setContent(bookButton + " " + content);
+            appInfoWindow.setContent(bookButton + " " + content + open);
             appInfoWindow.open(map, marker);
             console.log("OWNERCLICK: " + nodeOwnerId);
 
-            self.updateBookingNodeAddress(nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins);
+            self.updateBookingNodeAddress(nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lng, lng);
             console.log(bookButton + " " + "booke");
 
 
@@ -336,7 +355,7 @@ currentUser(){
 
 
 
-        })(marker, address, this.appInfoWindow, AddressLine1, id, chargerType, nodeOwnerId, start, finish, costPer15Mins));
+        })(marker, address, this.appInfoWindow, AddressLine1, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng));
 
 
 
@@ -368,7 +387,7 @@ currentUser(){
     }
   }
 
-  updateBookingNodeAddress(address, id, chargerType, nodeOwnerId, start, finish, costPer15Mins) {
+  updateBookingNodeAddress(address, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat ,lng) {
     console.log(address);
     this.bookableNode = address
     this.bookableNodeId = id;
@@ -377,6 +396,8 @@ currentUser(){
     this.startTime = start;
     this.finishTime = finish;
     this.costPer15Mins = costPer15Mins;
+    this.appLat = lat;
+    this.appLng = lng;
   }
 
   addNode() {
@@ -478,12 +499,12 @@ currentUser(){
     this.maxDistance = boundingRadius;
 
 
-    //this.getThirdPartyMarkers(lng, lat, this.maxDistance);
+    this.getThirdPartyMarkers(lng, lat, this.maxDistance);
 
 
   }
 
-  /*
+  
   getThirdPartyMarkers(lng, lat, maxDistance) {
 
     this.http.get('https://api.openchargemap.io/v2/poi/?output=json&longitude=' + lng + '&latitude=' + lat + '&distance=' + maxDistance + '&countrycode=IRL&maxresults=30')
@@ -495,7 +516,7 @@ currentUser(){
 
       });
   }
-*/
+
 
   addThirdPartyMarkers(markers) {
 
