@@ -137,7 +137,7 @@ currentUser(){
 
       google.maps.event.addListenerOnce(this.map, 'idle', () => {
 
-        this.loadThirdPartyMarkers();
+       this.loadThirdPartyMarkers();
         this.loadAppMarkers();
 
 

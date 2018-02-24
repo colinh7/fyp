@@ -1,6 +1,7 @@
+import { User } from './../../models/user';
 import { TabsPage } from './../tabs/tabs';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Alert } from 'ionic-angular';
 import { Http, Headers } from "@angular/http";
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Node } from '../../models/node';
@@ -24,6 +25,8 @@ export class CreateNodePage {
   node = {} as Node;
   authState: any = null;
   start: any;
+  userId: any;
+  isOwner: any;
 
 
   constructor(private afAuth: AngularFireAuth, public alert: AlertController, public http: Http, public navCtrl: NavController, public navParams: NavParams) {
@@ -38,8 +41,46 @@ export class CreateNodePage {
       this.authState = auth
     });
 
+    this.userId =this.afAuth.auth.currentUser.uid
+   
+
+    this.http.get('http://localhost:80/data_marker/myNodeData.php?userId='+this.userId)
+    .map(res => res.json())
+    .subscribe(u => {
+
+    
+    this.setUserVariables(u);
+     
+  
+     
+
+      if (u == null) {
+        console.log("problem");
+      }
+      
+
+    });
+
+
 
   }
+
+  setUserVariables(user){
+
+    for(let u of user){
+
+      try{
+
+   
+        this.isOwner = u.nodeOwnerId;;
+  
+      
+      }catch( error){
+
+      }
+
+  }
+}
 
 
 
@@ -49,27 +90,47 @@ export class CreateNodePage {
 
   createNode(): void {
 
+    var start = this.node.availabilityTimeStart;
+    var finish = this.node.availabilityTimeFinish;
+    console.log(start);
+    console.log(finish);
+    console.log("JAYYYYSUS");
+    var diff = finish - start;
+
+    console.log("CURRENT:"+ this.authState.uid);
+    console.log("isWONER"+ this.isOwner);
+    if (this.isOwner == this.authState.uid){
 
 
-  
-   if (this.node.chargerType != null && this.node.availabilityTimeStart != null) {
+      let alert = this.alert.create({
+        title: 'Error!',
+        subTitle: 'Only One Charge Point Per User!',
+        buttons: ['OK']
+      });
 
-  
-  
-  
-      
+      alert.present();
+    
+     
+    }
+else 
+  if (this.node.chargerType != null && this.node.availabilityTimeStart != null) {
+
+
+
+
+
       console.log(this.node.availabilityTimeStart);
       console.log(this.node.availabilityTimeFinish);
       console.log("hello");
 
 
-      if (this.node.availabilityTimeStart < this.node.availabilityTimeFinish) {
+      if (diff > 0) {
 
         console.log(this.node);
 
         let options: any = { 'chargerType': this.node.chargerType, 'lat': this.node.lat, 'lng': this.node.lng, 'address': this.node.address, 'uuid': this.authState.uid, 'startTime': this.node.availabilityTimeStart, 'finishTime': this.node.availabilityTimeFinish, "costPer15Mins": this.node.costPer15Mins },
           url: any = 'http://localhost:80/data_marker/createNode.php';
-          console.log(options);
+        console.log(options);
 
         this.http.post(url, JSON.stringify(options))
           .subscribe((data: any) => {
@@ -79,7 +140,7 @@ export class CreateNodePage {
             this.navCtrl.setRoot(TabsPage);
           },
           (error: any) => {
-            console.log("HEYY" +error);
+            console.log("HEYY" + error);
 
             let alert = this.alert.create({
               title: 'Error!',
