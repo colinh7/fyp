@@ -1,8 +1,7 @@
+import { EditNodeDetailsPage } from './../pages/edit-node-details/edit-node-details';
 import { MyNodeCalendarPage } from './../pages/my-node-calendar/my-node-calendar';
 import { MyCalendarPage } from './../pages/my-calendar/my-calendar';
-import { MyNodeDetailsPage } from './../pages/my-node-details/my-node-details';
 import { MyProfilePage } from './../pages/my-profile/my-profile';
-import { MyNodesPage } from './../pages/my-nodes/my-nodes';
 import { NodeEventsPage } from './../pages/node-events/node-events';
 import { LoginPage } from './../pages/login/login';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -28,6 +27,7 @@ import { NodeBookingPage } from './../pages/node-booking/node-booking';
 import { ProfilePage } from './../pages/profile/profile'; 
 
 
+
 @NgModule({
   declarations: [
     MyApp,
@@ -40,10 +40,9 @@ import { ProfilePage } from './../pages/profile/profile';
     NodeEventsPage,
     ProfilePage,
     MyProfilePage,
-    MyNodeDetailsPage,
-    MyNodesPage,
     MyCalendarPage,
-    MyNodeCalendarPage
+    MyNodeCalendarPage,
+    EditNodeDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -65,10 +64,9 @@ import { ProfilePage } from './../pages/profile/profile';
     NodeEventsPage,
     ProfilePage,
     MyProfilePage,
-    MyNodeDetailsPage,
-    MyNodesPage,
     MyCalendarPage,
-    MyNodeCalendarPage
+    MyNodeCalendarPage,
+    EditNodeDetailsPage
   ],
   providers: [
     StatusBar,

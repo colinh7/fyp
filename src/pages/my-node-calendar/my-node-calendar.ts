@@ -1,16 +1,16 @@
-import { StatusBar } from '@ionic-native/status-bar';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { NodeEventsPage } from './../node-events/node-events';
 import { Http } from '@angular/http';
-import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController } from 'ionic-angular';
+import { ModalController, AlertController } from 'ionic-angular';
 import * as moment from 'moment';
 import { CalendarComponent } from 'ionic2-calendar/calendar';
 import { MonthViewComponent } from 'ionic2-calendar/monthview';
 import { WeekViewComponent } from 'ionic2-calendar/weekview';
 import { DayViewComponent } from 'ionic2-calendar/dayview';
-import { NavParams } from 'ionic-angular/navigation/nav-params';
 import { Subscription } from 'rxjs/Subscription';
 import {LoadingController} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 
 /**
@@ -49,41 +49,9 @@ export class MyNodeCalendarPage {
   eventsFinish = [];
   costPer15Mins: any;
   
-  constructor(public loadingCtrl: LoadingController, public http: Http, public navParams: NavParams, navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) {
+  constructor( private afAuth: AngularFireAuth, public loadingCtrl: LoadingController, public http: Http, public navParams: NavParams, navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) {
 
-    this.userId = navParams.get("param7");
-
-    this.http.get('http://localhost:80/data_marker/myNodeData.php?userId='+this.userId)
-    .map(res => res.json())
-    .subscribe(appMarkers => {
-
-
-      this.nodeAddress = appMarkers.nodeAddress;
-      this.nodeId = appMarkers.nodeId;
-      this.chargerType = appMarkers.chargerType;
-      this.nodeOwnerId = appMarkers.nodeOwnerId;
-      this.startHour = appMarkers.startHour;
-      this.endHour = appMarkers.endHour;
-  
-      console.log(this.startHour+ "STARTTHOUR");
-      
-
-      if (appMarkers == null) {
-        console.log("problem");
-      }
-      
-
-    });
-
-
-
-
-
-
-
-
-
-
+    
       let loading = this.loadingCtrl.create({
         content: 'Loading Node Data...'
       });
@@ -92,123 +60,90 @@ export class MyNodeCalendarPage {
     
       setTimeout(() => {
         this.calendar.mode = 'week';
-       
-        this.loadCalendar()
+        
+        
         
         loading.dismiss();
-
-      
 
       }, 100);
     
     
- 
+
+
+    this.userId = navParams.get('param7');
+  
+
+    
+    
+    let events = this.eventSource;
+    this.http.get('http://localhost:80/data_marker/myNodeBookings.php?userId=' + this.userId )
+    .map(res => res.json())
+    .subscribe(nodeBookings => {
+
+      
+      if (nodeBookings) {
+       
+
+        for (let eventData of nodeBookings) {
+
+       
+  
+
+
+
+          var mysqlDateTimeStart = eventData.startTime.split(/[- :]/);
+
+          // Apply each element to the Date function
+          var javascriptDateTimeStart = new Date(mysqlDateTimeStart[0], mysqlDateTimeStart[1]-1, mysqlDateTimeStart[2], mysqlDateTimeStart[3], mysqlDateTimeStart[4], mysqlDateTimeStart[5]);
+
+
+          var mysqlDateTimefinish = eventData.finishTime.split(/[- :]/);
+
+          // Apply each element to the Date function
+          var javascriptDateTimefinish = new Date(mysqlDateTimefinish[0], mysqlDateTimefinish[1]-1, mysqlDateTimefinish[2], mysqlDateTimefinish[3], mysqlDateTimefinish[4], mysqlDateTimefinish[5]);
+          
+          console.log(javascriptDateTimefinish);
+
+
+        eventData.startTime = new Date(javascriptDateTimeStart);
+        eventData.endTime = new Date(javascriptDateTimefinish);
+
+        eventData.title ="Booking ID:" + eventData.bookingId +". Charge Point ID:"+ eventData.nodeId +".  \n ChargePoint Address:"+ eventData.nodeAddress + "\n Charger Type:"+ eventData.chargerType + "\nStart Time:"+eventData.startTime + "\nFinish Time:"+ eventData.finishTime ;
+        console.log(eventData.title);
+
+          if(eventData)
+        this.eventSource.push(eventData);
+        this.eventsStart.push(eventData.startTime);
+        this.eventsFinish.push(eventData.endTime);
+       
+     
+     
+     
+      }
+    }
+    else 
+    return 0;
+      if (nodeBookings == null) {
+        console.log("problem");
+      }
+   
+
+    });
+    
+
+
 
     
 
-    
 
-
-  }
-
-  ionViewDidEnter(){
-   console.log("HHHHHHHHHEEEEEEEEEEEEEEYYYYOOOOOOOO")
   }
   ionViewDidLoad() {
 
+ console.log("looOOOOAAAAAAAAAADED");
+  }
+  
  
-  }
   
- loadCalendar(){
-
-  
-    
-    
-  let events = this.eventSource;
-  this.http.get('http://localhost:80/data_marker/myNodeBookings.php?userId=' + this.userId )
-  .map(res => res.json())
-  .subscribe(nodeBookings => {
-
-    
-    if (nodeBookings) {
-     
-
-      for (let eventData of nodeBookings) {
-
-        var mysqlDateTimeStart = eventData.startTime.split(/[- :]/);
-
-        // Apply each element to the Date function
-        var javascriptDateTimeStart = new Date(mysqlDateTimeStart[0], mysqlDateTimeStart[1]-1, mysqlDateTimeStart[2], mysqlDateTimeStart[3], mysqlDateTimeStart[4], mysqlDateTimeStart[5]);
-
-
-        var mysqlDateTimefinish = eventData.finishTime.split(/[- :]/);
-
-        // Apply each element to the Date function
-        var javascriptDateTimefinish = new Date(mysqlDateTimefinish[0], mysqlDateTimefinish[1]-1, mysqlDateTimefinish[2], mysqlDateTimefinish[3], mysqlDateTimefinish[4], mysqlDateTimefinish[5]);
-        
-        console.log(javascriptDateTimefinish);
-
-
-      eventData.startTime = new Date(javascriptDateTimeStart);
-      eventData.endTime = new Date(javascriptDateTimefinish);
-
-      eventData.title = "Booking ID: "+ eventData.bookingId + ". User: " +eventData.userFirstName + " " + eventData.userLastName +  ". " + "Charger Type: " +this.chargerType + ". " ;
-      console.log(eventData.title);
-
-        
-      this.eventSource.push(eventData);
-      this.eventsStart.push(eventData.startTime);
-      this.eventsFinish.push(eventData.endTime);
-     
-   
-   
-   
-    }
-  }
-  else 
-  return 0;
-    if (nodeBookings == null) {
-      console.log("problem");
-    }
- 
-
-  });
- }
-  
-
-addEvent() {
-  
-    let modal = this.modalCtrl.create(NodeEventsPage, { selectedDay: this.selectedDay, nodeAddress: this.nodeAddress, chargerType: this.chargerType, nodeOwnerId: this.nodeOwnerId, nodeId: this.nodeId, userId: this.userId, eventsStart: this.eventsStart, eventsFinish: this.eventsFinish, costPer15Mins: this.costPer15Mins, startHour: this.startHour, endHour: this.endHour });
-
-    modal.present();
-    modal.onDidDismiss(data => {
-
-      if(data){
-      let alert = this.alertCtrl.create({
-        title: 'Error!',
-        subTitle: 'Your Booking Was Successful',
-        buttons: ['OK']
-      });
-
-      alert.present();
-    }
-    
-      if (data) {
-        let eventData = data;
-
-        eventData.startTime = new Date(data.startTime);
-        eventData.endTime = new Date(data.endTime);
-
-        let events = this.eventSource;
-        events.push(eventData);
-        this.eventSource = [];
-        setTimeout(() => {
-          this.eventSource = events;
-          console.log(this.eventSource);
-        });
-      }
-    });
-  }
 
 
 

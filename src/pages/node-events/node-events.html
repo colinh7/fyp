@@ -58,6 +58,7 @@
     <p *ngIf="this.sameDate === false "> Your Booking crosses 2 days. Please ensure your booking is on one day only </p>
     <p *ngIf="this.greaterThan == true ">Start time cannot be greater than the end time. </p>
     <p *ngIf="this.equal == true ">Start time cannot be the same as end time. </p>
+    <p *ngIf="this.tooLong == true ">Bookings Cannot Last Longer then 1 Hour </p>
   
   </ion-item>
   

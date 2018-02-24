@@ -38,6 +38,7 @@ export class NodeEventsPage {
   startHour: any;
   endHour: any;
   hoursAvailable =[];
+  tooLong: any;
 
 
 
@@ -186,16 +187,37 @@ export class NodeEventsPage {
        
       });
 
+     
     var start = this.event.startTime.split("T");
-    var startFormat = start[0];
+    var startFormat: any = start[0];
 
     var startTime = start[1].split(":");
 
 
     var end = this.event.endTime.split("T");
-    var endFormat = end[0];
+    var endFormat: any = end[0];
+
+    var startuf = startFormat.split("-")
+    var enduf = endFormat.split("-")
+    var startdt = startuf[1];
+    var enddt = enduf[1];
+    console.log("DIFFFERENCE:"+enddt + " " + startdt);
+    console.log("DIFFFERENCE:"+endFormat + " " + startFormat);
+
+if(enddt[0] - startdt[0] !== 0){
+
+  this.sameDate = true;
 
 
+}
+else if(enddt[2]-startdt>1){
+
+this.tooLong = true;
+
+
+}
+
+else{
 
 
 
@@ -216,19 +238,19 @@ export class NodeEventsPage {
         console.log("YEYEYEYEYYEYEAAH");
 
       }
-      /*  if (startFormat != endFormat ) {
+        if (startFormat != endFormat ) {
           console.log("it works");
           this.sameDate = false;
         }
     
-    */
+    
     }
 
 
     catch (error) {
       console.log(error);
     }
-
+  }
 
   }
 
@@ -268,7 +290,7 @@ export class NodeEventsPage {
        
         
         }
-        else if (new Date(this.event.startTime).toISOString() <= this.eventsStart[i].toISOString() && new Date(this.event.endTime).toISOString()<= this.eventsFinish[i].toISOString()) {
+        else if (new Date(this.event.startTime).toISOString() <= this.eventsStart[i].toISOString() && new Date(this.event.endTime).toISOString()<= this.eventsFinish[i].toISOString()&& new Date(this.event.endTime).toISOString()>= this.eventsStart[i].toISOString()) {
           console.log("bo");
           this.overlap = true;
           found = true;
@@ -316,6 +338,7 @@ export class NodeEventsPage {
     this.http.post(url, JSON.stringify(options))
       .subscribe((data: any) => {
         console.log("sent");
+        console.log("STTART"+ this.event.startTime);
 
 
 

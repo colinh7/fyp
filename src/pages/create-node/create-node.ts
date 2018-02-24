@@ -50,7 +50,6 @@ export class CreateNodePage {
   createNode(): void {
 
 
-   console.log(this.node.availabilityTimeFinish)
 
   
    if (this.node.chargerType != null && this.node.availabilityTimeStart != null) {
@@ -80,7 +79,7 @@ export class CreateNodePage {
             this.navCtrl.setRoot(TabsPage);
           },
           (error: any) => {
-            console.log(error);
+            console.log("HEYY" +error);
 
             let alert = this.alert.create({
               title: 'Error!',

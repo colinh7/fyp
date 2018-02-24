@@ -15,4 +15,71 @@
 
 <ion-content padding>
 
+
+    <ion-item>
+        <ion-label floating>First Name</ion-label>
+        <ion-input type="text" [(ngModel)]="this.firstName" [readonly] = true></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label floating>Last Name</ion-label>
+        <ion-input type="text" [(ngModel)]="this.lastName" [readonly] = true></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label floating>email Address</ion-label>
+        <ion-input type="text" [(ngModel)]="this.emailAddress" [readonly] = true></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label floating>Phone Number</ion-label>
+        <ion-input type="text" [(ngModel)]="this.phoneNumber" [readonly] = true></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label floating>UUID</ion-label>
+        <ion-input type="text" [(ngModel)]="this.userId" [readonly] = true></ion-input>
+    </ion-item>
+
+
+
+
+
+   
+
+    <ion-item>
+        <ion-label>Your Charge Point Details</ion-label>
+        <ion-label floating>ID</ion-label>
+        <ion-input type="text" [(ngModel)]="this.nodeId" [readonly] = true></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label floating>Address</ion-label>
+        <ion-input type="text" [(ngModel)]="this.nodeAddress" [readonly] = true></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label floating>Charger Type</ion-label>
+        <ion-input type="text" [(ngModel)]="this.chargerType" [readonly] = true></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label floating>Start Hour</ion-label>
+        <ion-input type="text" [(ngModel)]="this.startHour" [readonly] = true></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label floating>End Hour</ion-label>
+        <ion-input type="text" [(ngModel)]="this.endHour" [readonly] = true></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label floating>Cost</ion-label>
+        <ion-input type="text" [(ngModel)]="this.costPer15Mins" [readonly] = true></ion-input>
+    </ion-item>
+
+
+    <button ion-button (click)="edit()">Edit Node Cost and Availability</button>
+
+
 </ion-content>
