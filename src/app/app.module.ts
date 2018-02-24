@@ -1,6 +1,6 @@
+import { MyNodeCalendarPage } from './../pages/my-node-calendar/my-node-calendar';
 import { MyCalendarPage } from './../pages/my-calendar/my-calendar';
 import { MyNodeDetailsPage } from './../pages/my-node-details/my-node-details';
-import { MyBookingsPage } from './../pages/my-bookings/my-bookings';
 import { MyProfilePage } from './../pages/my-profile/my-profile';
 import { MyNodesPage } from './../pages/my-nodes/my-nodes';
 import { NodeEventsPage } from './../pages/node-events/node-events';
@@ -39,11 +39,11 @@ import { ProfilePage } from './../pages/profile/profile';
     LoginPage,
     NodeEventsPage,
     ProfilePage,
-    MyBookingsPage,
     MyProfilePage,
     MyNodeDetailsPage,
     MyNodesPage,
-    MyCalendarPage
+    MyCalendarPage,
+    MyNodeCalendarPage
   ],
   imports: [
     BrowserModule,
@@ -64,11 +64,11 @@ import { ProfilePage } from './../pages/profile/profile';
     LoginPage,
     NodeEventsPage,
     ProfilePage,
-    MyBookingsPage,
     MyProfilePage,
     MyNodeDetailsPage,
     MyNodesPage,
-    MyCalendarPage
+    MyCalendarPage,
+    MyNodeCalendarPage
   ],
   providers: [
     StatusBar,

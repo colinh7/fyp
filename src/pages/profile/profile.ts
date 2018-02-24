@@ -1,4 +1,4 @@
-import { MyBookingsPage } from './../my-bookings/my-bookings';
+import { MyCalendarPage } from './../my-calendar/my-calendar';
 import { MyProfilePage } from './../my-profile/my-profile';
 import { MyNodesPage } from './../my-nodes/my-nodes';
 import { Component } from '@angular/core';
@@ -12,7 +12,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
@@ -20,6 +20,13 @@ import { AngularFireAuth } from 'angularfire2/auth';
 export class ProfilePage {
 
   authState: any = null;
+  userId: any;
+  nodeAddress: any; 
+  nodeId: any;
+  chargerType: any; 
+  nodeOwnerId: any; 
+  startHour: any; 
+  endHour: any; 
 
   constructor(private afAuth: AngularFireAuth,public navCtrl: NavController, public navParams: NavParams) {
 
@@ -27,6 +34,33 @@ export class ProfilePage {
     this.afAuth.authState.subscribe((auth) => {
       this.authState = auth
     });
+
+    this.userId = this.afAuth.auth.currentUser;
+
+    
+    this.http.get('http://localhost:80/data_marker/myNodeData.php?userId='+this.userId)
+    .map(res => res.json())
+    .subscribe(appMarkers => {
+
+
+      this.nodeAddress = appMarkers.nodeAddress;
+      this.nodeId = appMarkers.nodeId;
+      this.chargerType = appMarkers.chargerType;
+      this.nodeOwnerId = appMarkers.nodeOwnerId;
+      this.startHour = appMarkers.startHour;
+      this.endHour = appMarkers.endHour;
+  
+      console.log(this.startHour+ "STARTTHOUR");
+      
+
+      if (appMarkers == null) {
+        console.log("problem");
+      }
+      
+
+    });
+
+
 
 
   }
@@ -42,7 +76,7 @@ export class ProfilePage {
 
 myBookingsPage(){
 
-  this.navCtrl.push(MyBookingsPage, {
+  this.navCtrl.push(MyCalendarPage, {
 
   
     param7: this.afAuth.auth.currentUser.uid,

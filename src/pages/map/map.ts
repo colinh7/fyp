@@ -110,16 +110,6 @@ currentUser(){
 
       let defaultLatLng = new google.maps.LatLng(40.4040, 60.4040);
 
-      let defaultMapOptions = {
-        center: defaultLatLng,
-        zoom: 7,
-        streetViewControl: false,
-        fullscreenControl: false,
-        rotateControl: false,
-        mapTypeControl: false,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-
 
       this.myLat = position.coords.latitude;
       this.myLng = position.coords.longitude
@@ -129,6 +119,7 @@ currentUser(){
       let mapOptions = {
         center: latLng,
         zoom: 14,
+        maxZoom: 30,
         streetViewControl: false,
         fullscreenControl: false,
         rotateControl: false,
@@ -339,7 +330,7 @@ currentUser(){
         var self = this;
 
 
-        google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow, nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng ) {
+        google.maps.event.addListenerOnce(marker, 'click', (function (marker, content, appInfoWindow, nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng ) {
           return function () {
             appInfoWindow.setContent(bookButton + " " + content + open);
             appInfoWindow.open(map, marker);
@@ -358,13 +349,6 @@ currentUser(){
         })(marker, address, this.appInfoWindow, AddressLine1, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng));
 
 
-
-        google.maps.event.addListener(marker, 'click', () => {
-
-
-
-
-        })
 
 
 
@@ -507,7 +491,7 @@ currentUser(){
   
   getThirdPartyMarkers(lng, lat, maxDistance) {
 
-    this.http.get('https://api.openchargemap.io/v2/poi/?output=json&longitude=' + lng + '&latitude=' + lat + '&distance=' + maxDistance + '&countrycode=IRL&maxresults=30')
+    this.http.get('https://api.openchargemap.io/v2/poi/?output=json&longitude=' + lng + '&latitude=' + lat + '&distance=' + maxDistance + '&countrycode=IRL&maxresults=10')
       .map(res => res.json())
       .subscribe(thirdPartyMarkers => {
 
@@ -573,7 +557,7 @@ currentUser(){
         });
 
 
-        google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow, openWindow) {
+        google.maps.event.addListenerOnce(marker, 'click', (function (marker, content, infowindow, openWindow) {
           return function () {
             infowindow.setContent(content);
             infowindow.open(map, marker);
@@ -595,6 +579,7 @@ currentUser(){
 
 
         this.existingThirdPartyMarkers.push(markerData);
+        
       }
 
 
@@ -720,12 +705,12 @@ currentUser(){
 
 
 
-    if (this.existingThirdPartyMarkers.length > 100) {
+    if (this.existingThirdPartyMarkers.length > 20) {
 
-      for (let i = 0; i < this.existingThirdPartyMarkers.length - 100; i++) {
+      for (let i = 0; i < this.existingThirdPartyMarkers.length- 5; i++) {
         this.existingThirdPartyMarkers[i].marker.setMap(null)
         this.existingThirdPartyMarkers.shift(1);
-
+        console.log(this.existingThirdPartyMarkers.length)
       }
 
     }

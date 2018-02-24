@@ -69,7 +69,7 @@ export class MyCalendarPage {
     
     
     let events = this.eventSource;
-    this.http.get('http://localhost:80/data_marker/myNodeBookings.php?userId=' + this.userId )
+    this.http.get('http://localhost:80/data_marker/myUserBookings.php?userId=' + this.userId )
     .map(res => res.json())
     .subscribe(nodeBookings => {
 
@@ -101,7 +101,7 @@ export class MyCalendarPage {
         eventData.startTime = new Date(javascriptDateTimeStart);
         eventData.endTime = new Date(javascriptDateTimefinish);
 
-        eventData.title = "User: " +eventData.userFirstName + " " + eventData.userLastName +  ". " + "Charger Type: " +this.chargerType + ". " ;
+        eventData.title ="Booking ID:" + eventData.bookingId +". Charge Point ID:"+ eventData.nodeId +".  \n ChargePoint Address:"+ eventData.nodeAddress + "\n Charger Type:"+ eventData.chargerType + "\nStart Time:"+eventData.startTime + "\nFinish Time:"+ eventData.finishTime ;
         console.log(eventData.title);
 
           if(eventData)

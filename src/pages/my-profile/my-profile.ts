@@ -1,3 +1,4 @@
+import { Http } from '@angular/http';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -15,7 +16,71 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class MyProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  authState: any = null;
+  userId: any;
+  nodeAddress: any; 
+  nodeId: any;
+  chargerType: any; 
+  nodeOwnerId: any; 
+  startHour: any; 
+  endHour: any; 
+  firstName: any;
+  lastName: any;
+  emailAddress: any;
+  phoneNumber: any;
+  uuid:any;
+  constructor(public http: Http, public navCtrl: NavController, public navParams: NavParams) {
+
+    
+
+    this.userId = navParams.get("param7");
+
+    
+    this.http.get('http://localhost:80/data_marker/myNodeData.php?userId='+this.userId)
+    .map(res => res.json())
+    .subscribe(appMarkers => {
+
+
+      this.nodeAddress = appMarkers.nodeAddress;
+      this.nodeId = appMarkers.nodeId;
+      this.chargerType = appMarkers.chargerType;
+      this.nodeOwnerId = appMarkers.nodeOwnerId;
+      this.startHour = appMarkers.startHour;
+      this.endHour = appMarkers.endHour;
+  
+      console.log(this.startHour+ "STARTTHOUR");
+      
+
+      if (appMarkers == null) {
+        console.log("problem");
+      }
+      
+
+    });
+
+
+
+
+    this.http.get('http://localhost:80/data_marker/myProfile.php?userId='+this.userId)
+    .map(res => res.json())
+    .subscribe(appMarkers => {
+
+
+     
+  
+      console.log(this.startHour+ "STARTTHOUR");
+      
+
+      if (appMarkers == null) {
+        console.log("problem");
+      }
+      
+
+    });
+
+
+
+
   }
 
   ionViewDidLoad() {
