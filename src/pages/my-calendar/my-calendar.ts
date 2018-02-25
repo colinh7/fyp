@@ -41,6 +41,7 @@ export class MyCalendarPage {
   eventsStart = [];
   eventsFinish = [];
   costPer15Mins: any;
+  bookingId: number;
   
   constructor( private afAuth: AngularFireAuth, public loadingCtrl: LoadingController, public http: Http, public navParams: NavParams, navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) {
 
@@ -101,7 +102,7 @@ export class MyCalendarPage {
         eventData.startTime = new Date(javascriptDateTimeStart);
         eventData.endTime = new Date(javascriptDateTimefinish);
 
-        eventData.title ="Booking ID:" + eventData.bookingId +". Charge Point ID:"+ eventData.nodeId +".  \n ChargePoint Address:"+ eventData.nodeAddress + "\n Charger Type:"+ eventData.chargerType + "\nStart Time:"+eventData.startTime + "\nFinish Time:"+ eventData.finishTime ;
+        eventData.title ="Booking ID:" + eventData.bookingId +". Charge Point ID:"+ eventData.nodeId +".  \n ChargePoint Address:"+ eventData.nodeAddress + "\n Charger Type:"+ eventData.chargerType;
         console.log(eventData.title);
 
           if(eventData)
@@ -156,13 +157,35 @@ export class MyCalendarPage {
   }
 
   onEventSelected(event) {
+    
     let start = moment(event.startTime).format('LLLL');
     let end = moment(event.endTime).format('LLLL');
+    var booking = event.title.split(":");
+    var id = booking[1].split(".");
+    this.bookingId = id[0];
+    console.log("HHHHEEEEEYYY" + this.bookingId[0]);
 
     let alert = this.alertCtrl.create({
       title: '' + event.title,
       subTitle: 'From: ' + start + '<br>To: ' + end,
-      buttons: ['OK']
+      buttons: [
+        {
+          text: 'ok',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+
+        
+            this.deleteBookingCheck(event);
+            
+          }
+        }
+      ]
     })
     alert.present();
   }
@@ -190,7 +213,76 @@ export class MyCalendarPage {
   }
 
 
+deleteBookingCheck(event){
+  var now = Date.now();
 
+  if (event.endTime < now){
+
+    
+    let alert = this.alertCtrl.create({
+      title: 'Error!',
+      subTitle: 'Past bookings cannot be deleted',
+      buttons: ['Ok']
+    });
+
+    alert.present();
+
+  }
+
+  else{
+
+    console.log("works")
+    this.deleteBooking();
+    
+  }
+
+
+
+}
+
+deleteBooking() {
+
+console.log(this.bookingId);
+  
+
+  let options: any = { "bookingId": this.bookingId },
+    url: any = 'http://localhost:80/data_marker/deletebooking.php';
+  console.log(options);
+
+  this.http.post(url, JSON.stringify(options))
+    .subscribe((data: any) => {
+
+
+      let alert = this.alertCtrl.create({
+        title: 'Complete!',
+        subTitle: 'Your Booking Has Been Deleted',
+        buttons: ['OK']
+      });
+     
+    
+      alert.onDidDismiss (res => {
+
+        
+      
+      });
+     
+      alert.present();
+      
+    },
+    (error: any) => {
+      console.log("HEYY" + error);
+
+      let alert = this.alertCtrl.create({
+        title: 'Error!',
+        subTitle: 'Please ensure your device is connected to the internet.',
+        buttons: ['OK']
+      });
+
+
+      alert.present();
+      
+    });
+}
 
 
 } 
