@@ -172,7 +172,7 @@ addEvent() {
 
       if(data){
       let alert = this.alertCtrl.create({
-        title: 'Error!',
+        title: 'Great!',
         subTitle: 'Your Booking Was Successful',
         buttons: ['OK']
       });

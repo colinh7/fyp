@@ -70,7 +70,9 @@ export class MapPage {
   myLng: any;
   appLat: any;
   appLng: any;
-  
+  thirdPartyLat: any;
+  thirdPartyLng: any;
+
 
   constructor(public events: Events, private afAuth: AngularFireAuth, public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network) {
 
@@ -89,20 +91,20 @@ export class MapPage {
 
   }
 
-ionViewDidLeave(){
- this.subscriber.unsubscribe();
-}
+  ionViewDidLeave() {
+    this.subscriber.unsubscribe();
+  }
 
-login(){
-  this.navCtrl.push(LoginPage);
-}
+  login() {
+    this.navCtrl.push(LoginPage);
+  }
 
-currentUser(){
+  currentUser() {
 
-  console.log(this.afAuth.auth.currentUser.email);
+    console.log(this.afAuth.auth.currentUser.email);
 
 
-}
+  }
 
   initMap(mapElement) {
     this.infoWindowObservable.true = 0;
@@ -137,7 +139,7 @@ currentUser(){
 
       google.maps.event.addListenerOnce(this.map, 'idle', () => {
 
-       this.loadThirdPartyMarkers();
+        this.loadThirdPartyMarkers();
         this.loadAppMarkers();
 
 
@@ -151,9 +153,9 @@ currentUser(){
 
       });
 
-     
+
       google.maps.event.addListener(this.map, 'click', () => {
-        
+
         this.thirdPartyMarkerInfoWindow.close();
         this.appInfoWindow.close();
 
@@ -161,7 +163,7 @@ currentUser(){
 
       google.maps.event.addListener(this.infoWindow, 'domready', () => {
         document.getElementById('tap').addEventListener('click', () => {
-         
+
 
 
           this.infoWindowObservable.true = this.infoWindowObservable.true + 2;
@@ -201,13 +203,46 @@ currentUser(){
 
         document.getElementById('open').addEventListener('click', () => {
 
-          window.location.href =  "https://www.google.com/maps/dir/?api=1&origin=" + this.myLat+","+this.myLng +"&destination="+this.appLat+","+this.appLng
+          this.geolocation.getCurrentPosition().then((position) => {
 
-         
+            this.myLat = position.coords.latitude;
+            this.myLng = position.coords.longitude;
+
+          })
+
+          window.location.href = "https://www.google.com/maps/dir/?api=1&origin=" + this.myLat + "," + this.myLng + "&destination=" + this.appLat + "," + this.appLng + "&travelMode=DRIVING"
+
+
 
 
         });
 
+
+
+
+      });
+
+
+
+
+      google.maps.event.addListener(this.thirdPartyMarkerInfoWindow, 'domready', () => {
+
+
+        document.getElementById('directions').addEventListener('click', () => {
+
+          this.geolocation.getCurrentPosition().then((position) => {
+
+            this.myLat = position.coords.latitude;
+            this.myLng = position.coords.longitude;
+
+          })
+
+          window.location.href = "https://www.google.com/maps/dir/?api=1&origin=" + this.myLat + "," + this.myLng + "&destination=" + this.thirdPartyLat + "," + this.thirdPartyLng + "&travelMode=DRIVING"
+
+
+
+
+        });
 
 
 
@@ -236,12 +271,12 @@ currentUser(){
   loadAppMarkers() {
 
 
-   this.subscriber = this.http.get('http://localhost:80/data_marker/appMarkerData.php')
+    this.subscriber = this.http.get('http://localhost:80/data_marker/appMarkerData.php')
       .map(res => res.json())
       .subscribe(appMarkers => {
 
         this.appMarkers = appMarkers;
-   
+
         console.log("hello" + appMarkers)
 
         if (appMarkers == null) {
@@ -278,7 +313,7 @@ currentUser(){
     let finish;
     var nodeOwnerId;
     var id;
-    
+
     for (let marker of markers) {
 
       try {
@@ -295,17 +330,18 @@ currentUser(){
         finish = marker.finishTime;
         var finishFormat = finish + ":00";
         console.log("OWNER: " + nodeOwnerId);
-        if ( start == 0){
+        if (start == 0) {
           startFormat == "00:00";
         }
 
 
-        address = "Cost per 15 mins: €" + costPer15Mins + ", " + AddressLine1 + ", Available from: " + startFormat + "- " + finishFormat;
 
       }
       catch (error) {
 
       }
+
+      address = "Cost per 15 mins: €" + costPer15Mins + ", " + AddressLine1 + ", Available from: " + startFormat + "- " + finishFormat;
 
 
       markerLatLng = new google.maps.LatLng(lat, lng);
@@ -319,25 +355,23 @@ currentUser(){
           position: markerLatLng,
           clickable: true,
           icon: "assets/imgs/green_markerN.png",
-          
+
 
         });
 
-
-        bookButton = '<button id="book">Book</button>';
-        var open = '<button id="open">Open In Google Maps</button>';
-
         var self = this;
+        bookButton = '<button id="book">Book</button>';
+        var open = '<button id="open">Open Directions In Google Maps</button>';
 
 
-        google.maps.event.addListenerOnce(marker, 'click', (function (marker, content, appInfoWindow, nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng ) {
+
+
+        google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow, nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng) {
           return function () {
             appInfoWindow.setContent(bookButton + " " + content + open);
             appInfoWindow.open(map, marker);
-            console.log("OWNERCLICK: " + nodeOwnerId);
+            self.updateBookingNodeAddress(nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng);
 
-            self.updateBookingNodeAddress(nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lng, lng);
-            console.log(bookButton + " " + "booke");
 
 
 
@@ -371,7 +405,7 @@ currentUser(){
     }
   }
 
-  updateBookingNodeAddress(address, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat ,lng) {
+  updateBookingNodeAddress(address, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng) {
     console.log(address);
     this.bookableNode = address
     this.bookableNodeId = id;
@@ -488,7 +522,7 @@ currentUser(){
 
   }
 
-  
+
   getThirdPartyMarkers(lng, lat, maxDistance) {
 
     this.http.get('https://api.openchargemap.io/v2/poi/?output=json&longitude=' + lng + '&latitude=' + lat + '&distance=' + maxDistance + '&countrycode=IRL&maxresults=10')
@@ -556,18 +590,24 @@ currentUser(){
 
         });
 
+        var self = this;
+        var directions = '<button id="directions">Get Directions In Google Maps</button>';
 
-        google.maps.event.addListenerOnce(marker, 'click', (function (marker, content, infowindow, openWindow) {
+
+
+        google.maps.event.addListener(marker, 'click', (function (marker, content, thirdPartyMarkerInfoWindow, openWindow, lat, lng) {
           return function () {
-            infowindow.setContent(content);
-            infowindow.open(map, marker);
-            var close = function () {
-              this.isInfoWindowOpen()
-            }
+
+            console.log("AAAAAAAAAAAAAAA " + lat,lng);
+            thirdPartyMarkerInfoWindow.setContent(content + directions);
+            thirdPartyMarkerInfoWindow.open(map, marker);
+            self.directions(lat, lng);
+
+
 
 
           };
-        })(marker, address, this.thirdPartyMarkerInfoWindow, this.appInfoWindow));
+        })(marker, address, this.thirdPartyMarkerInfoWindow, this.appInfoWindow, lat, lng));
 
 
 
@@ -579,7 +619,7 @@ currentUser(){
 
 
         this.existingThirdPartyMarkers.push(markerData);
-        
+
       }
 
 
@@ -587,6 +627,18 @@ currentUser(){
 
     }
   }
+
+
+  directions(lat, lng) {
+
+
+
+    this.thirdPartyLat = lat;
+    this.thirdPartyLng = lng;
+
+  }
+
+
 
 
   closeAppInfoWIndow() {
@@ -707,7 +759,7 @@ currentUser(){
 
     if (this.existingThirdPartyMarkers.length > 20) {
 
-      for (let i = 0; i < this.existingThirdPartyMarkers.length- 5; i++) {
+      for (let i = 0; i < this.existingThirdPartyMarkers.length - 5; i++) {
         this.existingThirdPartyMarkers[i].marker.setMap(null)
         this.existingThirdPartyMarkers.shift(1);
         console.log(this.existingThirdPartyMarkers.length)

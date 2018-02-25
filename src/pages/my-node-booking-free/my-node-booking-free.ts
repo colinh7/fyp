@@ -9,11 +9,10 @@ import { scheduleMicroTask } from '@angular/core/src/util';
 
 
 @Component({
-  selector: 'page-node-events',
-  templateUrl: 'node-events.html',
+  selector: 'page-my-node-booking-free',
+  templateUrl: 'my-node-booking-free.html',
 })
-export class NodeEventsPage {
-
+export class MyNodeBookingFreePage {
   title: any;
   minuteValues;
   event = { startTime: new Date().toISOString(), endTime: new Date().toISOString(), title: this.title, allDay: false };
@@ -56,7 +55,7 @@ export class NodeEventsPage {
     this.chargerType = navParams.get("chargerType");
     this.nodeOwnerId = navParams.get("nodeOwnerId");
     this.nodeId = navParams.get("nodeId");
-    this.userId = navParams.get("userId");
+    this.userId = this.afAuth.auth.currentUser.uid;
     this.eventsStart = navParams.get("eventsStart");
     this.eventsFinish = navParams.get("eventsFinish");
     this.costPer15Mins = navParams.get("costPer15Mins");
@@ -189,27 +188,6 @@ export class NodeEventsPage {
       });
 
 
-    var endTime =  new Date(this.event.endTime);
-    var hours = endTime.getHours();
-
-    console.log("HOURS" + hours);
-
-    if (hours == 0) {
-
-      endTime.setHours(23);
-      endTime.setMinutes(59);
-      endTime.setSeconds(59);
-
-      this.event.endTime = endTime.toISOString();
-
-    }
-
-    
-
-
-
-
-
     var start = this.event.startTime.split("T");
     var startFormat: any = start[0];
 
@@ -223,7 +201,8 @@ export class NodeEventsPage {
     var enduf = endFormat.split("-")
     var startdt = startuf[1];
     var enddt = enduf[1];
-
+    console.log("DIFFFERENCE:" + enddt + " " + startdt);
+    console.log("DIFFFERENCE:" + endFormat + " " + startFormat);
 
     if (enddt[0] - startdt[0] !== 0) {
 
@@ -302,7 +281,9 @@ export class NodeEventsPage {
 
       for (var i = 0; i < this.eventsFinish.length; i++) {
 
-
+        console.log("EVENT:" + i + this.eventsFinish[i]);
+        console.log("Eventnew: " + this.event.endTime)
+        console.log("length" + this.eventsFinish.length);
 
 
 
@@ -345,7 +326,7 @@ export class NodeEventsPage {
         this.book();
         this.title = "Node Address: " + this.nodeAddress + ". User: " + this.userId + ". Charger Type: " + this.chargerType + ". From" + new Date(this.event.endTime).toISOString() + " to " + new Date(this.event.startTime).toISOString()
         this.viewCtrl.dismiss(event);
-
+        console.log("NOPROBLEM")
 
 
       }
@@ -357,21 +338,19 @@ export class NodeEventsPage {
 
   book() {
 
-
-    console.log("HEEEY" + this.event.endTime);
-
     this.startTime = new Date(this.event.startTime).toISOString().slice(0, 19).replace('T', ' ');
     this.finishTime = new Date(this.event.endTime).toISOString().slice(0, 19).replace('T', ' ');
 
 
     console.log("booked");
-    let options: any = { "key": "create", "userId": this.userId, "nodeAddress": this.nodeAddress, "chargerType": this.chargerType, "nodeId": this.nodeId, "nodeOwnerId": this.nodeOwnerId, "startTime": this.startTime, "finishTime": this.finishTime, "cost": this.totalCost },
+    let options: any = { "key": "create", "userId": this.userId, "nodeAddress": this.nodeAddress, "chargerType": this.chargerType, "nodeId": this.nodeId, "nodeOwnerId": this.userId, "startTime": this.startTime, "finishTime": this.finishTime, "cost": 0 },
       url: any = 'http://localhost:80/data_marker/nodeBooking.php';
 
     this.http.post(url, JSON.stringify(options))
       .subscribe((data: any) => {
         console.log("sent");
         console.log("STTART" + this.event.startTime);
+        console.log(options);
 
 
 

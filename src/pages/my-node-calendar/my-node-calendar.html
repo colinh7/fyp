@@ -8,6 +8,9 @@
           <button ion-button (click)="changeMode('month'); click()">M</button>
           <button ion-button (click)="changeMode('week'); click()">W</button>
           <button ion-button (click)="changeMode('day'); click()">D</button>
+          <button ion-button icon-only (click)="addEvent()">
+            <ion-icon name="add"></ion-icon>
+          </button>
       </ion-buttons>
     </ion-navbar>
   </ion-header>
@@ -25,8 +28,8 @@
   (onTitleChanged)="onViewTitleChanged($event)"
   (onTimeSelected)="onTimeSelected($event)"
   step="30"
-  [startHour]= "0"
-  [endHour] = "24"
+  [startHour]= "this.startHour"
+  [endHour] = "this.endHour"
 
 >
 </calendar>

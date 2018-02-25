@@ -50,7 +50,7 @@
     </button>
   
     <button ion-button full icon-left (click)="save()">
-      <ion-icon name="checkmark"></ion-icon> Add Event
+      <ion-icon name="checkmark"></ion-icon> Book
     </button>
   
   <ion-item>
@@ -59,6 +59,7 @@
     <p *ngIf="this.greaterThan == true ">Start time cannot be greater than the end time. </p>
     <p *ngIf="this.equal == true ">Start time cannot be the same as end time. </p>
     <p *ngIf="this.tooLong == true ">Bookings Cannot Last Longer then 1 Hour </p>
+    <p *ngIf="this.pastBooking == true ">Bookings Cannot Begin at a Past Time </p>
   
   </ion-item>
   

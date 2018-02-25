@@ -131,37 +131,37 @@ export class MyProfilePage {
 
 
 
-ownerCheck(){
+  ownerCheck() {
 
-  console.log("isWONER"+ this.isOwner);
-  if (this.isOwner !== this.authState.uid){
+    console.log("isWONER" + this.isOwner);
+    if (this.isOwner !== this.authState.uid) {
 
-    this.break = 1;
-
-    let alert = this.alert.create({
-      title: 'Error!',
-      subTitle: 'You Do Not Have A Charge Point!',
-      buttons: ['OK']
-    });
-
-
-    alert.onDidDismiss (res => {
-
-      console.log("success");
-      console.log("jump " + this.authState.uid);
       this.break = 1;
 
+      let alert = this.alert.create({
+        title: 'Error!',
+        subTitle: 'You Do Not Have A Charge Point!',
+        buttons: ['OK']
+      });
 
-     
-    });
 
-    alert.present();
-  
-   
+      alert.onDidDismiss(res => {
+
+        console.log("success");
+        console.log("jump " + this.authState.uid);
+        this.break = 1;
+
+
+
+      });
+
+      alert.present();
+
+
+    }
+
+
   }
-
-
-}
 
 
 
@@ -244,11 +244,51 @@ ownerCheck(){
 
     this.ownerCheck();
 
-    if (this.break == 1){
-      
+    if (this.break == 1) {
+
       this.navCtrl.setRoot(ProfilePage);
     }
-    else{
+    else {
+      this.deleteNodeBooking();
+      this.deletNode();
+    }
+  }
+
+
+
+  deleteNodeBooking() {
+
+
+    let options: any = { "nodeOwnerId": this.userId },
+      url: any = 'http://localhost:80/data_marker/deleteAllNodeBookings.php';
+    console.log(options);
+
+    this.http.post(url, JSON.stringify(options))
+      .subscribe((data: any) => {
+
+
+      },
+      (error: any) => {
+        console.log("HEYY" + error);
+
+        let alert = this.alert.create({
+          title: 'Error!',
+          subTitle: 'Please ensure your device is connected to the internet.',
+          buttons: ['OK']
+        });
+
+
+        alert.present();
+
+      });
+
+  }
+
+
+
+  deletNode() {
+
+
 
     let options: any = { "nodeOwnerId": this.userId },
       url: any = 'http://localhost:80/data_marker/deleteNode.php';
@@ -263,20 +303,20 @@ ownerCheck(){
           subTitle: 'Your Charge Point Has Been Deleted',
           buttons: ['OK']
         });
-       
-      
-        alert.onDidDismiss (res => {
+
+
+        alert.onDidDismiss(res => {
 
           console.log("success");
           console.log("jump " + this.authState.uid);
           this.navCtrl.setRoot(ProfilePage);
-  
 
-         
+
+
         });
-       
+
         alert.present();
-        
+
       },
       (error: any) => {
         console.log("HEYY" + error);
@@ -289,9 +329,61 @@ ownerCheck(){
 
 
         alert.present();
-        
+
       });
+
+
+
   }
-}
+
+
+  deleteBookings() {
+
+
+
+  
+
+
+    let options: any = { "nodeOwnerId": this.nodeOwnerId },
+      url: any = 'http://localhost:80/data_marker/deleteAllNodeBookings.php';
+    console.log(options);
+
+    this.http.post(url, JSON.stringify(options))
+      .subscribe((data: any) => {
+
+
+        let alert = this.alert.create({
+          title: 'Complete!',
+          subTitle: 'Your Charge Point Bookings Has Been Deleted',
+          buttons: ['OK']
+        });
+
+
+        alert.onDidDismiss(res => {
+
+
+
+        });
+
+        alert.present();
+
+      },
+      (error: any) => {
+        console.log("HEYY" + error);
+
+        let alert = this.alert.create({
+          title: 'Error!',
+          subTitle: 'Please ensure your device is connected to the internet.',
+          buttons: ['OK']
+        });
+
+
+        alert.present();
+
+      });
+
+
+
+  }
 
 }

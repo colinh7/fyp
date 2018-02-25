@@ -161,13 +161,15 @@ console.log("USER:" + this.authState.uid);
       try {
 
         this.nodeAddress = appMarker.nodeAddress;
-        this.nodeId = appMarker.nodeId;
+        this.nodeId = appMarker.id;
         this.chargerType = appMarker.chargerType;
         this.nodeOwnerId = appMarker.nodeOwnerId;
         this.startHour = appMarker.startTime;
         this.endHour = appMarker.finishTime;
         this.costPer15Mins = appMarker.costPer15Mins;
 
+
+        console.log(this.nodeId);
         console.log(this.startHour + "STARTTHOUR");
 
       } catch (error) {
@@ -245,13 +247,26 @@ console.log("USER:" + this.authState.uid);
     }
     else{
 
+      console.log("HEYA" +this.chargerType);
+
     this.navCtrl.push(MyNodeCalendarPage, {
 
 
       param7: this.afAuth.auth.currentUser.uid,
+      nodeAddress: this.nodeAddress,
+      nodeId: this.nodeId,
+      chargerType: this.chargerType,
+      nodeOwnerId: this.nodeOwnerId,
+      startHour: this.startHour,
+      endHour: this.endHour,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      emailAddress: this.emailAddress,
+      phoneNumber: this.phoneNumber
 
     });
-    console.log("hey")
+    console.log("hey" +this.startHour)
+    console.log("CHAHAHRRGER"+ this.chargerType);
   }
 }
 
