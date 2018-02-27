@@ -74,7 +74,7 @@
     </ion-item>
 
     <ion-item>
-        <ion-label floating>Cost</ion-label>
+        <ion-label floating>Cost Per 15 Minutes (€)</ion-label>
         <ion-input type="text" [(ngModel)]="this.costPer15Mins" [readonly] = true></ion-input>
     </ion-item>
 
@@ -82,7 +82,7 @@
     <button ion-button (click)="edit()">Edit Node Cost and Availability</button>
     <button ion-button right (click)="deleteBookings()">Delete All Charge Point Bookings</button>
 
-    <button ion-button right (click)="deleteNode()">Delete Your Charge Point</button>
+    <button  color = "danger" ion-button end (click)="deleteNode()">Delete Your Charge Point</button>
 
 
 

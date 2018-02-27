@@ -54,7 +54,7 @@ export class MyProfilePage {
 
 
 
-    this.http.get('http://localhost:80/data_marker/myNodeData.php?userId=' + this.userId)
+    this.http.get('http://colinfyp.bitnamiapp.com/data_marker/myNodeData.php?userId=' + this.userId)
       .map(res => res.json())
       .subscribe(appMarkers => {
 
@@ -69,7 +69,7 @@ export class MyProfilePage {
 
     console.log(this.endHour + "ENDHOUR");
 
-    this.http.get('http://localhost:80/data_marker/myProfile.php?userId=' + this.userId)
+    this.http.get('http://colinfyp.bitnamiapp.com/data_marker/myProfile.php?userId=' + this.userId)
       .map(res => res.json())
       .subscribe(u => {
 
@@ -89,7 +89,7 @@ export class MyProfilePage {
 
 
 
-    this.http.get('http://localhost:80/data_marker/myNodeData.php?userId=' + this.userId)
+    this.http.get('http://colinfyp.bitnamiapp.com/data_marker/myNodeData.php?userId=' + this.userId)
       .map(res => res.json())
       .subscribe(u => {
 
@@ -260,7 +260,7 @@ export class MyProfilePage {
 
 
     let options: any = { "nodeOwnerId": this.userId },
-      url: any = 'http://localhost:80/data_marker/deleteAllNodeBookings.php';
+      url: any = 'http://colinfyp.bitnamiapp.com/data_marker/deleteAllNodeBookings.php';
     console.log(options);
 
     this.http.post(url, JSON.stringify(options))
@@ -288,10 +288,10 @@ export class MyProfilePage {
 
   deletNode() {
 
-
+    this.deleteBookings();
 
     let options: any = { "nodeOwnerId": this.userId },
-      url: any = 'http://localhost:80/data_marker/deleteNode.php';
+      url: any = 'http://colinfyp.bitnamiapp.com/data_marker/deleteNode.php';
     console.log(options);
 
     this.http.post(url, JSON.stringify(options))
@@ -345,7 +345,7 @@ export class MyProfilePage {
 
 
     let options: any = { "nodeOwnerId": this.nodeOwnerId },
-      url: any = 'http://localhost:80/data_marker/deleteAllNodeBookings.php';
+      url: any = 'http://colinfyp.bitnamiapp.com/data_marker/deleteAllNodeBookings.php';
     console.log(options);
 
     this.http.post(url, JSON.stringify(options))

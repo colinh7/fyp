@@ -44,7 +44,7 @@ export class CreateNodePage {
     this.userId =this.afAuth.auth.currentUser.uid
    
 
-    this.http.get('http://localhost:80/data_marker/myNodeData.php?userId='+this.userId)
+    this.http.get('http://colinfyp.bitnamiapp.com/data_marker/myNodeData.php?userId='+this.userId)
     .map(res => res.json())
     .subscribe(u => {
 
@@ -129,7 +129,7 @@ else
         console.log(this.node);
 
         let options: any = { 'chargerType': this.node.chargerType, 'lat': this.node.lat, 'lng': this.node.lng, 'address': this.node.address, 'uuid': this.authState.uid, 'startTime': this.node.availabilityTimeStart, 'finishTime': this.node.availabilityTimeFinish, "costPer15Mins": this.node.costPer15Mins },
-          url: any = 'http://localhost:80/data_marker/createNode.php';
+          url: any = 'http://colinfyp.bitnamiapp.com/data_marker/createNode.php';
         console.log(options);
 
         this.http.post(url, JSON.stringify(options))

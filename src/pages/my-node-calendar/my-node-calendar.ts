@@ -50,6 +50,7 @@ export class MyNodeCalendarPage {
   eventsFinish = [];
   costPer15Mins: any;
   bookingId: number;
+  previousMode: any;
 
   constructor(private afAuth: AngularFireAuth, public loadingCtrl: LoadingController, public http: Http, public navParams: NavParams, navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) {
 
@@ -60,6 +61,7 @@ export class MyNodeCalendarPage {
     this.nodeId = navParams.get("nodeId")
     this.chargerType = navParams.get("chargerType")
     console.log("ID " + this.nodeId);
+    this.loadCalendar();
 
     let loading = this.loadingCtrl.create({
       content: 'Loading Node Data...'
@@ -69,6 +71,7 @@ export class MyNodeCalendarPage {
 
     setTimeout(() => {
       this.calendar.mode = 'week';
+      this.previousMode = this.calendar.mode;
 
 
 
@@ -84,9 +87,19 @@ export class MyNodeCalendarPage {
 
 
 
+  }
+  ionViewDidLoad() {
+
+
+  }
+
+
+
+  loadCalendar() {
+
 
     let events = this.eventSource;
-    this.http.get('http://localhost:80/data_marker/myNodeBookings.php?userId=' + this.userId)
+    this.http.get('http://colinfyp.bitnamiapp.com/data_marker/myNodeBookings.php?userId=' + this.userId)
       .map(res => res.json())
       .subscribe(nodeBookings => {
 
@@ -121,8 +134,8 @@ export class MyNodeCalendarPage {
             eventData.title = "Booking ID:" + eventData.bookingId + ". Charge Point ID:" + eventData.nodeId + ".  \n ChargePoint Address:" + eventData.nodeAddress + "\n Charger Type:" + eventData.chargerType;
 
 
-            if (eventData)
-              this.eventSource.push(eventData);
+
+            this.eventSource.push(eventData);
             this.eventsStart.push(eventData.startTime);
             this.eventsFinish.push(eventData.endTime);
 
@@ -141,13 +154,6 @@ export class MyNodeCalendarPage {
       });
 
 
-
-
-
-
-
-  }
-  ionViewDidLoad() {
 
 
   }
@@ -204,6 +210,7 @@ export class MyNodeCalendarPage {
   changeMode(mode) {
     this.calendar.mode = mode;
     console.log(this.calendar.mode)
+    this.previousMode = mode;
   }
 
 
@@ -231,6 +238,9 @@ export class MyNodeCalendarPage {
     modal.present();
     modal.onDidDismiss(data => {
 
+
+
+
       if (data) {
         let alert = this.alertCtrl.create({
           title: 'Great!',
@@ -238,8 +248,13 @@ export class MyNodeCalendarPage {
           buttons: ['OK']
         });
 
+
+        this.loadCalendar();
+        this.changeMode("month");
         alert.present();
+
       }
+
 
       if (data) {
         let eventData = data;
@@ -250,11 +265,13 @@ export class MyNodeCalendarPage {
         let events = this.eventSource;
         events.push(eventData);
         this.eventSource = [];
+
         setTimeout(() => {
-          this.eventSource = events;
+          this.changeMode("week");
           console.log(this.eventSource);
         });
       }
+
     });
   }
 
@@ -290,13 +307,22 @@ export class MyNodeCalendarPage {
 
     console.log(this.bookingId);
 
+    this.eventSource = [];
 
     let options: any = { "bookingId": this.bookingId },
-      url: any = 'http://localhost:80/data_marker/deletebooking.php';
+      url: any = 'http://colinfyp.bitnamiapp.com/data_marker/deleteBooking.php';
     console.log(options);
 
     this.http.post(url, JSON.stringify(options))
       .subscribe((data: any) => {
+
+
+      
+      
+        this.loadCalendar();
+        
+
+
 
 
         let alert = this.alertCtrl.create({
@@ -305,9 +331,16 @@ export class MyNodeCalendarPage {
           buttons: ['OK']
         });
 
+        console.log("HEEYEYEYEYE" + this.eventSource.length);
 
-        alert.onDidDismiss(res => {
+        alert.onWillDismiss(res => {
 
+          
+          console.log("DELETED");
+          console.log(this.eventSource.length);
+          this.changeMode("week");
+          
+          
 
 
         });
@@ -329,6 +362,7 @@ export class MyNodeCalendarPage {
 
       });
 
+     
 
   }
 }

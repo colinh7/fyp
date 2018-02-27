@@ -1,3 +1,4 @@
+import { LoadingPage } from './../pages/loading/loading';
 import { MyNodeBookingFreePage } from './../pages/my-node-booking-free/my-node-booking-free';
 import { EditNodeDetailsPage } from './../pages/edit-node-details/edit-node-details';
 import { MyNodeCalendarPage } from './../pages/my-node-calendar/my-node-calendar';
@@ -44,7 +45,8 @@ import { ProfilePage } from './../pages/profile/profile';
     MyCalendarPage,
     MyNodeCalendarPage,
     EditNodeDetailsPage,
-    MyNodeBookingFreePage
+    MyNodeBookingFreePage,
+    LoadingPage
   ],
   imports: [
     BrowserModule,
@@ -69,7 +71,8 @@ import { ProfilePage } from './../pages/profile/profile';
     MyCalendarPage,
     MyNodeCalendarPage,
     EditNodeDetailsPage,
-    MyNodeBookingFreePage
+    MyNodeBookingFreePage,
+    LoadingPage
   ],
   providers: [
     StatusBar,

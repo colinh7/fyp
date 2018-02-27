@@ -34,7 +34,7 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
+  primary:    rgba(189, 107, 107, 0.753),
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
@@ -42,12 +42,24 @@ $colors: (
 );
 
 
+
+$text-input-highlight-color-valid: #3ebfe2;
+
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
 
+$toolbar-background: rgba(189, 107, 107, 0.753);
 
+$tabbar-md-background:        rgba(189, 107, 107, 0.753);
+$tabs-md-tab-color-active:                rgba(189, 107, 107, 0.753);
+$tabs-md-tab-color:                    rgba(189, 107, 107, 0.753);          
+
+// Change the color of the segment button text
+$toolbar-md-active-color:       rgba(189, 107, 107, 0.753);          
+$toolbar-md-inactive-color:     rgba(189, 107, 107, 0.753);          
+$segment-button-md-text-color-activated: rgba(189, 107, 107, 0.753);
 
 // App Material Design Variables
 // --------------------------------------------------

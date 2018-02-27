@@ -145,7 +145,7 @@ export class MyNodeBookingFreePage {
 
 
 
-    this.http.get('http://localhost:80/data_marker/getNodeBookings.php?userId= ' + this.userId + '&nodeId=' + this.nodeId)
+    this.http.get('http://colinfyp.bitnamiapp.com/data_marker/getNodeBookings.php?userId= ' + this.userId + '&nodeId=' + this.nodeId)
       .map(res => res.json())
       .subscribe(nodeBookings => {
 
@@ -301,7 +301,7 @@ export class MyNodeBookingFreePage {
 
 
         }
-        else if (new Date(this.event.startTime).toISOString() <= this.eventsStart[i].toISOString() && new Date(this.event.endTime).toISOString() <= this.eventsFinish[i].toISOString() && new Date(this.event.endTime).toISOString() >= this.eventsStart[i].toISOString()) {
+        else if (new Date(this.event.startTime).toISOString() <= this.eventsStart[i].toISOString() && new Date(this.event.endTime).toISOString() < this.eventsFinish[i].toISOString() && new Date(this.event.endTime).toISOString() > this.eventsStart[i].toISOString()) {
           console.log("bo");
           this.overlap = true;
           found = true;
@@ -344,7 +344,7 @@ export class MyNodeBookingFreePage {
 
     console.log("booked");
     let options: any = { "key": "create", "userId": this.userId, "nodeAddress": this.nodeAddress, "chargerType": this.chargerType, "nodeId": this.nodeId, "nodeOwnerId": this.userId, "startTime": this.startTime, "finishTime": this.finishTime, "cost": 0 },
-      url: any = 'http://localhost:80/data_marker/nodeBooking.php';
+      url: any = 'http://colinfyp.bitnamiapp.com/data_marker/nodeBooking.php';
 
     this.http.post(url, JSON.stringify(options))
       .subscribe((data: any) => {

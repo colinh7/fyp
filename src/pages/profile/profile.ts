@@ -6,6 +6,7 @@ import { MyProfilePage } from './../my-profile/my-profile';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { LoginPage } from '../login/login';
 
 
 
@@ -51,7 +52,7 @@ export class ProfilePage {
 
 
 
-    this.http.get('http://localhost:80/data_marker/myNodeData.php?userId=' + this.userId)
+    this.http.get('http://colinfyp.bitnamiapp.com/data_marker/myNodeData.php?userId=' + this.userId)
       .map(res => res.json())
       .subscribe(appMarkers => {
 
@@ -66,7 +67,7 @@ export class ProfilePage {
 
     console.log(this.endHour + "ENDHOUR");
 
-    this.http.get('http://localhost:80/data_marker/myProfile.php?userId=' + this.userId)
+    this.http.get('http://colinfyp.bitnamiapp.com/data_marker/myProfile.php?userId=' + this.userId)
       .map(res => res.json())
       .subscribe(u => {
 
@@ -216,7 +217,7 @@ console.log("USER:" + this.authState.uid);
 
   pushPage() {
 
-    this.http.get('http://localhost:80/data_marker/myNodeData.php?userId=' + this.userId)
+    this.http.get('http://colinfyp.bitnamiapp.com/data_marker/myNodeData.php?userId=' + this.userId)
     .map(res => res.json())
     .subscribe(u => {
 
@@ -294,5 +295,17 @@ console.log("USER:" + this.authState.uid);
 
   }
 
+
+
+  logout() {
+    this.afAuth.auth.signOut().then(() => {
+      this.navCtrl.setRoot(LoginPage);
+
+
+
+    });
+
+
+  }
 
 }

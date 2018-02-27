@@ -83,7 +83,7 @@ export class EditNodeDetailsPage {
 
 
         let options: any = { 'chargerType': this.chargerType, 'startTime': this.startHour, 'finishTime': this.endHour, "costPer15Mins": this.costPer15Mins, "userId": this.userId },
-          url: any = 'http://localhost:80/data_marker/editNode.php';
+          url: any = 'http://colinfyp.bitnamiapp.com/data_marker/editNode.php';
         console.log(options);
 
         this.http.post(url, JSON.stringify(options))

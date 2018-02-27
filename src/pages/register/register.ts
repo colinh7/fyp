@@ -153,7 +153,7 @@ authState: any = null;
 createEntry() : void
 {
    let options 	: any		= { "key"   : "create" ,"uuid" : this.user.uuid , "firstName" : this.user.firstName, "lastName": this.user.lastName, "phoneNumber": this.user.phoneNumber, "emailAddress" : this.user.email },
-       url       : any      	= 'http://localhost:80/data_marker/createUser.php';
+       url       : any      	= 'http://colinfyp.bitnamiapp.com/data_marker/createUser.php';
 
    this.http.post(url, JSON.stringify(options))
    .subscribe((data : any) =>

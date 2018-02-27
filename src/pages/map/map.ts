@@ -46,7 +46,7 @@ export class MapPage {
   markerApp: any;
   lngApp: any;
   infoWindow: any = new google.maps.InfoWindow({
-    size: new google.maps.Size(150, 300)
+    size: new google.maps.Size(150, 500)
   })
   markerButton: any;
   deleteMarkerButton: any;
@@ -54,7 +54,10 @@ export class MapPage {
   appMarkers = [];
   disabled: boolean;
   addNodeClicked: boolean;
-  thirdPartyMarkerInfoWindow: any = new google.maps.InfoWindow();
+  thirdPartyMarkerInfoWindow: any = new google.maps.InfoWindow({
+    maxWidth: 100,
+    size: new google.maps.Size(100, 500)
+  });
   dbMarker: any;
   appInfoWindow: any = new google.maps.InfoWindow({
     maxWidth: 100,
@@ -77,7 +80,7 @@ export class MapPage {
   constructor(public events: Events, private afAuth: AngularFireAuth, public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network) {
 
     this.afAuth.authState.subscribe((auth) => {
-      this.authState = auth
+      this.authState = auth;
     });
 
 
@@ -271,7 +274,7 @@ export class MapPage {
   loadAppMarkers() {
 
 
-    this.subscriber = this.http.get('http://localhost:80/data_marker/appMarkerData.php')
+    this.subscriber = this.http.get('http://colinfyp.bitnamiapp.com/data_marker/appMarkerData.php')
       .map(res => res.json())
       .subscribe(appMarkers => {
 
@@ -347,14 +350,14 @@ export class MapPage {
       markerLatLng = new google.maps.LatLng(lat, lng);
 
       if (!this.markerExists(lat, lng)) {
-
+        var image = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
 
         marker = new google.maps.Marker({
           map: this.map,
           animation: google.maps.Animation.DROP,
           position: markerLatLng,
           clickable: true,
-          icon: "assets/imgs/green_markerN.png",
+          icon: image,
 
 
         });
@@ -372,6 +375,7 @@ export class MapPage {
             appInfoWindow.open(map, marker);
             self.updateBookingNodeAddress(nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng);
 
+            self.thirdPartyMarkerInfoWindow.close();
 
 
 
@@ -444,36 +448,34 @@ export class MapPage {
     else {
 
       let alert = this.alertCtrl.create({
-        title: 'Create A Node!',
+        title: 'Create A Charge Point!',
         inputs: [
           {
             name: 'address',
-            placeholder: 'Node Address'
+            placeholder: 'Charge Point Address...'
           },
         ],
         buttons: [
           {
-            text: 'Cancel',
-            role: 'cancel',
-            handler: data => {
-              console.log('Cancel clicked');
-            }
-          },
-          {
-            text: 'Add Node',
+            text: 'Add',
             handler: data => {
 
               this.node.address = data.address;
-              console.log(data.address);
+              this.geocodeAddress(this.node.address);
 
             }
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
           }
+
         ]
       });
       alert.present();
       alert.onDidDismiss(() => {
 
-        this.geocodeAddress(this.node.address);
+
 
 
       })
@@ -598,10 +600,11 @@ export class MapPage {
         google.maps.event.addListener(marker, 'click', (function (marker, content, thirdPartyMarkerInfoWindow, openWindow, lat, lng) {
           return function () {
 
-            console.log("AAAAAAAAAAAAAAA " + lat,lng);
+            console.log("AAAAAAAAAAAAAAA " + lat, lng);
             thirdPartyMarkerInfoWindow.setContent(content + directions);
             thirdPartyMarkerInfoWindow.open(map, marker);
             self.directions(lat, lng);
+            self.appInfoWindow.close();
 
 
 
@@ -699,47 +702,47 @@ export class MapPage {
   }
 
 
-
-  addMarker() {
-
-    let alert = this.alertCtrl.create({
-      title: 'Create A Charging Point',
-      subTitle: "Please enter the address oof the node you wish to create",
-      inputs: [
-        {
-          name: 'address',
-          placeholder: 'Node Address'
-        }
-      ],
-      buttons: [
-        {
-          text: 'OK',
-          role: 'OK'
-        },
-        {
-          text: 'Cancel',
-          role: 'Cancel'
-        }
-      ]
-
-    });
-
-    if (alert) {
-
+  /*
+    addMarker() {
+  
+      let alert = this.alertCtrl.create({
+        title: 'Create A Charging Point',
+        subTitle: "Please enter the address oof the node you wish to create",
+        inputs: [
+          {
+            name: 'address',
+            placeholder: 'Node Address'
+          }
+        ],
+        buttons: [
+          {
+            text: 'OK',
+            role: 'OK'
+          },
+          {
+            text: 'Cancel',
+            role: 'Cancel'
+          }
+        ]
+  
+      });
+  
+      if (alert) {
+  
+      }
+  
+  
+  
+      let marker = new google.maps.Marker({
+        map: this.map,
+        animation: google.maps.Animation.DROP,
+        position: this.map.getCenter()
+      });
+  
+  
+  
     }
-
-
-
-    let marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-      position: this.map.getCenter()
-    });
-
-
-
-  }
-
+  */
 
 
 
@@ -775,7 +778,7 @@ export class MapPage {
     this.markerButton = '<button id="tap">Add Node</button>';
     this.deleteMarkerButton = '<button id="deleteButton">Delete</button>';
     this.geocoder = new google.maps.Geocoder();
-    var iconBase = "assets/imgs/green_markerN.png";
+    var iconBase = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
     this.geocoder.geocode({ 'address': address }, (results, status) => {
 
       if (status === 'OK') {
@@ -835,7 +838,7 @@ export class MapPage {
       } else {
         let alert = this.alertCtrl.create({
           title: 'ERROR',
-          subTitle: 'Node creation was unsuccesful for the following reason:' + status,
+          subTitle: 'Node creation was unsuccesful for the following reason: ' + status,
           buttons: ['OK'],
 
         });

@@ -64,6 +64,7 @@ export class NodeBookingPage {
     this.costPer15Mins = navParams.get('param8');
     console.log("STTTARTHOUR"+ this.startHour);
     console.log(this.userId);
+    this.loadCalendar()
 
 
 
@@ -77,7 +78,7 @@ export class NodeBookingPage {
       setTimeout(() => {
         this.calendar.mode = 'week';
        
-        this.loadCalendar()
+      
         
         loading.dismiss();
 
@@ -107,7 +108,7 @@ export class NodeBookingPage {
     
     
   let events = this.eventSource;
-  this.http.get('http://localhost:80/data_marker/getNodeBookings.php?nodeId=' + this.nodeId )
+  this.http.get('http://colinfyp.bitnamiapp.com/data_marker/getNodeBookings.php?nodeId=' + this.nodeId )
   .map(res => res.json())
   .subscribe(nodeBookings => {
 
@@ -177,9 +178,13 @@ addEvent() {
         buttons: ['OK']
       });
 
+      this.loadCalendar();
+      this.changeMode("month");
+   
       alert.present();
+     
     }
-    
+   
       if (data) {
         let eventData = data;
 
@@ -190,8 +195,9 @@ addEvent() {
         events.push(eventData);
         this.eventSource = [];
         setTimeout(() => {
-          this.eventSource = events;
+          this.changeMode("week");
           console.log(this.eventSource);
+        
         });
       }
     });
