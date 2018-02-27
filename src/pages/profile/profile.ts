@@ -98,6 +98,23 @@ export class ProfilePage {
 
   }
 
+  ionViewDidEnter(){
+  
+    
+    this.http.get('http://colinfyp.bitnamiapp.com/data_marker/myNodeData.php?userId=' + this.userId)
+      .map(res => res.json())
+      .subscribe(appMarkers => {
+
+        this.setMarkerVariables(appMarkers);
+
+
+
+      });
+
+    
+  }
+
+
 
 
 

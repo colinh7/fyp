@@ -374,7 +374,7 @@ export class NodeEventsPage {
       
       this.viewCtrl.dismiss(event);
       console.log("booked");
-      let options: any = { "key": "create", "userId": this.userId, "nodeAddress": this.nodeAddress, "chargerType": this.chargerType, "nodeId": this.nodeId, "nodeOwnerId": this.nodeOwnerId, "startTime": this.startTime, "finishTime": this.finishTime, "cost": this.totalCost },
+      let options: any = { "key": "create", "userId": this.userId, "nodeAddress": this.nodeAddress, "chargerType": this.chargerType, "nodeId": this.nodeId, "nodeOwnerId": this.nodeOwnerId, "startTime": this.startTime, "finishTime": this.finishTime, "cost": 0 },//this.totalCost },
         url: any = 'http://colinfyp.bitnamiapp.com/data_marker/nodeBooking.php';
 
       this.http.post(url, JSON.stringify(options))
