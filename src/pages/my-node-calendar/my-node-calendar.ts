@@ -308,6 +308,7 @@ export class MyNodeCalendarPage {
     console.log(this.bookingId);
 
     this.eventSource = [];
+    this.calendar.mode = "month";
 
     let options: any = { "bookingId": this.bookingId },
       url: any = 'http://colinfyp.bitnamiapp.com/data_marker/deleteBooking.php';

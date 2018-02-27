@@ -171,6 +171,8 @@ addEvent() {
     modal.present();
     modal.onDidDismiss(data => {
 
+      
+
       if(data){
       let alert = this.alertCtrl.create({
         title: 'Great!',

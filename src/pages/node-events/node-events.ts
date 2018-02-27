@@ -40,6 +40,7 @@ export class NodeEventsPage {
   hoursAvailable = [];
   tooLong: any;
   pastBooking: any;
+  over: any;
 
 
 
@@ -63,6 +64,7 @@ export class NodeEventsPage {
     this.startHour = navParams.get("startHour");
     this.endHour = navParams.get("endHour");
     var i;
+    console.log("endhour" + this.endHour)
 
 
 
@@ -77,14 +79,7 @@ export class NodeEventsPage {
 
     }
 
-    for (i = 0; i < this.hoursAvailable.length; i++) {
-
-
-
-
-    }
-
-
+   
 
 
 
@@ -135,6 +130,7 @@ export class NodeEventsPage {
     var differenceMs = d2 - d1;
     var diffSeconds = Math.floor(differenceMs / 1000); // seconds=
     this.totalCost = Math.floor(diffSeconds / 60)
+    console.log("TOTALCOST" + this.totalCost)
 
 
 
@@ -189,7 +185,7 @@ export class NodeEventsPage {
       });
 
 
-    var endTime =  new Date(this.event.endTime);
+    var endTime = new Date(this.event.endTime);
     var hours = endTime.getHours();
 
     console.log("HOURS" + hours);
@@ -204,7 +200,7 @@ export class NodeEventsPage {
 
     }
 
-    
+
 
 
 
@@ -346,7 +342,7 @@ export class NodeEventsPage {
         console.log("NOPROBLEM")
         this.book();
         this.title = "Node Address: " + this.nodeAddress + ". User: " + this.userId + ". Charger Type: " + this.chargerType + ". From" + new Date(this.event.endTime).toISOString() + " to " + new Date(this.event.startTime).toISOString()
-        this.viewCtrl.dismiss(event);
+        
 
 
 
@@ -358,37 +354,48 @@ export class NodeEventsPage {
 
 
   book() {
+    var startOverEnd = new Date(this.event.startTime).getHours() + new Date(this.event.startTime).getMinutes() / 100;
+    var endoverEnd = new Date(this.event.endTime).getHours()  + new Date(this.event.endTime).getMinutes() / 100;
+    console.log(new Date(this.event.endTime).getHours());
+    console.log(new Date(this.event.endTime).getHours());
+    console.log("OVVVVVER" + endoverEnd);
+    console.log("ENDHOUR" + this.endHour)
+
+    if (startOverEnd > this.endHour -1 || endoverEnd > this.endHour -1) {
+      this.over == true;
+
+    }
+    else {
+
+      console.log("HEEEY" + this.event.endTime);
+
+      this.startTime = new Date(this.event.startTime).toISOString().slice(0, 19).replace('T', ' ');
+      this.finishTime = new Date(this.event.endTime).toISOString().slice(0, 19).replace('T', ' ');
+      
+      this.viewCtrl.dismiss(event);
+      console.log("booked");
+      let options: any = { "key": "create", "userId": this.userId, "nodeAddress": this.nodeAddress, "chargerType": this.chargerType, "nodeId": this.nodeId, "nodeOwnerId": this.nodeOwnerId, "startTime": this.startTime, "finishTime": this.finishTime, "cost": this.totalCost },
+        url: any = 'http://colinfyp.bitnamiapp.com/data_marker/nodeBooking.php';
+
+      this.http.post(url, JSON.stringify(options))
+        .subscribe((data: any) => {
+          console.log("sent");
+          console.log("STTART" + this.event.startTime);
+          console.log(options);
 
 
-    console.log("HEEEY" + this.event.endTime);
+        },
+        (error: any) => {
+          console.log("problem");
 
-    this.startTime = new Date(this.event.startTime).toISOString().slice(0, 19).replace('T', ' ');
-    this.finishTime = new Date(this.event.endTime).toISOString().slice(0, 19).replace('T', ' ');
+          let alert = this.alert.create({
+            title: 'Error!',
+            subTitle: 'Please ensure your device is connected to the internet.',
+            buttons: ['OK']
+          });
 
-
-    console.log("booked");
-    let options: any = { "key": "create", "userId": this.userId, "nodeAddress": this.nodeAddress, "chargerType": this.chargerType, "nodeId": this.nodeId, "nodeOwnerId": this.nodeOwnerId, "startTime": this.startTime, "finishTime": this.finishTime, "cost": this.totalCost },
-      url: any = 'http://colinfyp.bitnamiapp.com/data_marker/nodeBooking.php';
-
-    this.http.post(url, JSON.stringify(options))
-      .subscribe((data: any) => {
-        console.log("sent");
-        console.log("STTART" + this.event.startTime);
-
-
-
-      },
-      (error: any) => {
-        console.log("problem");
-
-        let alert = this.alert.create({
-          title: 'Error!',
-          subTitle: 'Please ensure your device is connected to the internet.',
-          buttons: ['OK']
+          alert.present();
         });
-
-        alert.present();
-      });
-
+    }
   }
 }

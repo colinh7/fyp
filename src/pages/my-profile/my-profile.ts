@@ -187,7 +187,8 @@ export class MyProfilePage {
       firstName: this.firstName,
       lastName: this.lastName,
       emailAddress: this.emailAddress,
-      phoneNumber: this.phoneNumber
+      phoneNumber: this.phoneNumber,
+      costPer15Mins: this.costPer15Mins
 
 
 
@@ -354,7 +355,7 @@ export class MyProfilePage {
 
         let alert = this.alert.create({
           title: 'Complete!',
-          subTitle: 'Your Charge Point Bookings Has Been Deleted',
+          subTitle: 'Your Charge Point Bookings Have Been Deleted',
           buttons: ['OK']
         });
 

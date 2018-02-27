@@ -51,6 +51,15 @@ export class EditNodeDetailsPage {
     this.emailAddress = navParams.get("emailAddress");
     this.phoneNumber = navParams.get("phoneNumber");
     this.costPer15Mins = navParams.get("costPer15Mins");
+    console.log("COST PER 15 " + this.costPer15Mins)
+
+
+
+    this.alert.create({
+      title: 'Please Note',
+      subTitle: 'To control constant changes, editing your charge points details will delete all of its bookings.',
+      buttons: ['OK']
+    });
 
 
   }
@@ -71,7 +80,7 @@ export class EditNodeDetailsPage {
 
       var start: number = this.startHour;
       var end: number = this.endHour;
-      var diff = end -start;
+      var diff = end - start;
 
       console.log(this.startHour);
       console.log(this.endHour);
@@ -79,6 +88,8 @@ export class EditNodeDetailsPage {
 
 
       if (diff > 0) {
+
+        this.deleteBookings();
 
 
 
@@ -88,8 +99,8 @@ export class EditNodeDetailsPage {
 
         this.http.post(url, JSON.stringify(options))
           .subscribe((data: any) => {
-console.log(options);
-
+            console.log(options);
+            console.log("OPTIONS" + options)
             this.navCtrl.setRoot(ProfilePage);
           },
           (error: any) => {
@@ -131,5 +142,35 @@ console.log(options);
 
   }
 
+
+  deleteBookings() {
+
+    let options: any = { "nodeOwnerId": this.nodeOwnerId },
+      url: any = 'http://colinfyp.bitnamiapp.com/data_marker/deleteAllNodeBookings.php';
+    console.log(options);
+
+    this.http.post(url, JSON.stringify(options))
+      .subscribe((data: any) => {
+
+
+
+      },
+      (error: any) => {
+        console.log("HEYY" + error);
+
+        let alert = this.alert.create({
+          title: 'Error!',
+          subTitle: 'Please ensure your device is connected to the internet.',
+          buttons: ['OK']
+        });
+
+
+        alert.present();
+
+      });
+
+
+
+  }
 
 }

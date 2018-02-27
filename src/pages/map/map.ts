@@ -75,6 +75,7 @@ export class MapPage {
   appLng: any;
   thirdPartyLat: any;
   thirdPartyLng: any;
+  cancelClicked
 
 
   constructor(public events: Events, private afAuth: AngularFireAuth, public navCtrl: NavController, public geolocation: Geolocation, public http: Http, private toast: ToastController, private platform: Platform, private alertCtrl: AlertController, private network: Network) {
@@ -457,17 +458,20 @@ export class MapPage {
         ],
         buttons: [
           {
-            text: 'Add',
+            text: 'Cancel',
+            role: 'OK',
             handler: data => {
 
-              this.node.address = data.address;
-              this.geocodeAddress(this.node.address);
-
+             
             }
           },
           {
-            text: 'Cancel',
+            text: 'Add',
             role: 'cancel',
+            handler: data => {
+              this.cancelClicked = 1;
+              this.node.address = data.address;
+            }
           }
 
         ]
@@ -475,7 +479,19 @@ export class MapPage {
       alert.present();
       alert.onDidDismiss(() => {
 
+        if (this.cancelClicked == 1){
+          
+          this.geocodeAddress(this.node.address);
+          this.cancelClicked = 0;
+          console.log("CANCEL CLICKED")  ;
 
+        } else {
+          console.log("CREATINE")
+          this.cancelClicked = 0;
+  
+
+          
+        }
 
 
       })

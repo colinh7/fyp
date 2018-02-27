@@ -60,6 +60,8 @@
     <p *ngIf="this.equal == true ">Start time cannot be the same as end time. </p>
     <p *ngIf="this.tooLong == true ">Bookings Cannot Last Longer then 1 Hour </p>
     <p *ngIf="this.pastBooking == true ">Bookings Cannot Begin at a Past Time </p>
+    <p *ngIf="this.over == true ">Booking is Outside Charge Point Availablility Times </p>
+
   
   </ion-item>
   

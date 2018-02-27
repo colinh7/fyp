@@ -39,6 +39,7 @@ export class MyNodeBookingFreePage {
   hoursAvailable = [];
   tooLong: any;
   pastBooking: any;
+  over: any;
 
 
 
@@ -76,14 +77,7 @@ export class MyNodeBookingFreePage {
 
     }
 
-    for (i = 0; i < this.hoursAvailable.length; i++) {
-
-
-
-
-    }
-
-
+   
 
 
 
@@ -291,7 +285,7 @@ export class MyNodeBookingFreePage {
           console.log("yo");
           this.overlap = true;
           found = true;
-          break
+          break;
         }
         else if (new Date(this.event.startTime).toISOString() >= this.eventsStart[i].toISOString() && new Date(this.event.endTime).toISOString() <= this.eventsFinish[i].toISOString()) {
           console.log("bop");
@@ -325,7 +319,7 @@ export class MyNodeBookingFreePage {
         console.log("NOPROBLEM")
         this.book();
         this.title = "Node Address: " + this.nodeAddress + ". User: " + this.userId + ". Charger Type: " + this.chargerType + ". From" + new Date(this.event.endTime).toISOString() + " to " + new Date(this.event.startTime).toISOString()
-        this.viewCtrl.dismiss(event);
+       
         console.log("NOPROBLEM")
 
 
@@ -338,10 +332,22 @@ export class MyNodeBookingFreePage {
 
   book() {
 
+    var startOverEnd = new Date(this.event.startTime).getHours() +   new Date(this.event.startTime).getMinutes() / 100;
+    var endoverEnd = new Date(this.event.endTime).getHours() + new Date(this.event.endTime).getMinutes() / 100;
+    console.log(new Date(this.event.endTime).getHours());
+    console.log(new Date(this.event.endTime).getHours());
+    console.log("OVVVVVER" +endoverEnd);
+
+    if(startOverEnd > this.endHour -1 || endoverEnd > this.endHour){
+      this.over == true;
+      
+    }
+    else{
+
     this.startTime = new Date(this.event.startTime).toISOString().slice(0, 19).replace('T', ' ');
     this.finishTime = new Date(this.event.endTime).toISOString().slice(0, 19).replace('T', ' ');
 
-
+    this.viewCtrl.dismiss(event);
     console.log("booked");
     let options: any = { "key": "create", "userId": this.userId, "nodeAddress": this.nodeAddress, "chargerType": this.chargerType, "nodeId": this.nodeId, "nodeOwnerId": this.userId, "startTime": this.startTime, "finishTime": this.finishTime, "cost": 0 },
       url: any = 'http://colinfyp.bitnamiapp.com/data_marker/nodeBooking.php';
@@ -351,6 +357,7 @@ export class MyNodeBookingFreePage {
         console.log("sent");
         console.log("STTART" + this.event.startTime);
         console.log(options);
+       
 
 
 
@@ -368,4 +375,5 @@ export class MyNodeBookingFreePage {
       });
 
   }
+}
 }

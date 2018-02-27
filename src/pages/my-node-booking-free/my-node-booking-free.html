@@ -12,45 +12,46 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-input type="text"  [(ngModel)]="this.nodeAddress" [readonly] = true ></ion-input>
+      <ion-input type="text" [(ngModel)]="this.nodeAddress" [readonly]=t rue></ion-input>
     </ion-item>
 
 
 
-    
+
 
     <ion-item>
       <ion-label>Start:</ion-label>
-      <ion-datetime displayFormat="DD/MM/YYYY HH:mm" [hourValues] = "this.hoursAvailable"  minuteValues="0,15,30,45" pickerFormat="MMM D:HH:mm"
+      <ion-datetime displayFormat="DD/MM/YYYY HH:mm" [hourValues]="this.hoursAvailable" minuteValues="0,15,30,45" pickerFormat="MMM D:HH:mm"
         [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
     </ion-item>
 
     <ion-item>
       <ion-label>End:</ion-label>
-      <ion-datetime displayFormat="DD/MM/YYYY HH:mm" [hourValues] = "this.hoursAvailable" minuteValues="0,15,30,45," pickerFormat="MMM D:HH:mm" 
-        [(ngModel)]="event.endTime"   [min]="minDate"></ion-datetime>
+      <ion-datetime displayFormat="DD/MM/YYYY HH:mm" [hourValues]="this.hoursAvailable" minuteValues="0,15,30,45," pickerFormat="MMM D:HH:mm"
+        [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
     </ion-item>
 
 
-    
-    
+
+
   </ion-list>
 
 
-  
+
 
   <button ion-button full icon-left (click)="save()">
     <ion-icon name="checkmark"></ion-icon> Book
   </button>
 
-<ion-item>
-  <p *ngIf="this.overlap === true "> Your Booking overlaps with another. Please choose A free time slot </p>
-  <p *ngIf="this.sameDate === false "> Your Booking crosses 2 days. Please ensure your booking is on one day only </p>
-  <p *ngIf="this.greaterThan == true ">Start time cannot be greater than the end time. </p>
-  <p *ngIf="this.equal == true ">Start time cannot be the same as end time. </p>
-  <p *ngIf="this.tooLong == true ">Bookings Cannot Last Longer then 1 Hour </p>
-  <p *ngIf="this.pastBooking == true ">Bookings Cannot Begin at a Past Time </p>
+  <ion-item>
+    <p *ngIf="this.overlap === true "> Your Booking overlaps with another. Please choose A free time slot </p>
+    <p *ngIf="this.sameDate === false "> Your Booking crosses 2 days. Please ensure your booking is on one day only </p>
+    <p *ngIf="this.greaterThan == true ">Start time cannot be greater than the end time. </p>
+    <p *ngIf="this.equal == true ">Start time cannot be the same as end time. </p>
+    <p *ngIf="this.tooLong == true ">Bookings Cannot Last Longer then 1 Hour </p>
+    <p *ngIf="this.pastBooking == true ">Bookings Cannot Begin at a Past Time </p>
+    <p *ngIf="this.over == true ">Booking is Outside Charge Point Availablility Times </p>
 
-</ion-item>
+  </ion-item>
 
 </ion-content>
