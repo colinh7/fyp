@@ -123,13 +123,18 @@ export class NodeEventsPage {
 
   checkCost(a) {
 
-
+    var costPerMinute = this.costPer15Mins/15
+    
 
     var d1 = + new Date(this.event.startTime);
     var d2 = + new Date(this.event.endTime);
     var differenceMs = d2 - d1;
-    var diffSeconds = Math.floor(differenceMs / 1000); // seconds=
-    this.totalCost = Math.floor(diffSeconds / 60)
+    var diffSeconds = differenceMs / 1000 // seconds=
+    var diffMinutes = diffSeconds / 60
+    this.totalCost = diffMinutes * costPerMinute
+    console.log("MINUTES:" + diffMinutes);
+    console.log("COSTPER15MINS" + this.costPer15Mins);
+    console.log("CPSTPERMINUTE" + costPerMinute);
     console.log("TOTALCOST" + this.totalCost)
 
 
@@ -374,7 +379,7 @@ export class NodeEventsPage {
       
       this.viewCtrl.dismiss(event);
       console.log("booked");
-      let options: any = { "key": "create", "userId": this.userId, "nodeAddress": this.nodeAddress, "chargerType": this.chargerType, "nodeId": this.nodeId, "nodeOwnerId": this.nodeOwnerId, "startTime": this.startTime, "finishTime": this.finishTime, "cost": 0 },//this.totalCost },
+      let options: any = { "key": "create", "userId": this.userId, "nodeAddress": this.nodeAddress, "chargerType": this.chargerType, "nodeId": this.nodeId, "nodeOwnerId": this.nodeOwnerId, "startTime": this.startTime, "finishTime": this.finishTime, "cost": this.totalCost },
         url: any = 'http://colinfyp.bitnamiapp.com/data_marker/nodeBooking.php';
 
       this.http.post(url, JSON.stringify(options))
