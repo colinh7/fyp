@@ -131,7 +131,7 @@ export class NodeEventsPage {
     var differenceMs = d2 - d1;
     var diffSeconds = differenceMs / 1000 // seconds=
     var diffMinutes = diffSeconds / 60
-    this.totalCost = diffMinutes * costPerMinute
+    this.totalCost = (diffMinutes * costPerMinute).toFixed(2)
     console.log("MINUTES:" + diffMinutes);
     console.log("COSTPER15MINS" + this.costPer15Mins);
     console.log("CPSTPERMINUTE" + costPerMinute);
@@ -294,7 +294,7 @@ export class NodeEventsPage {
       console.log("empty");
       this.book();
 
-      this.viewCtrl.dismiss();
+      //this.viewCtrl.dismiss();
 
 
     }

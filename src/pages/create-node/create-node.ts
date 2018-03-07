@@ -90,6 +90,8 @@ export class CreateNodePage {
 
   createNode(): void {
 
+    try{
+
     var start = this.node.availabilityTimeStart;
     var finish = this.node.availabilityTimeFinish;
     console.log(start);
@@ -113,6 +115,17 @@ export class CreateNodePage {
      
     }
 else 
+if (isNaN(this.node.costPer15Mins) || this.node.costPer15Mins < 0){
+
+  let alert = this.alert.create({
+    title: 'Error!',
+    subTitle: "You must enter a valid Charge Point Cost",
+    buttons: ['OK']
+  });
+
+  alert.present();
+}else
+
   if (this.node.chargerType != null && this.node.availabilityTimeStart != null) {
 
 
@@ -175,6 +188,16 @@ else
 
       alert.present();
     }
+
+  } catch(e){
+    let alert = this.alert.create({
+      title: 'Error!',
+      subTitle: "Something went wrong, please try again!",
+      buttons: ['OK']
+    });
+
+    alert.present();
+  }
 
   }
 

@@ -46,7 +46,8 @@ export class MapPage {
   markerApp: any;
   lngApp: any;
   infoWindow: any = new google.maps.InfoWindow({
-    size: new google.maps.Size(150, 500)
+    size: new google.maps.Size(200, 200),
+    maxWidth: 140
   })
   markerButton: any;
   deleteMarkerButton: any;
@@ -60,7 +61,7 @@ export class MapPage {
   });
   dbMarker: any;
   appInfoWindow: any = new google.maps.InfoWindow({
-    maxWidth: 100,
+    maxWidth: 140,
     size: new google.maps.Size(100, 500)
   })
   eventPageButton: any;
@@ -89,11 +90,17 @@ export class MapPage {
 
   ionViewDidLoad() {
 
-
     this.initMap(this.mapElement.nativeElement);
 
+  }
+
+  ionViewDidEnter(){
+
+    this.existingAppMarkers = [];
+    
 
   }
+
 
   ionViewDidLeave() {
     this.subscriber.unsubscribe();
@@ -345,7 +352,7 @@ export class MapPage {
 
       }
 
-      address = "Cost per 15 mins: €" + costPer15Mins + ", " + AddressLine1 + ", Available from: " + startFormat + "- " + finishFormat;
+      address ="<br />" + "Cost per 15 mins: €" + costPer15Mins +"<br />" +"Address: " + AddressLine1 + "<br />" + " Available from: " + startFormat + "- " + finishFormat;
 
 
       markerLatLng = new google.maps.LatLng(lat, lng);
@@ -364,7 +371,7 @@ export class MapPage {
         });
 
         var self = this;
-        bookButton = '<button id="book">Book</button>';
+        bookButton = '<button id="book" style="height:45px;width:45px">Book</button>';
         var open = '<button id="open">Open Directions In Google Maps</button>';
 
 
@@ -372,7 +379,7 @@ export class MapPage {
 
         google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow, nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng) {
           return function () {
-            appInfoWindow.setContent(bookButton + " " + content + open);
+            appInfoWindow.setContent(bookButton + " \n \n" + content + "<br />" + open);
             appInfoWindow.open(map, marker);
             self.updateBookingNodeAddress(nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng);
 
@@ -926,7 +933,7 @@ export class MapPage {
   }
 
   addMarkerButton() {
-    this.infoWindow.setContent(this.markerButton + this.deleteMarkerButton + this.node.address);
+    this.infoWindow.setContent("Drag the Marker to the preferred location:" + "<br />" + this.markerButton + this.deleteMarkerButton + "<br />" +  this.node.address);
 
     if (this.isInfoWindowOpen(this.infoWindow)) {
 
