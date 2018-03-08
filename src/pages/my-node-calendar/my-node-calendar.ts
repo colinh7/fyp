@@ -55,11 +55,12 @@ export class MyNodeCalendarPage {
   constructor(private afAuth: AngularFireAuth, public loadingCtrl: LoadingController, public http: Http, public navParams: NavParams, navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController) {
 
     this.userId = navParams.get("param7");
-   // this.startHour = navParams.get("startHour");
-    //this.endHour = navParams.get("endHour");
-    //this.nodeAddress = navParams.get("nodeAddress");
-    //this.nodeId = navParams.get("nodeId")
-    //this.chargerType = navParams.get("chargerType")
+    this.startHour = navParams.get("startHour");
+    this.endHour = navParams.get("endHour");
+    this.nodeAddress = navParams.get("nodeAddress");
+    this.nodeId = navParams.get("nodeId")
+    this.chargerType = navParams.get("chargerType")
+   
     console.log("ID " + this.nodeId);
     this.loadCalendar();
 

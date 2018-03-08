@@ -105,6 +105,30 @@ export class NodeEventsPage {
 
   }
 
+ionViewDidEnter(){
+  
+  let preselectedDate = moment(this.navParams.get('selectedDay')).format();
+    this.event.startTime = preselectedDate;
+    this.event.endTime = preselectedDate;
+    this.nodeAddress = this.navParams.get("nodeAddress");
+    this.chargerType = this.navParams.get("chargerType");
+    this.nodeOwnerId = this.navParams.get("nodeOwnerId");
+    this.nodeId = this.navParams.get("nodeId");
+    this.userId = this.navParams.get("userId");
+    this.eventsStart = this.navParams.get("eventsStart");
+    this.eventsFinish = this.navParams.get("eventsFinish");
+    this.costPer15Mins = this.navParams.get("costPer15Mins");
+    this.startHour = this.navParams.get("startHour");
+    this.endHour = this.navParams.get("endHour");
+    var i;
+    console.log("endhour" + this.endHour)
+
+
+ 
+}
+
+
+
   ionViewDidLoad() {
 
   }
@@ -366,8 +390,9 @@ export class NodeEventsPage {
     console.log("OVVVVVER" + endoverEnd);
     console.log("ENDHOUR" + this.endHour)
 
-    if (startOverEnd > this.endHour -1 || endoverEnd > this.endHour -1) {
+    if (startOverEnd > this.endHour  || endoverEnd > this.endHour ) {
       this.over == true;
+      console.log("OVER");
 
     }
     else {

@@ -151,6 +151,21 @@ export class EditNodeDetailsPage {
 
     this.http.post(url, JSON.stringify(options))
       .subscribe((data: any) => {
+        
+        let alert = this.alert.create({
+          title: 'Complete!',
+          subTitle: 'Your Charge Point Bookings Have Been Deleted',
+          buttons: ['OK']
+        });
+
+
+        alert.onDidDismiss(res => {
+
+
+
+        });
+
+        alert.present();
 
 
 
@@ -174,3 +189,4 @@ export class EditNodeDetailsPage {
   }
 
 }
+
