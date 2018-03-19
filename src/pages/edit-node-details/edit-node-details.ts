@@ -72,31 +72,20 @@ export class EditNodeDetailsPage {
 
   editNode() {
 
-
-
-
     if (this.chargerType != null && this.startHour != null) {
 
 
       var start: number = this.startHour;
       var end: number = this.endHour;
       var diff = end - start;
-
       console.log(this.startHour);
       console.log(this.endHour);
       console.log("hello");
-
-
       if (diff > 0) {
-
         this.deleteBookings();
-
-
-
         let options: any = { 'chargerType': this.chargerType, 'startTime': this.startHour, 'finishTime': this.endHour, "costPer15Mins": this.costPer15Mins, "userId": this.userId },
           url: any = 'http://colinfyp.bitnamiapp.com/data_marker/editNode.php';
         console.log(options);
-
         this.http.post(url, JSON.stringify(options))
           .subscribe((data: any) => {
             console.log(options);
@@ -126,7 +115,6 @@ export class EditNodeDetailsPage {
 
         alert.present();
       }
-
     }
     else {
       console.log("error1")
@@ -136,10 +124,8 @@ export class EditNodeDetailsPage {
         subTitle: 'Please ensure all fields are filled out.',
         buttons: ['OK']
       });
-
       alert.present();
     }
-
   }
 
 

@@ -94,10 +94,10 @@ export class MapPage {
 
   }
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
 
     this.existingAppMarkers = [];
-    
+
 
   }
 
@@ -118,18 +118,18 @@ export class MapPage {
   }
 
   initMap(mapElement) {
-    this.infoWindowObservable.true = 0;
-    this.geolocation.getCurrentPosition().then((position) => {
+    this.infoWindowObservable.true = 0; //is the infoWindow open
+    this.geolocation.getCurrentPosition().then((position) => { //get current position
 
-      let defaultLatLng = new google.maps.LatLng(40.4040, 60.4040);
+      let defaultLatLng = new google.maps.LatLng(40.4040, 60.4040); //default coords, not used.
 
 
-      this.myLat = position.coords.latitude;
+      this.myLat = position.coords.latitude; //setting lat variable for use in other functions
       this.myLng = position.coords.longitude
 
-      let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude); //create google maps latlng
 
-      let mapOptions = {
+      let mapOptions = { //setmap variables
         center: latLng,
         zoom: 14,
         maxZoom: 30,
@@ -141,7 +141,7 @@ export class MapPage {
         clickableIcons: false,
       };
 
-      this.map = new google.maps.Map(mapElement, mapOptions);
+      this.map = new google.maps.Map(mapElement, mapOptions); //create google maps instance
 
 
 
@@ -281,9 +281,9 @@ export class MapPage {
 
   loadAppMarkers() {
 
-
+    //http request for app marker data
     this.subscriber = this.http.get('http://colinfyp.bitnamiapp.com/data_marker/appMarkerData.php')
-      .map(res => res.json())
+      .map(res => res.json()) //json format results
       .subscribe(appMarkers => {
 
         this.appMarkers = appMarkers;
@@ -293,7 +293,7 @@ export class MapPage {
         if (appMarkers == null) {
           console.log("problem");
         }
-        this.addAppMarkers(appMarkers);
+        this.addAppMarkers(appMarkers); //call the addAppMarkers function to add markers to map
 
       });
 
@@ -303,6 +303,7 @@ export class MapPage {
 
   addAppMarkers(markers) {
 
+    // create variables for marker details
     let costPer15Mins;
     let markerLatLng;
     let lat;
@@ -325,6 +326,7 @@ export class MapPage {
     var nodeOwnerId;
     var id;
 
+  //loop through markers and set each markers variables
     for (let marker of markers) {
 
       try {
@@ -351,8 +353,8 @@ export class MapPage {
       catch (error) {
 
       }
-
-      address ="<br />" + "Cost per 15 mins: €" + costPer15Mins +"<br />" +"Address: " + AddressLine1 + "<br />" + " Available from: " + startFormat + "- " + finishFormat;
+      //format address data for visible to user
+      address = "<br />" + "Cost per 15 mins: €" + costPer15Mins + "<br />" + "Address: " + AddressLine1 + "<br />" + " Available from: " + startFormat + "- " + finishFormat;
 
 
       markerLatLng = new google.maps.LatLng(lat, lng);
@@ -370,20 +372,19 @@ export class MapPage {
 
         });
 
-        var self = this;
-        bookButton = '<button id="book" style="height:45px;width:45px">Book</button>';
-        var open = '<button id="open">Open Directions In Google Maps</button>';
+        var self = this; //variable used for changing scope in below listener
+        bookButton = '<button id="book" style="height:45px;width:45px">Book</button>'; //create book button
+        var open = '<button id="open">Open Directions In Google Maps</button>'; //button for google maps link
 
 
-
-
+        //listen for when marker is clicked on map
         google.maps.event.addListener(marker, 'click', (function (marker, content, appInfoWindow, nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng) {
           return function () {
-            appInfoWindow.setContent(bookButton + " \n \n" + content + "<br />" + open);
-            appInfoWindow.open(map, marker);
-            self.updateBookingNodeAddress(nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng);
+            appInfoWindow.setContent(bookButton + " \n \n" + content + "<br />" + open);//set info window content
+            appInfoWindow.open(map, marker); //open infowindow for marker
+            self.updateBookingNodeAddress(nodeAddress, id, chargerType, nodeOwnerId, start, finish, costPer15Mins, lat, lng);//call function to update variables used for loading nodeBookingPage
 
-            self.thirdPartyMarkerInfoWindow.close();
+            self.thirdPartyMarkerInfoWindow.close(); //close thirdpartymarker infowindows, self is used to change scope of listener to set global variable
 
 
 
@@ -399,7 +400,7 @@ export class MapPage {
 
 
 
-
+        //set marker data for markers that exist and add these to an array of existing narkers
 
         let markerData = {
           lat: lat,
@@ -469,7 +470,7 @@ export class MapPage {
             role: 'OK',
             handler: data => {
 
-             
+
             }
           },
           {
@@ -486,18 +487,18 @@ export class MapPage {
       alert.present();
       alert.onDidDismiss(() => {
 
-        if (this.cancelClicked == 1){
-          
+        if (this.cancelClicked == 1) {
+
           this.geocodeAddress(this.node.address);
           this.cancelClicked = 0;
-          console.log("CANCEL CLICKED")  ;
+          console.log("CANCEL CLICKED");
 
         } else {
           console.log("CREATINE")
           this.cancelClicked = 0;
-  
 
-          
+
+
         }
 
 
@@ -781,8 +782,6 @@ export class MapPage {
       lngCenter: center.lng()
     };
 
-
-
     if (this.existingThirdPartyMarkers.length > 20) {
 
       for (let i = 0; i < this.existingThirdPartyMarkers.length - 5; i++) {
@@ -790,7 +789,6 @@ export class MapPage {
         this.existingThirdPartyMarkers.shift(1);
         console.log(this.existingThirdPartyMarkers.length)
       }
-
     }
   }
 
@@ -798,7 +796,7 @@ export class MapPage {
 
   geocodeAddress(address) {
 
-    this.markerButton = '<button id="tap">Add Node</button>';
+    this.markerButton = '<button id="tap">Add Charge Point</button>';
     this.deleteMarkerButton = '<button id="deleteButton">Delete</button>';
     this.geocoder = new google.maps.Geocoder();
     var iconBase = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
@@ -933,7 +931,7 @@ export class MapPage {
   }
 
   addMarkerButton() {
-    this.infoWindow.setContent("Drag the Marker to the preferred location:" + "<br />" + this.markerButton + this.deleteMarkerButton + "<br />" +  this.node.address);
+    this.infoWindow.setContent("Drag the Marker to the preferred location:" + "<br />" + this.markerButton + this.deleteMarkerButton + "<br />" + this.node.address);
 
     if (this.isInfoWindowOpen(this.infoWindow)) {
 

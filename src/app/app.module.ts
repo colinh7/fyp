@@ -12,8 +12,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
+
 import { MapPage } from '../pages/map/map';
 import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -33,8 +32,6 @@ import { ProfilePage } from './../pages/profile/profile';
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
     MapPage,
     TabsPage,
     NodeBookingPage,
@@ -59,8 +56,6 @@ import { ProfilePage } from './../pages/profile/profile';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    ContactPage,
     MapPage,
     TabsPage,
     NodeBookingPage,
