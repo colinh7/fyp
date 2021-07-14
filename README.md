@@ -1,6 +1,7 @@
 # Electric Vehicle Charging Crowd Sourcing Framework - See Report.pdf for further details
 
 This project provides a prototype framework for an electric vehicle charge point rental system.
+
 Frontend: 
   - Ionic framework - allows the application to be used on both Android an IOS devices.
 Backend:
