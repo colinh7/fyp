@@ -1,5 +1,4 @@
-# ev_fw
-Electric Vehicle Charging Crowd Sourcing Framework
+# Electric Vehicle Charging Crowd Sourcing Framework
 
 This project provides a prototype framework for an electric vehicle charge point rental system.
 Frontend: 
