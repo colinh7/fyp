@@ -1,4 +1,4 @@
-# Electric Vehicle Charging Crowd Sourcing Framework - See Documentation Folder for further details
+# Electric Vehicle Charging Crowd Sourcing Framework - See Report.docx for further details
 
 This project provides a prototype framework for an electric vehicle charge point rental system.
 Frontend: 
