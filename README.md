@@ -2,7 +2,7 @@
 
 This project provides a prototype framework for an electric vehicle charge point rental system.
 
-- Ionic framework - allows the application to be used on both Android an IOS devices.
+- Ionic framework (HTML, Typescript, CSS) - allows the application to be used on both Android an IOS devices.
 - Apache web server
 - PHP - Process incoming user queries over REST API
 - MySQL - Storing Charge point information
